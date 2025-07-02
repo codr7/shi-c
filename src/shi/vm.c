@@ -55,7 +55,7 @@ size_t sh_emit(struct sh_vm *vm,
 }
 
 void sh_evaluate(struct sh_vm *vm,
-		 sh_stack_t *stack,
+		 struct sh_stack *stack,
 		 const size_t start_pc,
 		 const size_t end_pc) {
   const uint8_t *const ep = (end_pc == -1)
@@ -77,7 +77,7 @@ const struct sh_type SH_VM_FUN = {
   .dump = fun_dump
 };
 
-static uint8_t *call_eval(struct sh_vm *vm, sh_stack_t *stack, uint8_t *data) {
+static uint8_t *call_eval(struct sh_vm *vm, struct sh_stack *stack, uint8_t *data) {
   struct sh_call_operation *op = (void *)sh_align(data, alignof(struct sh_call_operation));
   op->target(vm, op->sloc);
   return (uint8_t *)op + sizeof(struct sh_call_operation);
@@ -96,7 +96,7 @@ static void push_deinit(uint8_t *data) {
   sh_cell_deinit(&op->value);
 }
 
-static uint8_t *push_eval(struct sh_vm *vm, sh_stack_t *stack, uint8_t *data) {
+static uint8_t *push_eval(struct sh_vm *vm, struct sh_stack *stack, uint8_t *data) {
   struct sh_push_operation *op = (void *)sh_align(data, alignof(struct sh_push_operation));
   sh_cell_copy(sh_stack_push(stack), &op->value);
   return (uint8_t *)op + sizeof(struct sh_push_operation);

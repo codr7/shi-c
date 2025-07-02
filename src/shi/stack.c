@@ -1,24 +1,24 @@
 #include "shi/cell.h"
 #include "shi/stack.h"
 
-sh_stack_t *sh_stack_init(sh_stack_t *s, struct sh_malloc *malloc) {
-  sh_vector_init(s, malloc, sizeof(struct sh_cell));
+struct sh_stack *sh_stack_init(struct sh_stack *s, struct sh_malloc *malloc) {
+  sh_vector_init(&s->items, malloc, sizeof(struct sh_cell));
   return s;
 }
 
-void sh_stack_deinit(sh_stack_t *s) {
-  sh_vector_deinit(s);
+void sh_stack_deinit(struct sh_stack *s) {
+  sh_vector_deinit(&s->items);
 }
 
-struct sh_cell *sh_stack_push(sh_stack_t *s) {
-  return sh_vector_push(s);
+struct sh_cell *sh_stack_push(struct sh_stack *s) {
+  return sh_vector_push(&s->items);
 }
 
-struct sh_cell *sh_stack_peek(sh_stack_t *s) {
-  return sh_vector_peek(s);
+struct sh_cell *sh_stack_peek(struct sh_stack *s) {
+  return sh_vector_peek(&s->items);
 }
 
-struct sh_cell *sh_stack_pop(sh_stack_t *s) {
-  return sh_vector_pop(s);
+struct sh_cell *sh_stack_pop(struct sh_stack *s) {
+  return sh_vector_pop(&s->items);
 }
 

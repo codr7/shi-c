@@ -20,13 +20,13 @@ size_t sh_emit(struct sh_vm *vm,
 	       const void *data);
 
 void sh_evaluate(struct sh_vm *vm,
-		 sh_stack_t *stack,
+		 struct sh_stack *stack,
 		 size_t start_pc, size_t end_pc);
 
 extern const struct sh_type SH_VM_FUN;
 typedef void (*sh_vm_fun_t)(struct sh_vm *, struct sh_sloc);
 
-typedef uint8_t *(*sh_evaluate_t)(struct sh_vm *, sh_stack_t *stack, uint8_t *);
+typedef uint8_t *(*sh_evaluate_t)(struct sh_vm *, struct sh_stack *stack, uint8_t *);
 
 struct sh_operation {
   const char *name;

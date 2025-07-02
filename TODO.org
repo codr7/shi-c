@@ -1,0 +1,4 @@
+* implement evaluate(vm, s, const char)
+* forms
+* readers
+* library / core
