@@ -2,7 +2,7 @@ export CC=ccache gcc-15
 export CFLAGS=-g -O0 -flto -Wall -Wno-override-init-side-effects -fsanitize=bounds,undefined -Isrc -lm
 export LDFLAGS=
 
-CHAPTERS=build/cell.o build/error.o build/macro.o build/malloc.o build/sloc.o build/stack.o build/stream.o build/type.o build/vector.o build/vm.o
+CHAPTERS=build/cell.o build/error.o build/evaluate.o build/macro.o build/malloc.o build/sloc.o build/stack.o build/stream.o build/type.o build/vector.o build/vm.o
 
 all: clean build/all
 
@@ -15,6 +15,9 @@ build/cell.o: src/shi/cell.h src/shi/cell.c
 
 build/error.o: src/shi/error.h src/shi/error.c
 	$(CC) -c $(CFLAGS) src/shi/error.c -o build/error.o
+
+build/evaluate.o: src/shi/evaluate.h src/shi/evaluate.c
+	$(CC) -c $(CFLAGS) src/shi/evaluate.c -o build/evaluate.o
 
 build/macro.o: src/shi/macro.h src/shi/macro.c
 	$(CC) -c $(CFLAGS) src/shi/macro.c -o build/macro.o

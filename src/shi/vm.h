@@ -5,6 +5,8 @@
 #include "shi/sloc.h"
 #include "shi/vector.h"
 
+struct sh_operation;
+
 struct sh_vm {
   struct sh_vector operations;
   struct sh_vector code;
@@ -13,8 +15,6 @@ struct sh_vm {
 void sh_vm_init(struct sh_vm *vm, struct sh_malloc *malloc);
 void sh_vm_deinit(struct sh_vm *vm);
 
-struct sh_operation;
-
 size_t sh_emit(struct sh_vm *vm,
 	       const struct sh_operation *op,
 	       const void *data);
@@ -22,30 +22,5 @@ size_t sh_emit(struct sh_vm *vm,
 void sh_evaluate(struct sh_vm *vm,
 		 struct sh_stack *stack,
 		 size_t start_pc, size_t end_pc);
-
-typedef uint8_t *(*sh_evaluate_t)(struct sh_vm *, struct sh_stack *stack, uint8_t *);
-
-struct sh_operation {
-  const char *name;
-
-  size_t align;
-  size_t size;
-
-  sh_evaluate_t eval;
-  void (*deinit)(uint8_t *);
-};
-
-struct sh_call_operation {
-  struct sh_method *target;
-  struct sh_sloc sloc;
-};
-
-extern const struct sh_operation SH_CALL;
-
-struct sh_push_operation {
-  struct sh_cell value;
-};
-
-extern const struct sh_operation SH_PUSH;
 
 #endif
