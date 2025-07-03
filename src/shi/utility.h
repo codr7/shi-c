@@ -1,5 +1,5 @@
-#ifndef SHI_MACRO
-#define SHI_MACRO
+#ifndef SHI_UTILITY
+#define SHI_UTILITY
 
 #include <stddef.h>
 #include <stdint.h>
