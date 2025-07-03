@@ -1,19 +1,10 @@
-#ifndef SHI_VALUE_H
-#define SHI_VALUE_H
+#ifndef SHI_CELL
+#define SHI_CELL
 
 #include <stdbool.h>
 
-struct sh_cell;
 struct sh_stream;
-
-struct sh_type {
-  const char *name;
-  
-  void (*copy)(struct sh_cell *dst, struct sh_cell *src);
-  void (*deinit)(struct sh_cell *);
-  void (*dump)(const struct sh_cell *, struct sh_stream *out);
-  void (*write)(const struct sh_cell *, struct sh_stream *out);
-};
+struct sh_type;
 
 struct sh_cell {
   const struct sh_type *type;

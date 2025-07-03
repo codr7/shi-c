@@ -1,3 +1,4 @@
+* rename macro.h/c to util
 * implement evaluate(vm, s, const char)
 * forms
 * readers

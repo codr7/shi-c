@@ -23,9 +23,6 @@ void sh_evaluate(struct sh_vm *vm,
 		 struct sh_stack *stack,
 		 size_t start_pc, size_t end_pc);
 
-extern const struct sh_type SH_VM_FUN;
-typedef void (*sh_vm_fun_t)(struct sh_vm *, struct sh_sloc);
-
 typedef uint8_t *(*sh_evaluate_t)(struct sh_vm *, struct sh_stack *stack, uint8_t *);
 
 struct sh_operation {
@@ -39,7 +36,7 @@ struct sh_operation {
 };
 
 struct sh_call_operation {
-  sh_vm_fun_t target;
+  struct sh_method *target;
   struct sh_sloc sloc;
 };
 

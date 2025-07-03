@@ -1,6 +1,7 @@
 #include <math.h>
 #include <string.h>
 
+#include "shi/method.h"
 #include "shi/stack.h"
 #include "shi/stream.h"
 #include "shi/vm.h"
@@ -67,19 +68,9 @@ void sh_evaluate(struct sh_vm *vm,
        p = (*(sh_evaluate_t *)p)(vm, stack, p + vm->code.item_size));
 }
 
-static void fun_dump(const struct sh_cell *v, struct sh_stream *out) {
-  sh_printf(out, "%p", v->as_pointer);
-}
-
-const struct sh_type SH_VM_FUN = {
-  .name = "VM/Fun",
-  .copy = NULL,
-  .dump = fun_dump
-};
-
 static uint8_t *call_eval(struct sh_vm *vm, struct sh_stack *stack, uint8_t *data) {
   struct sh_call_operation *op = (void *)sh_align(data, alignof(struct sh_call_operation));
-  op->target(vm, op->sloc);
+  op->target->call(op->target, vm,stack,  op->sloc);
   return (uint8_t *)op + sizeof(struct sh_call_operation);
 }
 

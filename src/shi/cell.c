@@ -2,8 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "cell.h"
-#include "stream.h"
+#include "shi/cell.h"
+#include "shi/stream.h"
+#include "shi/type.h"
 
 struct sh_cell *sh_cell_init(struct sh_cell *v, const struct sh_type *t) {
   v->type = t;
@@ -41,23 +42,3 @@ void sh_cell_write(struct sh_cell *v, struct sh_stream *out) {
   assert(v->type->write);
   v->type->write(v, out);
 }
-
-static void bool_write(const struct sh_cell *v, struct sh_stream *out) {
-  sh_puts(out, v->as_bool ? "true" : "false");
-}
-
-const struct sh_type SH_BOOL = {
-  .name = "Bool",
-  .copy = NULL,
-  .write = bool_write
-};
-
-static void int_write(const struct sh_cell *v, struct sh_stream *out) {
-  sh_printf(out, "%d", v->as_int);
-}
-
-const struct sh_type SH_INT = {
-  .name = "Int",
-  .copy = NULL,
-  .write = int_write
-};
