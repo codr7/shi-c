@@ -18,7 +18,7 @@ static size_t op_items(const struct sh_operation *op,
   return ceil(s / (double)vm->code.item_size);
 }
 
-static void deinit_operations(struct sh_vm *vm) {
+static void deinit_code(struct sh_vm *vm) {
   uint8_t *p = vm->code.start;
   
   sh_vector_do(&vm->operations, _operation) {
@@ -33,11 +33,11 @@ static void deinit_operations(struct sh_vm *vm) {
   }
 
   sh_vector_deinit(&vm->operations);
+  sh_vector_deinit(&vm->code);
 }
 
 void sh_vm_deinit(struct sh_vm *vm) {  
-  deinit_operations(vm);
-  sh_vector_deinit(&vm->code);
+  deinit_code(vm);
 }
 
 size_t sh_emit(struct sh_vm *vm,
