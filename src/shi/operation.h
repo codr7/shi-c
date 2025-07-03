@@ -17,7 +17,7 @@ struct sh_operation {
   size_t align;
   size_t size;
 
-  sh_evaluate_t eval;
+  sh_evaluate_t evaluate;
   void (*deinit)(uint8_t *);
 };
 

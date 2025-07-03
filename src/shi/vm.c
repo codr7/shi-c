@@ -45,7 +45,7 @@ size_t sh_emit(struct sh_vm *vm,
 	       const void *data) {
   *(const struct sh_operation **)sh_vector_push(&vm->operations) = op;
   const size_t pc = vm->code.length;
-  *(sh_evaluate_t *)sh_vector_push(&vm->code) = op->eval;
+  *(sh_evaluate_t *)sh_vector_push(&vm->code) = op->evaluate;
   
   uint8_t *const p = sh_vector_insert(&vm->code,
 				      vm->code.length,
