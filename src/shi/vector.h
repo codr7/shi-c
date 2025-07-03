@@ -4,7 +4,8 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
-#include "macro.h"
+
+#include "utility.h"
 
 #define _sh_vector_do(v, _v, var)			\
   struct sh_vector *_v = v;				\

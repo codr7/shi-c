@@ -1,5 +1,4 @@
-* rename macro.h/c to util
-* implement evaluate(vm, s, const char)
+* implement evaluate_s(vm, stack, const char *in)
 * forms
 * readers
 * library / core

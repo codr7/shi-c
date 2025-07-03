@@ -3,7 +3,8 @@
 
 #include <stdbool.h>
 #include <setjmp.h>
-#include "macro.h"
+
+#include "utility.h"
 
 #define SH_NO_MEMORY "NO_MEMORY"
 #define SH_INVALID_SIZE "INVALID_SIZE"

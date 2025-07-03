@@ -6,8 +6,8 @@
 
 #include "error.h"
 #include "malloc.h"
-#include "macro.h"
 #include "stream.h"
+#include "utility.h"
 
 char *sh_vsprintf(const char *format, va_list args) {
   va_list tmp_args;

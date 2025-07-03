@@ -2,8 +2,8 @@
 #include <stdio.h>
 
 #include "error.h"
-#include "macro.h"
 #include "malloc.h"
+#include "utility.h"
 
 static void *default_acquire(struct sh_malloc *m, size_t size) {
   return malloc(size);

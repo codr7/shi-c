@@ -2,9 +2,9 @@
 #define SHI_EVALUATE
 
 #include "shi/cell.h"
-#include "shi/macro.h"
 #include "shi/operation.h"
 #include "shi/sloc.h"
+#include "shi/utility.h"
 
 struct sh_call_operation {
   struct sh_method *target;

@@ -1,4 +1,4 @@
-#include "macro.h"
+#include "shi/utility.h"
 
 size_t sh_alignof(size_t size) {
   const size_t max = _Alignof(max_align_t);

@@ -2,7 +2,7 @@ export CC=ccache gcc-15
 export CFLAGS=-g -O0 -flto -Wall -Wno-override-init-side-effects -fsanitize=bounds,undefined -Isrc -lm
 export LDFLAGS=
 
-CHAPTERS=build/cell.o build/error.o build/evaluate.o build/macro.o build/malloc.o build/sloc.o build/stack.o build/stream.o build/type.o build/vector.o build/vm.o
+CHAPTERS=build/cell.o build/error.o build/evaluate.o build/malloc.o build/sloc.o build/stack.o build/stream.o build/type.o build/utility.o build/vector.o build/vm.o
 
 all: clean build/all
 
@@ -19,9 +19,6 @@ build/error.o: src/shi/error.h src/shi/error.c
 build/evaluate.o: src/shi/evaluate.h src/shi/evaluate.c
 	$(CC) -c $(CFLAGS) src/shi/evaluate.c -o build/evaluate.o
 
-build/macro.o: src/shi/macro.h src/shi/macro.c
-	$(CC) -c $(CFLAGS) src/shi/macro.c -o build/macro.o
-
 build/malloc.o: src/shi/malloc.h src/shi/malloc.c
 	$(CC) -c $(CFLAGS) src/shi/malloc.c -o build/malloc.o
 
@@ -36,6 +33,9 @@ build/stream.o: src/shi/stream.h src/shi/stream.c
 
 build/type.o: src/shi/type.h src/shi/type.c
 	$(CC) -c $(CFLAGS) src/shi/type.c -o build/type.o
+
+build/utility.o: src/shi/utility.h src/shi/utility.c
+	$(CC) -c $(CFLAGS) src/shi/utility.c -o build/utility.o
 
 build/vector.o: src/shi/vector.h src/shi/vector.c
 	$(CC) -c $(CFLAGS) src/shi/vector.c -o build/vector.o
