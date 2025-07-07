@@ -40,6 +40,29 @@ char sh_getc(struct sh_stream *s) {
   return sh_read(s, (uint8_t *)&c, 1) ? c : 0;
 }
 
+char *sh_gets(struct sh_stream *s, struct sh_malloc *malloc) {
+  struct sh_vector out;
+  sh_vector_init(&out, malloc, 1);
+
+  for (;;) {
+    char c = sh_getc(s);
+
+    if (c == EOF) {
+      break;
+    }
+
+    *(char *)sh_vector_push(&out) = c;
+
+    if (c == '\n') {
+      break;
+    }
+  }
+
+ 
+  *(char *)sh_vector_push(&out) = 0;
+  return out.items;
+}
+
 size_t sh_putc(struct sh_stream *s, const char data) {
   const uint8_t d[2] = {data, 0};
   return sh_write(s, d, 1);

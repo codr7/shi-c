@@ -55,6 +55,10 @@ size_t sh_emit(struct sh_vm *vm,
   return pc;
 }
 
+size_t sh_emit_pc(struct sh_vm *vm) {
+  return vm->code.length;
+}
+
 void sh_evaluate(struct sh_vm *vm,
 		 struct sh_stack *stack,
 		 const size_t start_pc,

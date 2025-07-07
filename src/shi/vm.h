@@ -19,6 +19,8 @@ size_t sh_emit(struct sh_vm *vm,
 	       const struct sh_operation *op,
 	       const void *data);
 
+size_t sh_emit_pc(struct sh_vm *vm);
+
 void sh_evaluate(struct sh_vm *vm,
 		 struct sh_stack *stack,
 		 size_t start_pc, size_t end_pc);

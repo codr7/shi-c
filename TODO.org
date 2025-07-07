@@ -1,4 +1,4 @@
-* implement evaluate_s(vm, stack, const char *in)
-* forms
-* readers
+* finish repl
+** forms
+** readers
 * library / core

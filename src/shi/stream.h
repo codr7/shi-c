@@ -20,6 +20,7 @@ size_t sh_read(struct sh_stream *s, uint8_t *data, size_t n);
 size_t sh_write(struct sh_stream *s, const uint8_t *data, size_t n);
 
 char sh_getc(struct sh_stream *s);
+char *sh_gets(struct sh_stream *self, struct sh_malloc *malloc);
 size_t sh_putc(struct sh_stream *s, char data);
 size_t sh_puts(struct sh_stream *s, const char *data);
 
