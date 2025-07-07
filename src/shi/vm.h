@@ -8,8 +8,9 @@
 struct sh_operation;
 
 struct sh_vm {
-  struct sh_vector operations;
   struct sh_vector code;
+  struct sh_malloc *malloc;
+  struct sh_vector operations;
 };
 
 void sh_vm_init(struct sh_vm *vm, struct sh_malloc *malloc);

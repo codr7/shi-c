@@ -7,6 +7,7 @@
 #include "shi/vm.h"
 
 void sh_vm_init(struct sh_vm *vm, struct sh_malloc *malloc) {
+  vm->malloc = malloc;
   sh_vector_init(&vm->operations, malloc, sizeof(const struct sh_operation *));
   sh_vector_init(&vm->code, malloc, sizeof(sh_evaluate_t));
 }
