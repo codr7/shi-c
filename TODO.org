@@ -1,4 +1,15 @@
-* finish repl
-** forms
-** readers
-* library / core
+* fid -> identifier
+** add literal
+** add read_int
+** use long
+* remove sh_malloc_do
+** remove var
+** remove convenience macros
+** rename functions
+* add sh_input?
+** java
+** char ** & sloc *
+* add core library
+** add library
+*** add set/map from hc
+** add vm.core_library

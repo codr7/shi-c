@@ -60,7 +60,7 @@ char *sh_gets(struct sh_stream *s, struct sh_malloc *malloc) {
 
  
   *(char *)sh_vector_push(&out) = 0;
-  return out.items;
+  return (char *)out.items;
 }
 
 size_t sh_putc(struct sh_stream *s, const char data) {
@@ -183,10 +183,15 @@ struct sh_memory_stream *sh_memory_stream_init(struct sh_memory_stream *s,
   return s;
 }
 
-const char *sh_memory_stream_string(struct sh_memory_stream *s) {
+void sh_memory_stream_reset(struct sh_memory_stream *s) {
+  sh_vector_clear(&s->data);
+  s->rpos = 0;
+}
+
+char *sh_memory_stream_string(struct sh_memory_stream *s) {
   if (!s->data.length || (*(s->data.end-1))) {
     *(uint8_t *)sh_vector_push(&s->data) = 0;
   }
 
-  return (const char *)s->data.start;
+  return (char *)s->data.start;
 }

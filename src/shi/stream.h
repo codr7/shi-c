@@ -67,6 +67,7 @@ extern struct sh_stream sh_memory_stream;
 struct sh_memory_stream *sh_memory_stream_init(struct sh_memory_stream *s,
 					       struct sh_malloc *malloc);
 
-const char *sh_memory_stream_string(struct sh_memory_stream *s);
+void sh_memory_stream_reset(struct sh_memory_stream *s);
+char *sh_memory_stream_string(struct sh_memory_stream *s);
 
 #endif

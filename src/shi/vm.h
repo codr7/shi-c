@@ -6,6 +6,7 @@
 #include "shi/vector.h"
 
 struct sh_operation;
+struct sh_stack;
 
 struct sh_vm {
   struct sh_vector code;
