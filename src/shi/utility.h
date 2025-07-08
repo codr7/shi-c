@@ -4,6 +4,8 @@
 #include <stddef.h>
 #include <stdint.h>
 
+struct sh_malloc;
+
 #define sh_abs(x) ({				\
       __auto_type _x = x;			\
       _x < 0 ? -x : x;				\
@@ -71,5 +73,7 @@ size_t sh_alignof(size_t size);
 
 #define sh_unique(x)				\
   sh_id(x, __COUNTER__)
+
+char *sh_strdup(const char *in, struct sh_malloc *malloc);
 
 #endif

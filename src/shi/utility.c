@@ -1,3 +1,6 @@
+#include <string.h>
+
+#include "shi/malloc.h"
 #include "shi/utility.h"
 
 size_t sh_alignof(size_t size) {
@@ -6,4 +9,11 @@ size_t sh_alignof(size_t size) {
   size_t v = 1;
   for (size_t nv = 1; nv <= size; v = nv, nv = v << 1);
   return v;
+}
+
+char *sh_strdup(const char *in, struct sh_malloc *malloc) {
+  const size_t n = strlen(in);
+  char *out = _sh_acquire(malloc, n+1);
+  strcpy(out, in);
+  return out;
 }

@@ -1,11 +1,11 @@
-* fid -> identifier
-** add literal
-** add read_int
-** use long
 * remove sh_malloc_do
 ** remove var
 ** remove convenience macros
 ** rename functions
+* add literal
+* add read_int
+** use long
+* finish identifier emit
 * add sh_input?
 ** java
 ** char ** & sloc *

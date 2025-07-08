@@ -2,6 +2,7 @@
 
 #include "shi/error.h"
 #include "shi/form.h"
+#include "shi/forms/identifier.h"
 #include "shi/read.h"
 #include "shi/list.h"
 #include "shi/malloc.h"
@@ -70,8 +71,8 @@ bool sh_read_identifier(struct sh_vm *vm,
     return false;
   }
   
-  struct sh_fid *f = _sh_acquire(vm->malloc, sizeof(struct sh_fid));
-  sh_fid_init(f, floc, out, sh_memory_stream_string(&buffer));
+  struct sh_identifier *f = _sh_acquire(vm->malloc, sizeof(struct sh_identifier));
+  sh_identifier_init(f, floc, out, sh_memory_stream_string(&buffer), vm);
   return true;
 }
 
