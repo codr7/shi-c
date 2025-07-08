@@ -6,17 +6,17 @@
 #include "shi/sloc.h"
 #include "shi/utility.h"
 
-struct sh_call_operation {
+extern const struct sh_operation SH_CALL_METHOD;
+
+struct sh_call_method {
   struct sh_method *target;
   struct sh_sloc sloc;
 };
 
-extern const struct sh_operation SH_CALL;
+extern const struct sh_operation SH_PUSH_VALUE;
 
-struct sh_push_operation {
+struct sh_push_value {
   struct sh_cell value;
 };
-
-extern const struct sh_operation SH_PUSH;
 
 #endif

@@ -1,8 +1,14 @@
-* add literal form
-* add read_int
-** use long
-* finish identifier emit
+* add /operations
+** separate files for call/push
+** remove evaluate.h/c
+
+* enable value lookup in identifier emit
 * add core library
 ** add library
 *** add set/map from hc
 ** add vm.core_library
+
+* add literal form
+* add read_int
+** use long
+* finish identifier emit
