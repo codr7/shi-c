@@ -29,8 +29,8 @@ static void identifier_dump(const struct sh_form *_f, struct sh_stream *out) {
 
 static void identifier_free(struct sh_form *_f, struct sh_vm *vm) {
   struct sh_identifier *f = sh_baseof(_f, struct sh_identifier, form);
-  _sh_release(vm->malloc, f->name);
-  _sh_release(vm->malloc, f);
+  sh_release(vm->malloc, f->name);
+  sh_release(vm->malloc, f);
 }
 
 const struct sh_form_type SH_IDENTIFIER = {

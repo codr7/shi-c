@@ -1,8 +1,4 @@
-* remove sh_malloc_do
-** remove var
-** remove convenience macros
-** rename functions
-* add literal
+* add literal form
 * add read_int
 ** use long
 * finish identifier emit

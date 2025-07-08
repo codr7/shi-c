@@ -22,18 +22,18 @@ struct sh_vector *sh_vector_init(struct sh_vector *v,
 }
 
 void sh_vector_deinit(struct sh_vector *v) {
-  if (v->items) { _sh_release(v->malloc, v->items); }
+  if (v->items) { sh_release(v->malloc, v->items); }
 }
 
 void sh_vector_grow(struct sh_vector *v, const size_t capacity) {
   v->capacity = capacity; 
   size_t size = v->item_size * (v->capacity+1);
-  uint8_t *new_items = _sh_acquire(v->malloc, size);
+  uint8_t *new_items = sh_acquire(v->malloc, size);
   uint8_t *new_start = sh_align(new_items, v->item_size);
 
   if (v->items) {
     memmove(new_start, v->start, v->length * v->item_size);
-    _sh_release(v->malloc, v->items); 
+    sh_release(v->malloc, v->items); 
   }
   
   v->items = new_items;

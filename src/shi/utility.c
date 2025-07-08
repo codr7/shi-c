@@ -13,7 +13,7 @@ size_t sh_alignof(size_t size) {
 
 char *sh_strdup(const char *in, struct sh_malloc *malloc) {
   const size_t n = strlen(in);
-  char *out = _sh_acquire(malloc, n+1);
+  char *out = sh_acquire(malloc, n+1);
   strcpy(out, in);
   return out;
 }

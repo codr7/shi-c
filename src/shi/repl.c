@@ -50,7 +50,7 @@ void sh_repl(struct sh_vm *vm, FILE *in, FILE *out) {
       fprintf(out, "\n\n");    
     } else {
       sh_puts(&code.stream, line);
-      _sh_release(vm->malloc, line);
+      sh_release(vm->malloc, line);
     }
   }
 }

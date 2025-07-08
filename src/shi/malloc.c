@@ -1,9 +1,20 @@
+#include <assert.h>
 #include <stdlib.h>
 #include <stdio.h>
 
 #include "error.h"
 #include "malloc.h"
 #include "utility.h"
+
+void *sh_acquire(struct sh_malloc *m, size_t size) {
+  assert(m->acquire);
+  return m->acquire(m, size);
+}
+
+void sh_release(struct sh_malloc *m, void *pointer) {
+  assert(m->release);
+  m->release(m, pointer);  
+}
 
 static void *default_acquire(struct sh_malloc *m, size_t size) {
   return malloc(size);
@@ -15,12 +26,6 @@ static void default_release(struct sh_malloc *m, void *p) {
 
 struct sh_malloc sh_malloc_default = {.acquire = default_acquire,
 				      .release = default_release};
-
-__thread struct sh_malloc *sh_mallocp = NULL;
-
-struct sh_malloc *sh_malloc() {
-  return sh_mallocp ? sh_mallocp : &sh_malloc_default;
-}
 
 /* Bump */
 
@@ -53,9 +58,9 @@ void sh_bump_alloc_init(struct sh_bump_alloc *a,
   a->source = source;
   a->size = size;
   a->offset = 0;
-  a->memory = _sh_acquire(source, size);
+  a->memory = sh_acquire(source, size);
 }
 
 void sh_bump_alloc_deinit(struct sh_bump_alloc *a) {
-  _sh_release(a->source, a->memory);
+  sh_release(a->source, a->memory);
 }
