@@ -72,7 +72,7 @@ bool sh_read_identifier(struct sh_vm *vm,
   }
   
   struct sh_identifier *f = sh_acquire(vm->malloc, sizeof(struct sh_identifier));
-  sh_identifier_init(f, floc, out, sh_memory_stream_string(&buffer), vm);
+  sh_identifier_init(f, vm, floc, out, sh_memory_stream_string(&buffer));
   return true;
 }
 

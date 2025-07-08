@@ -1,5 +1,7 @@
 export CC=ccache gcc-15
+
 export CFLAGS=-g -O0 -flto -Wall -Wno-override-init-side-effects -fsanitize=bounds,undefined -Isrc -lm
+
 export LDFLAGS=
 
 CHAPTERS=build/cell.o build/error.o build/evaluate.o build/form.o build/forms/identifier.o build/list.o build/malloc.o build/read.o build/repl.o build/sloc.o build/stack.o build/stream.o build/type.o build/utility.o build/vector.o build/vm.o
@@ -7,7 +9,6 @@ CHAPTERS=build/cell.o build/error.o build/evaluate.o build/form.o build/forms/id
 all: clean build/all
 
 build/all: src/main.c $(CHAPTERS)
-	mkdir -p build
 	mkdir -p build/forms
 	$(CC) $(CFLAGS) src/main.c $(CHAPTERS) -o build/shi
 	valgrind build/shi

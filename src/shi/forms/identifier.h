@@ -11,9 +11,9 @@ struct sh_identifier {
 };
 
 void sh_identifier_init(struct sh_identifier *f,
+			struct sh_vm *vm,
 			struct sh_sloc sloc,
 			struct sh_list *owner,
-			const char *name,
-			struct sh_vm *vm);
+			const char *name);
 
 #endif

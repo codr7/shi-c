@@ -40,10 +40,10 @@ const struct sh_form_type SH_IDENTIFIER = {
 };
 
 void sh_identifier_init(struct sh_identifier *f,
+			struct sh_vm *vm,
 			const struct sh_sloc sloc,
 			struct sh_list *owner,
-			const char *name,
-			struct sh_vm *vm) {
+			const char *name) {
   sh_form_init(&f->form, &SH_IDENTIFIER, sloc, owner);
   f->name = sh_strdup(name, vm->malloc);
 }
