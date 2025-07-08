@@ -2,9 +2,6 @@
 * add read_int
 ** use long
 * finish identifier emit
-* add sh_input?
-** java
-** char ** & sloc *
 * add core library
 ** add library
 *** add set/map from hc
