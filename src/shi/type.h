@@ -12,7 +12,7 @@ struct sh_type {
   void (*copy)(struct sh_cell *, struct sh_cell *, struct sh_vm *vm);
   void (*deinit)(struct sh_cell *);
   void (*dump)(const struct sh_cell *, struct sh_stream *);
-  void (*emit)(struct sh_cell *, struct sh_vm *, struct sh_sloc);  
+  void (*emit)(struct sh_cell *, struct sh_vm *, struct sh_sloc, struct sh_list *);  
   void (*write)(const struct sh_cell *, struct sh_stream *);
 };
 

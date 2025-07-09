@@ -13,7 +13,8 @@ static void default_copy(struct sh_cell *dst, struct sh_cell *src,
 
 static void default_emit(struct sh_cell *v,
 			 struct sh_vm *vm,
-			 struct sh_sloc sloc) {
+			 struct sh_sloc sloc,
+			 struct sh_list *args) {
   struct sh_push_value op;
   sh_cell_copy(&op.value, v, vm);
   sh_emit(vm, &SH_PUSH_VALUE, &op);

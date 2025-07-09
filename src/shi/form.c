@@ -27,9 +27,9 @@ void sh_form_dump(struct sh_form *f, struct sh_stream *out) {
   f->type->dump(f, out);
 }
 
-void sh_form_emit(struct sh_form *f, struct sh_vm *vm) {
+void sh_form_emit(struct sh_form *f, struct sh_vm *vm, struct sh_list *args) {
   assert(f->type->emit);
-  f->type->emit(f, vm);
+  f->type->emit(f, vm, args);
 }
 
 void sh_form_free(struct sh_form *f, struct sh_vm *vm) {
@@ -45,6 +45,13 @@ void sh_forms_dump(struct sh_list *in, struct sh_stream *out) {
     }
     
     sh_form_dump(sh_baseof(f, struct sh_form, owner), out);
+  }
+}
+
+void sh_forms_emit(struct sh_list *in, struct sh_vm *vm) {
+  while (in->next != in) {
+    struct sh_form *f = sh_baseof(sh_list_pop_front(in), struct sh_form, owner);
+    sh_form_emit(f, vm, in);
   }
 }
 

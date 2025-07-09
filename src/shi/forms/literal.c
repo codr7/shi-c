@@ -6,7 +6,9 @@
 #include "shi/stream.h"
 #include "shi/vm.h"
 
-static void literal_emit(struct sh_form *_f, struct sh_vm *vm) {
+static void literal_emit(struct sh_form *_f,
+			 struct sh_vm *vm,
+			 struct sh_list *args) {
   struct sh_literal *f = sh_baseof(_f, struct sh_literal, form);
   struct sh_push_value op;
   sh_cell_copy(&op.value, &f->value, vm);

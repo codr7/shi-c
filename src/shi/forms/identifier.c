@@ -6,7 +6,9 @@
 #include "shi/stream.h"
 #include "shi/vm.h"
 
-static void identifier_emit(struct sh_form *_f, struct sh_vm *vm) {
+static void identifier_emit(struct sh_form *_f,
+			    struct sh_vm *vm,
+			    struct sh_list *args) {
   struct sh_identifier *f = sh_baseof(_f, struct sh_identifier, form);
   struct sh_cell *v = sh_find(vm->library, f->name);
   
@@ -15,7 +17,7 @@ static void identifier_emit(struct sh_form *_f, struct sh_vm *vm) {
 	     sh_sloc_string(&_f->sloc), f->name);
   }
 
-  sh_cell_emit(v, vm, _f->sloc);
+  sh_cell_emit(v, vm, _f->sloc, args);
 }
 
 static void identifier_dump(const struct sh_form *_f, struct sh_stream *out) {

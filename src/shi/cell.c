@@ -35,9 +35,12 @@ void sh_cell_dump(const struct sh_cell *v, struct sh_stream *out) {
   }
 }
 
-void sh_cell_emit(struct sh_cell *v, struct sh_vm *vm, struct sh_sloc sloc) {
+void sh_cell_emit(struct sh_cell *v,
+		  struct sh_vm *vm,
+		  struct sh_sloc sloc,
+		  struct sh_list *args) {
   assert(v->type->emit);
-  v->type->emit(v, vm, sloc);
+  v->type->emit(v, vm, sloc, args);
 }
 
 void sh_cell_write(const struct sh_cell *v, struct sh_stream *out) {

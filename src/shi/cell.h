@@ -3,6 +3,7 @@
 
 #include <stdbool.h>
 
+struct sh_list;
 struct sh_sloc;
 struct sh_stream;
 struct sh_type;
@@ -25,7 +26,12 @@ struct sh_cell *sh_cell_copy(struct sh_cell *dst, struct sh_cell *src,
 			     struct sh_vm *vm);
 
 void sh_cell_dump(const struct sh_cell *v, struct sh_stream *out);
-void sh_cell_emit(struct sh_cell *v, struct sh_vm *vm, struct sh_sloc sloc);
+
+void sh_cell_emit(struct sh_cell *v,
+		  struct sh_vm *vm,
+		  struct sh_sloc sloc,
+		  struct sh_list *args);
+
 void sh_cell_write(const struct sh_cell *v, struct sh_stream *out);
 
 extern const struct sh_type SH_BOOL;
