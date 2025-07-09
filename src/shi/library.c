@@ -1,5 +1,8 @@
+#include <stdio.h>
+
 #include "shi/cell.h"
 #include "shi/compare.h"
+#include "shi/error.h"
 #include "shi/library.h"
 #include "shi/malloc.h"
 #include "shi/vm.h"
@@ -51,3 +54,26 @@ struct sh_cell *sh_find(struct sh_library *lib, const char *key) {
   struct sh_library_item *it = sh_set_find(&lib->bindings, key);
   return it ? &it->value : (lib->parent ? sh_find(lib->parent, key) : NULL);
 }
+
+void _sh_import(struct sh_library *lib,
+		struct sh_library *source,
+		const char *keys[]) {
+  for (int i = 0; keys[i]; i++) {
+    const char *k = keys[i];
+    struct sh_cell *v = sh_find(source, k);
+    
+    if (!v) {
+      sh_throw("Not found: %s", k);
+    }
+    
+    sh_bind(lib, k, v);
+  }
+}
+
+void sh_import_all(struct sh_library *lib, struct sh_library *source) {
+  sh_vector_do(&source->bindings.items, _it) {
+    struct sh_library_item *it = _it;
+    sh_bind(lib, it->key, &it->value);
+  }
+}
+

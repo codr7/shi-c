@@ -1,9 +1,4 @@
-* add sh_import
-
-* add /libraries/core
-** move types
-
-* add literal form
+* move types to libraries/core
 
 * add read_int
 ** use long

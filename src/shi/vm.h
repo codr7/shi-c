@@ -11,6 +11,7 @@ struct sh_stack;
 
 struct sh_vm {
   struct sh_vector code;
+  struct sh_library core_library;
   struct sh_library *library;
   struct sh_malloc *malloc;
   struct sh_vector operations;

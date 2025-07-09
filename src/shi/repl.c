@@ -35,8 +35,6 @@ void sh_repl(struct sh_vm *vm, FILE *in, FILE *out) {
     if (feof(in)) { break; }
 
     if (line[0] == '\n') {
-      fprintf(out, "code: '%s'\n", sh_memory_stream_string(&code));
-
       struct sh_list forms;
       sh_list_init(&forms);
       const char *cs = sh_memory_stream_string(&code);
