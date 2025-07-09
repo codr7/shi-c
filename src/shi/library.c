@@ -44,7 +44,7 @@ void sh_library_deinit(struct sh_library *lib) {
 void sh_bind(struct sh_library *lib, const char *key, struct sh_cell *value) {
   struct sh_library_item *it = sh_set_add(&lib->bindings, key, false);
   it->key = sh_strdup(key, lib->vm->malloc);
-  sh_cell_copy(&it->value, value);
+  sh_cell_copy(&it->value, value, lib->vm);
 }
 
 struct sh_cell *sh_find(struct sh_library *lib, const char *key) {

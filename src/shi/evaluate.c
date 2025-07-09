@@ -27,7 +27,7 @@ static uint8_t *push_value_evaluate(struct sh_vm *vm,
 				    struct sh_stack *stack,
 				    uint8_t *data) {
   struct sh_push_value *op = (void *)sh_align(data, alignof(struct sh_push_value));
-  sh_cell_copy(sh_push(stack), &op->value);
+  sh_cell_copy(sh_push(stack), &op->value, vm);
   return (uint8_t *)op + sizeof(struct sh_push_value);
 }
 

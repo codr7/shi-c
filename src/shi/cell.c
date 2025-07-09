@@ -18,16 +18,12 @@ void sh_cell_deinit(struct sh_cell *v) {
   }
 }
 
-struct sh_cell *sh_cell_copy(struct sh_cell *dst, struct sh_cell *src) {
+struct sh_cell *sh_cell_copy(struct sh_cell *dst, struct sh_cell *src,
+			     struct sh_vm *vm) {
   const struct sh_type *t = src->type;
-  
-  if (t->copy) {
-    dst->type = t;
-    t->copy(dst, src);
-  } else {
-    *dst = *src;
-  }
-
+  assert(t->copy);
+  dst->type = t;
+  t->copy(dst, src, vm);
   return dst;
 }
 

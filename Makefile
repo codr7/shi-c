@@ -4,7 +4,7 @@ export CFLAGS=-g -O0 -flto -Wall -Wno-override-init-side-effects -fsanitize=boun
 
 export LDFLAGS=
 
-CHAPTERS=build/cell.o build/error.o build/evaluate.o build/form.o build/forms/identifier.o build/library.o build/list.o build/malloc.o build/read.o build/repl.o build/set.o build/sloc.o build/stack.o build/stream.o build/type.o build/utility.o build/vector.o build/vm.o
+CHAPTERS=build/cell.o build/error.o build/evaluate.o build/form.o build/forms/identifier.o build/forms/literal.o build/library.o build/list.o build/malloc.o build/read.o build/repl.o build/set.o build/sloc.o build/stack.o build/stream.o build/type.o build/utility.o build/vector.o build/vm.o
 
 all: clean build/all
 
@@ -27,6 +27,9 @@ build/form.o: src/shi/form.h src/shi/form.c
 
 build/forms/identifier.o: src/shi/forms/identifier.h src/shi/forms/identifier.c
 	$(CC) -c $(CFLAGS) src/shi/forms/identifier.c -o build/forms/identifier.o
+
+build/forms/literal.o: src/shi/forms/literal.h src/shi/forms/literal.c
+	$(CC) -c $(CFLAGS) src/shi/forms/literal.c -o build/forms/literal.o
 
 build/library.o: src/shi/library.h src/shi/library.c
 	$(CC) -c $(CFLAGS) src/shi/library.c -o build/library.o

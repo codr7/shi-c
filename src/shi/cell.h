@@ -20,7 +20,10 @@ struct sh_cell {
 
 struct sh_cell *sh_cell_init(struct sh_cell *v, const struct sh_type *t);
 void sh_cell_deinit(struct sh_cell *v);
-struct sh_cell *sh_cell_copy(struct sh_cell *dst, struct sh_cell *src);
+
+struct sh_cell *sh_cell_copy(struct sh_cell *dst, struct sh_cell *src,
+			     struct sh_vm *vm);
+
 void sh_cell_dump(const struct sh_cell *v, struct sh_stream *out);
 void sh_cell_emit(struct sh_cell *v, struct sh_vm *vm, struct sh_sloc sloc);
 void sh_cell_write(const struct sh_cell *v, struct sh_stream *out);
