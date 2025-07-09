@@ -10,6 +10,8 @@ void sh_vm_init(struct sh_vm *vm, struct sh_malloc *malloc) {
   vm->malloc = malloc;
   sh_vector_init(&vm->operations, malloc, sizeof(const struct sh_operation *));
   sh_vector_init(&vm->code, malloc, sizeof(sh_evaluate_t));
+  sh_library_init(&vm->user_library, vm, "user", NULL);
+  vm->library = &vm->user_library;
 }
 
 static size_t op_items(const struct sh_operation *op,

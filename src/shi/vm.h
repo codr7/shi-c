@@ -2,6 +2,7 @@
 #define SHI_VM
 
 #include "shi/cell.h"
+#include "shi/library.h"
 #include "shi/sloc.h"
 #include "shi/vector.h"
 
@@ -10,8 +11,10 @@ struct sh_stack;
 
 struct sh_vm {
   struct sh_vector code;
+  struct sh_library *library;
   struct sh_malloc *malloc;
   struct sh_vector operations;
+  struct sh_library user_library;
 };
 
 void sh_vm_init(struct sh_vm *vm, struct sh_malloc *malloc);

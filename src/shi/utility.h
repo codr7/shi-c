@@ -4,6 +4,8 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#include "shi/compare.h"
+
 struct sh_malloc;
 
 #define sh_abs(x) ({				\
@@ -73,6 +75,8 @@ size_t sh_alignof(size_t size);
 
 #define sh_unique(x)				\
   sh_id(x, __COUNTER__)
+
+enum sh_order sh_strcmp(const char *x, const char *y);
 
 char *sh_strdup(const char *in, struct sh_malloc *malloc);
 

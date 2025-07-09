@@ -11,6 +11,12 @@ size_t sh_alignof(size_t size) {
   return v;
 }
 
+enum sh_order sh_strcmp(const char *x, const char *y) {
+  const int result = strcmp(x, y);
+  if (!result) { return SH_EQ; }
+  return (result < 0) ? SH_LT : SH_GT;
+}
+
 char *sh_strdup(const char *in, struct sh_malloc *malloc) {
   const size_t n = strlen(in);
   char *out = sh_acquire(malloc, n+1);

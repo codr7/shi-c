@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include "shi/cell.h"
+#include "shi/sloc.h"
 #include "shi/stream.h"
 #include "shi/type.h"
 
@@ -30,7 +31,7 @@ struct sh_cell *sh_cell_copy(struct sh_cell *dst, struct sh_cell *src) {
   return dst;
 }
 
-void sh_cell_dump(struct sh_cell *v, struct sh_stream *out) {
+void sh_cell_dump(const struct sh_cell *v, struct sh_stream *out) {
   if (v->type->dump) {
     v->type->dump(v, out);
   } else {
@@ -38,7 +39,12 @@ void sh_cell_dump(struct sh_cell *v, struct sh_stream *out) {
   }
 }
 
-void sh_cell_write(struct sh_cell *v, struct sh_stream *out) {
+void sh_cell_emit(struct sh_cell *v, struct sh_vm *vm, struct sh_sloc sloc) {
+  assert(v->type->emit);
+  v->type->emit(v, vm, sloc);
+}
+
+void sh_cell_write(const struct sh_cell *v, struct sh_stream *out) {
   assert(v->type->write);
   v->type->write(v, out);
 }

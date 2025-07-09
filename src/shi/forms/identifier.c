@@ -1,22 +1,21 @@
 #include "shi/error.h"
 #include "shi/evaluate.h"
 #include "shi/forms/identifier.h"
+#include "shi/library.h"
 #include "shi/malloc.h"
 #include "shi/stream.h"
 #include "shi/vm.h"
 
 static void identifier_emit(struct sh_form *_f, struct sh_vm *vm) {
   struct sh_identifier *f = sh_baseof(_f, struct sh_identifier, form);
-  struct sh_cell *v = NULL;
+  struct sh_cell *v = sh_find(vm->library, f->name);
   
   if (!v) {
     sh_throw("Error in %s: Unknown identifier '%s'",
 	     sh_sloc_string(&_f->sloc), f->name);
   }
-  
-  struct sh_push_value op;
-  sh_cell_copy(&op.value, v);
-  sh_emit(vm, &SH_PUSH_VALUE, &op);
+
+  sh_cell_emit(v, vm, _f->sloc);
 }
 
 static void identifier_dump(const struct sh_form *_f, struct sh_stream *out) {
