@@ -3,8 +3,15 @@
 
 #include <stdbool.h>
 
+#define SH_TYPE_DEFAULTS				\
+  .copy = sh_type_default_copy,				\
+    .emit = sh_type_default_emit
+
 struct sh_cell;
+struct sh_list;
+struct sh_sloc;
 struct sh_stream;
+struct sh_vm;
 
 struct sh_type {
   const char *name;
@@ -16,8 +23,12 @@ struct sh_type {
   void (*write)(const struct sh_cell *, struct sh_stream *);
 };
 
-extern const struct sh_type SH_BOOL;
-extern const struct sh_type SH_INT;
-extern const struct sh_type SH_METHOD;
+void sh_type_default_copy(struct sh_cell *dst, struct sh_cell *src,
+			  struct sh_vm *vm);
+
+void sh_type_default_emit(struct sh_cell *v,
+			  struct sh_vm *vm,
+			  struct sh_sloc sloc,
+			  struct sh_list *args);
 
 #endif

@@ -6,12 +6,12 @@
 #include "shi/stream.h"
 #include "shi/vm.h"
 
-static void default_copy(struct sh_cell *dst, struct sh_cell *src,
+void sh_type_default_copy(struct sh_cell *dst, struct sh_cell *src,
 			 struct sh_vm *vm) {
   *dst = *src;
 }
 
-static void default_emit(struct sh_cell *v,
+void sh_type_default_emit(struct sh_cell *v,
 			 struct sh_vm *vm,
 			 struct sh_sloc sloc,
 			 struct sh_list *args) {
@@ -19,38 +19,3 @@ static void default_emit(struct sh_cell *v,
   sh_cell_copy(&op.value, v, vm);
   sh_emit(vm, &SH_PUSH_VALUE, &op);
 }
-
-#define SH_TYPE_DEFAULTS			\
-  .copy = default_copy,				\
-    .emit = default_emit
-
-static void bool_write(const struct sh_cell *v, struct sh_stream *out) {
-  sh_putc(out, v->as_bool ? 'T' : 'F');
-}
-
-const struct sh_type SH_BOOL = {
-  .name = "Bool",
-  SH_TYPE_DEFAULTS,
-  .write = bool_write
-};
-
-static void int_write(const struct sh_cell *v, struct sh_stream *out) {
-  sh_printf(out, "%d", v->as_int);
-}
-
-const struct sh_type SH_INT = {
-  .name = "Int",
-  SH_TYPE_DEFAULTS,
-  .write = int_write
-};
-
-static void method_dump(const struct sh_cell *v, struct sh_stream *out) {
-  struct sh_method *m = v->as_pointer;
-  sh_printf(out, "Method %s", m->name);
-}
-
-const struct sh_type SH_METHOD = {
-  .name = "Method",
-  SH_TYPE_DEFAULTS,
-  .dump = method_dump
-};

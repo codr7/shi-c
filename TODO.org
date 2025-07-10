@@ -1,4 +1,4 @@
-* move types to libraries/core
+* simplify cell method names
 
 * add read_int
 ** use long
