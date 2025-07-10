@@ -28,9 +28,10 @@ void sh_repl(struct sh_vm *vm, FILE *in, FILE *out) {
   struct sh_memory_stream code;
   sh_memory_stream_init(&code, vm->malloc);
   sh_defer(sh_stream_deinit(&code.stream));
-
+  int line_count = 0;
+  
   while (!feof(in)) {
-    fprintf(out, "  ");
+    fprintf(out, "% 2d ", sloc.line + line_count);
     char *line = sh_gets(&in_stream.stream, vm->malloc);
     if (feof(in)) { break; }
 
@@ -40,16 +41,18 @@ void sh_repl(struct sh_vm *vm, FILE *in, FILE *out) {
       const char *cs = sh_memory_stream_string(&code);
       sh_read_forms(vm, &cs, &forms, &sloc);
       sh_memory_stream_reset(&code);
+      line_count = 0;
       //sh_forms_dump(&forms, &out_stream.stream);
       size_t pc = sh_emit_pc(vm);      
       sh_forms_emit(&forms, vm);
       sh_forms_free(&forms, vm);
       sh_evaluate(vm, &stack, pc, -1);
       sh_stack_dump(&stack, &out_stream.stream);
-      fprintf(out, "\n\n");    
+      fprintf(out, "\n\n");
     } else {
       sh_puts(&code.stream, line);
       sh_release(vm->malloc, line);
+      line_count++;
     }
   }
 }
