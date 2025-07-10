@@ -40,7 +40,7 @@ void sh_repl(struct sh_vm *vm, FILE *in, FILE *out) {
       const char *cs = sh_memory_stream_string(&code);
       sh_read_forms(vm, &cs, &forms, &sloc);
       sh_memory_stream_reset(&code);
-      sh_forms_dump(&forms, &out_stream.stream);
+      //sh_forms_dump(&forms, &out_stream.stream);
       size_t pc = sh_emit_pc(vm);      
       sh_forms_emit(&forms, vm);
       sh_forms_free(&forms, vm);

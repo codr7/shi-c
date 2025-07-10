@@ -1,7 +1,7 @@
-* simplify cell method names
+* turn types into functions returning thread local values
 
-* add read_int
-** use long
+* add bool sh_isa(v, t)
+** store parents in set
 
 * add /operations
 ** separate files for call/push

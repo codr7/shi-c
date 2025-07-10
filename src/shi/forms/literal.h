@@ -14,7 +14,6 @@ struct sh_literal {
 void sh_literal_init(struct sh_literal *f,
 		     struct sh_vm *vm,
 		     struct sh_sloc sloc,
-		     struct sh_list *owner,
-		     struct sh_cell *value);
+		     struct sh_list *owner);
 
 #endif
