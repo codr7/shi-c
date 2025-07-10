@@ -6,6 +6,7 @@
 #include "shi/forms/identifier.h"
 #include "shi/forms/literal.h"
 #include "shi/read.h"
+#include "shi/libraries/core.h"
 #include "shi/list.h"
 #include "shi/malloc.h"
 #include "shi/sloc.h"
@@ -103,7 +104,7 @@ bool sh_read_int(struct sh_vm *vm,
 
   struct sh_literal *f = sh_acquire(vm->malloc, sizeof(struct sh_literal));
   sh_literal_init(f, vm, floc, out);
-  sh_cell_init(&f->value, &SH_INT)->as_int = v;
+  sh_cell_init(&f->value, SH_INT())->as_int = v;
   return true;
 }
 

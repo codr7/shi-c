@@ -35,8 +35,4 @@ void sh_cell_emit(struct sh_cell *v,
 
 void sh_cell_write(const struct sh_cell *v, struct sh_stream *out);
 
-extern const struct sh_type SH_BOOL;
-extern const struct sh_type SH_FIX;
-extern const struct sh_type SH_INT;
-
 #endif

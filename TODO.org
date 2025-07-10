@@ -1,4 +1,5 @@
-* turn types into functions returning thread local values
+* turn types into functions like int
+** method/bool
 
 * add bool sh_isa(v, t)
 ** store parents in set

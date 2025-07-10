@@ -36,13 +36,13 @@ build/library.o: src/shi/library.h src/shi/library.c
 build/libraries/core.o: src/shi/libraries/core.h src/shi/libraries/core.c
 	$(CC) -c $(CFLAGS) src/shi/libraries/core.c -o build/libraries/core.o
 
-build/libraries/core/bool.o: src/shi/libraries/core/bool.h src/shi/libraries/core/bool.c
+build/libraries/core/bool.o: src/shi/libraries/core/bool.c
 	$(CC) -c $(CFLAGS) src/shi/libraries/core/bool.c -o build/libraries/core/bool.o
 
-build/libraries/core/int.o: src/shi/libraries/core/int.h src/shi/libraries/core/int.c
+build/libraries/core/int.o: src/shi/libraries/core/int.c
 	$(CC) -c $(CFLAGS) src/shi/libraries/core/int.c -o build/libraries/core/int.o
 
-build/libraries/core/method.o: src/shi/libraries/core/method.h src/shi/libraries/core/method.c
+build/libraries/core/method.o: src/shi/libraries/core/method.c
 	$(CC) -c $(CFLAGS) src/shi/libraries/core/method.c -o build/libraries/core/method.o
 
 build/list.o: src/shi/list.h src/shi/list.c
