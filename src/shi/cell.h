@@ -11,16 +11,16 @@ struct sh_type;
 struct sh_vm;
 
 struct sh_cell {
-  const struct sh_type *type;
+  struct sh_type *type;
   
   union {
     bool as_bool;
     int64_t as_int;
-    void *as_pointer;
+    void *as_other;
   };
 };
 
-struct sh_cell *sh_cell_init(struct sh_cell *v, const struct sh_type *t);
+struct sh_cell *sh_cell_init(struct sh_cell *v, struct sh_type *t);
 void sh_cell_deinit(struct sh_cell *v);
 
 struct sh_cell *sh_cell_copy(struct sh_cell *dst, struct sh_cell *src,

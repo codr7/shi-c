@@ -4,7 +4,9 @@
 #include "shi/compare.h"
 #include "shi/error.h"
 #include "shi/library.h"
+#include "shi/libraries/core.h"
 #include "shi/malloc.h"
+#include "shi/type.h"
 #include "shi/vm.h"
 
 struct sh_library_item {
@@ -23,6 +25,7 @@ struct sh_library *sh_library_init(struct sh_library *lib,
 				   struct sh_vm *vm,
 				   const char *name,
 				   struct sh_library *parent) {
+  lib->vm = vm;
   sh_set_init(&lib->bindings,
 	      &sh_malloc_default,
 	      sizeof(struct sh_library_item),
@@ -44,10 +47,17 @@ void sh_library_deinit(struct sh_library *lib) {
   sh_set_deinit(&lib->bindings);
 }
 
-void sh_bind(struct sh_library *lib, const char *key, struct sh_cell *value) {
+struct sh_cell *sh_bind(struct sh_library *lib,
+			const char *key,
+			struct sh_type *type) {
   struct sh_library_item *it = sh_set_add(&lib->bindings, key, false);
   it->key = sh_strdup(key, lib->vm->malloc);
-  sh_cell_copy(&it->value, value, lib->vm);
+  it->value.type = type;
+  return &it->value;
+}
+
+void sh_bind_type(struct sh_library *lib, struct sh_type *type) {
+  sh_bind(lib, type->name, SH_META())->as_other = type;
 }
 
 struct sh_cell *sh_find(struct sh_library *lib, const char *key) {
@@ -55,25 +65,10 @@ struct sh_cell *sh_find(struct sh_library *lib, const char *key) {
   return it ? &it->value : (lib->parent ? sh_find(lib->parent, key) : NULL);
 }
 
-void _sh_import(struct sh_library *lib,
-		struct sh_library *source,
-		const char *keys[]) {
-  for (int i = 0; keys[i]; i++) {
-    const char *k = keys[i];
-    struct sh_cell *v = sh_find(source, k);
-    
-    if (!v) {
-      sh_throw("Not found: %s", k);
-    }
-    
-    sh_bind(lib, k, v);
-  }
-}
-
-void sh_import_all(struct sh_library *lib, struct sh_library *source) {
+void sh_import(struct sh_library *lib, struct sh_library *source) {
   sh_vector_do(&source->bindings.items, _it) {
     struct sh_library_item *it = _it;
-    sh_bind(lib, it->key, &it->value);
+    sh_cell_copy(sh_bind(lib, it->key, NULL), &it->value, lib->vm);
   }
 }
 

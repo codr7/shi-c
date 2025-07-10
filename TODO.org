@@ -1,9 +1,14 @@
-* turn types into functions like int
-** method/bool
-
 * add bool sh_isa(v, t)
 ** store parents in set
+
+* implement method type emit
+* implement call op type check
 
 * add /operations
 ** separate files for call/push
 ** remove evaluate.h/c
+
+#define sh_import(lib, source, ...) ({					\
+      const char *keys[] = {__VA_ARGS__, NULL};				\
+      _sh_import(lib, source, keys);					\
+    })

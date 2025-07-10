@@ -7,7 +7,7 @@
 #include "shi/stream.h"
 #include "shi/type.h"
 
-struct sh_cell *sh_cell_init(struct sh_cell *v, const struct sh_type *t) {
+struct sh_cell *sh_cell_init(struct sh_cell *v, struct sh_type *t) {
   v->type = t;
   return v;
 }
@@ -20,7 +20,7 @@ void sh_cell_deinit(struct sh_cell *v) {
 
 struct sh_cell *sh_cell_copy(struct sh_cell *dst, struct sh_cell *src,
 			     struct sh_vm *vm) {
-  const struct sh_type *t = src->type;
+  struct sh_type *t = src->type;
   assert(t->copy);
   dst->type = t;
   t->copy(dst, src, vm);
