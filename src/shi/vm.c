@@ -79,6 +79,10 @@ void sh_evaluate(struct sh_vm *vm,
   }
 }
 
-size_t sh_pointer_pc(struct sh_vm *vm, const uint8_t *in) {
-  return (in - vm->code.start) / vm->code.item_size;
+size_t sh_pointer_pc(struct sh_vm *vm, const uint8_t *p) {
+  return (p - vm->code.start) / vm->code.item_size;
+}
+
+uint8_t *sh_pc_pointer(struct sh_vm *vm, const size_t pc) {
+  return sh_vector_get(&vm->code, pc); 
 }

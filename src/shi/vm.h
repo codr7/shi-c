@@ -31,6 +31,7 @@ void sh_evaluate(struct sh_vm *vm,
 		 struct sh_stack *stack,
 		 size_t start, size_t end);
 
-size_t sh_pointer_pc(struct sh_vm *vm, const uint8_t *in);
+uint8_t *sh_pc_pointer(struct sh_vm *vm, size_t pc);
+size_t sh_pointer_pc(struct sh_vm *vm, const uint8_t *p);
 
 #endif
