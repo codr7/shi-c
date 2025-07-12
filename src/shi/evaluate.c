@@ -6,7 +6,7 @@ static uint8_t *call_method_evaluate(struct sh_vm *vm,
 				     struct sh_stack *stack,
 				     uint8_t *data) {
   struct sh_call_method *op = (void *)sh_align(data, alignof(struct sh_call_method));
-  op->target->call(op->target, vm,stack,  op->sloc);
+  op->target->call(op->target, vm,stack,  &op->sloc);
   return (uint8_t *)op + sizeof(struct sh_call_method);
 }
 

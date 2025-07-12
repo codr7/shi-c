@@ -56,6 +56,17 @@ struct sh_cell *sh_bind(struct sh_library *lib,
   return &it->value;
 }
 
+struct sh_c_method *sh_bind_method(struct sh_library *lib,
+				   const char *name,
+				   int arity,
+				   struct sh_argument args[],
+				   sh_method_body_t body) {
+  struct sh_c_method *m = sh_acquire(lib->vm->malloc, sizeof(struct sh_c_method));
+  sh_c_method_init(m, name, arity, args, body);
+  sh_bind(lib, name, SH_METHOD())->as_other = m;
+  return m;
+}
+
 void sh_bind_type(struct sh_library *lib, struct sh_type *type) {
   sh_bind(lib, type->name, SH_META())->as_other = type;
 }

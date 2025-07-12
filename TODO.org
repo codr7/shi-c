@@ -1,8 +1,14 @@
-* add bool sh_isa(v, t)
-** store parents in set
+* add sh_argument fn
+** use in core
+
+* add remaining fns
 
 * implement method type emit
-* implement call op type check
+** emit call
+
+* add bool sh_isa(v, t)
+** store parents in set
+** implement call op type check
 
 * add /operations
 ** separate files for call/push

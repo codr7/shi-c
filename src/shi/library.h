@@ -1,6 +1,7 @@
 #ifndef SHI_LIBRARY
 #define SHI_LIBRARY
 
+#include "shi/method.h"
 #include "shi/set.h"
 
 struct sh_cell;
@@ -23,6 +24,12 @@ void sh_library_deinit(struct sh_library *lib);
 struct sh_cell *sh_bind(struct sh_library *lib,
 			const char *key,
 			struct sh_type *type);
+
+struct sh_c_method *sh_bind_method(struct sh_library *lib,
+				   const char *name,
+				   int arity,
+				   struct sh_argument args[],
+				   sh_method_body_t body);
 
 void sh_bind_type(struct sh_library *lib, struct sh_type *type);
 

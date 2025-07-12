@@ -4,7 +4,7 @@ export CFLAGS=-g -O0 -flto -Wall -Wno-override-init-side-effects -fsanitize=boun
 
 export LDFLAGS=
 
-CHAPTERS=build/cell.o build/error.o build/evaluate.o build/form.o build/forms/identifier.o build/forms/literal.o build/library.o build/libraries/core.o build/libraries/core/bool.o build/libraries/core/int.o build/libraries/core/meta.o build/libraries/core/method.o build/list.o build/malloc.o build/read.o build/repl.o build/set.o build/sloc.o build/stack.o build/stream.o build/type.o build/utility.o build/vector.o build/vm.o
+CHAPTERS=build/cell.o build/error.o build/evaluate.o build/form.o build/forms/identifier.o build/forms/literal.o build/library.o build/libraries/core.o build/libraries/core/bool.o build/libraries/core/int.o build/libraries/core/meta.o build/libraries/core/method.o build/list.o build/malloc.o build/method.o build/read.o build/repl.o build/set.o build/sloc.o build/stack.o build/stream.o build/type.o build/utility.o build/vector.o build/vm.o
 
 all: clean build/all
 
@@ -53,6 +53,9 @@ build/list.o: src/shi/list.h src/shi/list.c
 
 build/malloc.o: src/shi/malloc.h src/shi/malloc.c
 	$(CC) -c $(CFLAGS) src/shi/malloc.c -o build/malloc.o
+
+build/method.o: src/shi/method.h src/shi/method.c
+	$(CC) -c $(CFLAGS) src/shi/method.c -o build/method.o
 
 build/read.o: src/shi/read.h src/shi/read.c
 	$(CC) -c $(CFLAGS) src/shi/read.c -o build/read.o

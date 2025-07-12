@@ -1,6 +1,27 @@
+#include <stdio.h>
+
 #include "shi/cell.h"
 #include "shi/library.h"
 #include "shi/libraries/core.h"
+#include "shi/stack.h"
+
+static void add_imp(struct sh_vm *vm,
+		    struct sh_stack *stack,
+		    const struct sh_sloc *sloc) {
+  struct sh_cell *y = sh_pop(stack);
+  struct sh_cell *x = sh_peek(stack);
+  x->as_int += y->as_int;
+  sh_cell_deinit(y);
+}
+
+static void sub_imp(struct sh_vm *vm,
+		     struct sh_stack *stack,
+		     const struct sh_sloc *sloc) {
+  struct sh_cell *y = sh_pop(stack);
+  struct sh_cell *x = sh_peek(stack);
+  x->as_int -= y->as_int;
+  sh_cell_deinit(y);
+}
 
 void sh_core_library_init(struct sh_library *lib, struct sh_vm *vm) {
   sh_library_init(lib, vm, "core", NULL);
@@ -12,4 +33,15 @@ void sh_core_library_init(struct sh_library *lib, struct sh_vm *vm) {
   
   sh_bind(lib, "T", SH_BOOL())->as_bool = true;
   sh_bind(lib, "F", SH_BOOL())->as_bool = false;
+
+  sh_bind_method(lib, "+", 0,
+		 (struct sh_argument[]){
+		   (struct sh_argument){.name = "x", .type = SH_INT()}
+		 }, add_imp);
+
+  sh_bind_method(lib, "-", 0,
+		 (struct sh_argument[]){
+		   (struct sh_argument){.name = "x", .type = SH_INT()}
+		 }, sub_imp);
+
 }
