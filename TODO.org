@@ -1,5 +1,12 @@
-* add sh_argument fn
+* add sh_arguments macro
+** vararg macro
+** _fn
+** process pair
 ** use in core
+
+* reference count method type
+** add _free method
+** cell_copy/deinit
 
 * add remaining fns
 

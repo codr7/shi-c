@@ -11,7 +11,10 @@ struct sh_argument {
 };
 
 struct sh_method {
+  struct sh_library *library;
   char name[64];
+  struct sh_argument *arguments;
+  int arity;
   
   void (*call)(struct sh_method *,
 	       struct sh_vm *,
@@ -20,9 +23,12 @@ struct sh_method {
 };
 
 struct sh_method *sh_method_init(struct sh_method *m,
+				 struct sh_library *library,
 				 const char *name,
 				 int arity,
-				 struct sh_argument args[]);
+				 struct sh_argument arguments[]);
+
+void sh_method_free(struct sh_method *m);
 
 typedef void (*sh_method_body_t)(struct sh_vm *,
 				 struct sh_stack *stack,
@@ -34,9 +40,10 @@ struct sh_c_method {
 };
 
 struct sh_c_method *sh_c_method_init(struct sh_c_method *m,
+				     struct sh_library *library,
 				     const char *name,
 				     int arity,
-				     struct sh_argument args[],
+				     struct sh_argument arguments[],
 				     sh_method_body_t body);
 
 #endif

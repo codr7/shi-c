@@ -1,23 +1,37 @@
 #include <string.h>
 
+#include "shi/library.h"
+#include "shi/malloc.h"
 #include "shi/method.h"
+#include "shi/vm.h"
 
 struct sh_method *sh_method_init(struct sh_method *m,
+				 struct sh_library *library,
 				 const char *name,
 				 int arity,
-				 struct sh_argument args[]) {
+				 struct sh_argument arguments[]) {
+  m->library = library;
   strcpy(m->name, name);
   m->call = NULL;
+  m->arity = arity;
+  const size_t s = sizeof(struct sh_argument)*arity;
+  m->arguments = sh_acquire(library->vm->malloc, s);
+  memcpy(m->arguments, arguments, s);
   return m;
 }
 
+void sh_method_free(struct sh_method *m) {
+  sh_release(m->library->vm->malloc, m->arguments);
+}
+
 struct sh_c_method *sh_c_method_init(struct sh_c_method *m,
+				     struct sh_library *library,
 				     const char *name,
 				     int arity,
-				     struct sh_argument args[],
+				     struct sh_argument arguments[],
 				     sh_method_body_t body) {
   
-  sh_method_init(&m->method, name, arity, args);
+  sh_method_init(&m->method, library, name, arity, arguments);
   m->body = body;
   return m;  
 }
