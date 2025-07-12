@@ -29,6 +29,6 @@ size_t sh_emit_pc(struct sh_vm *vm);
 
 void sh_evaluate(struct sh_vm *vm,
 		 struct sh_stack *stack,
-		 size_t start_pc, size_t end_pc);
+		 size_t start, size_t end);
 
 #endif

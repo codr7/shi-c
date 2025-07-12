@@ -43,10 +43,10 @@ void sh_repl(struct sh_vm *vm, FILE *in, FILE *out) {
       sh_memory_stream_reset(&code);
       line_count = 0;
       //sh_forms_dump(&forms, &out_stream.stream);
-      size_t pc = sh_emit_pc(vm);      
+      const size_t pc = sh_emit_pc(vm);      
       sh_forms_emit(&forms, vm);
       sh_forms_free(&forms, vm);
-      sh_evaluate(vm, &stack, pc, -1);
+      sh_evaluate(vm, &stack, pc, sh_emit_pc(vm));
       sh_stack_dump(&stack, &out_stream.stream);
       fprintf(out, "\n\n");
     } else {

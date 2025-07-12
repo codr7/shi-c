@@ -1,13 +1,16 @@
 #include "shi/evaluate.h"
 #include "shi/method.h"
 #include "shi/stack.h"
+#include "shi/vm.h"
 
 static uint8_t *call_method_evaluate(struct sh_vm *vm,
 				     struct sh_stack *stack,
 				     uint8_t *data) {
   struct sh_call_method *op = (void *)sh_align(data, alignof(struct sh_call_method));
-  op->target->call(op->target, vm,stack,  &op->sloc);
-  return (uint8_t *)op + sizeof(struct sh_call_method);
+  size_t pc = ((uint8_t *)op + sizeof(struct sh_call_method) - vm->code.start) /
+    vm->code.item_size;
+  sh_method_call(op->target, &pc, stack,  &op->sloc);
+  return sh_vector_get(&vm->code, pc);
 }
 
 const struct sh_operation SH_CALL_METHOD = (struct sh_operation){

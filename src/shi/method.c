@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <string.h>
 
 #include "shi/library.h"
@@ -20,8 +21,24 @@ struct sh_method *sh_method_init(struct sh_method *m,
   return m;
 }
 
+void sh_method_call(struct sh_method *m,
+		    size_t *pc,
+		    struct sh_stack *stack,
+		    const struct sh_sloc *sloc) {
+  assert(m->call);
+  m->call(m, pc, stack, sloc);
+}
+
 void sh_method_free(struct sh_method *m) {
   sh_release(m->library->vm->malloc, m->arguments);
+}
+
+static void c_call(struct sh_method *m,
+		   size_t *pc,
+		   struct sh_stack *stack,
+		   const struct sh_sloc *sloc) {
+  struct sh_c_method *cm = sh_baseof(m, struct sh_c_method, method);
+  cm->body(m->library->vm, stack, sloc);
 }
 
 struct sh_c_method *sh_c_method_init(struct sh_c_method *m,
@@ -32,6 +49,7 @@ struct sh_c_method *sh_c_method_init(struct sh_c_method *m,
 				     sh_method_body_t body) {
   
   sh_method_init(&m->method, library, name, arity, arguments);
+  m->method.call = c_call;
   m->body = body;
   return m;  
 }

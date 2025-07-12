@@ -15,8 +15,8 @@ static void add_imp(struct sh_vm *vm,
 }
 
 static void sub_imp(struct sh_vm *vm,
-		     struct sh_stack *stack,
-		     const struct sh_sloc *sloc) {
+		    struct sh_stack *stack,
+		    const struct sh_sloc *sloc) {
   struct sh_cell *y = sh_pop(stack);
   struct sh_cell *x = sh_peek(stack);
   x->as_int -= y->as_int;

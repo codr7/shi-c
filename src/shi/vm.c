@@ -67,13 +67,14 @@ size_t sh_emit_pc(struct sh_vm *vm) {
 
 void sh_evaluate(struct sh_vm *vm,
 		 struct sh_stack *stack,
-		 const size_t start_pc,
-		 const size_t end_pc) {
-  const uint8_t *const ep = (end_pc == -1)
+		 const size_t start,
+		 const size_t end) {
+  const uint8_t *end_pc = (end == -1)
     ? vm->code.end
-    : sh_vector_get(&vm->code, end_pc);
-
-  for (uint8_t *p = sh_vector_get(&vm->code, start_pc);
-       p != ep;
-       p = (*(sh_evaluate_t *)p)(vm, stack, p + vm->code.item_size));
+    : sh_vector_get(&vm->code, end);
+  
+  for (uint8_t *pc = sh_vector_get(&vm->code, start);
+       pc != end_pc;
+       pc = (*(sh_evaluate_t *)pc)(vm, stack, pc + vm->code.item_size)) {
+  }
 }
