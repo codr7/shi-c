@@ -1,14 +1,13 @@
-* add sh_arguments macro
-** vararg macro
-** _fn
-** process pair
+* rename shell
+
+* add sh_argument macro
 ** use in core
 
 * reference count method type
 ** add _free method
 ** cell_copy/deinit
 
-* add remaining fns
+* add remaining core fns
 
 * implement method type emit
 ** emit call
@@ -16,6 +15,8 @@
 * add bool sh_isa(v, t)
 ** store parents in set
 ** implement call op type check
+
+* add macros
 
 * add /operations
 ** separate files for call/push

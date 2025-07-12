@@ -6,9 +6,9 @@
 static uint8_t *call_method_evaluate(struct sh_vm *vm,
 				     struct sh_stack *stack,
 				     uint8_t *data) {
-  struct sh_call_method *op = (void *)sh_align(data, alignof(struct sh_call_method));
-  size_t pc = ((uint8_t *)op + sizeof(struct sh_call_method) - vm->code.start) /
-    vm->code.item_size;
+  struct sh_call_method *op =
+    (void *)sh_align(data, alignof(struct sh_call_method));
+  size_t pc = sh_pointer_pc(vm, (uint8_t *)op + sizeof(struct sh_call_method));
   sh_method_call(op->target, &pc, stack,  &op->sloc);
   return sh_vector_get(&vm->code, pc);
 }
