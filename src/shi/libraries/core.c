@@ -34,14 +34,15 @@ void sh_core_library_init(struct sh_library *lib, struct sh_vm *vm) {
   sh_bind(lib, "T", SH_BOOL())->as_bool = true;
   sh_bind(lib, "F", SH_BOOL())->as_bool = false;
 
-  sh_bind_method(lib, "+", 0,
-		 (struct sh_argument[]){
-		   (struct sh_argument){.name = "x", .type = SH_INT()}
+  sh_bind_method(lib, "+", 2,
+		 (struct sh_argument[]) {
+		   sh_argument("x", SH_INT()),
+		   sh_argument("y", SH_INT())
 		 }, add_imp);
 
-  sh_bind_method(lib, "-", 0,
-		 (struct sh_argument[]){
-		   (struct sh_argument){.name = "x", .type = SH_INT()}
+  sh_bind_method(lib, "-", 2,
+		 (struct sh_argument[]) {
+		   sh_argument("x", SH_INT()),
+		   sh_argument("y", SH_INT())
 		 }, sub_imp);
-
 }

@@ -6,6 +6,13 @@
 #include "shi/method.h"
 #include "shi/vm.h"
 
+struct sh_argument sh_argument(const char *name, struct sh_type *type) {
+  struct sh_argument a;
+  strcpy(a.name, name);
+  a.type = type;
+  return a;
+}
+
 struct sh_method *sh_method_init(struct sh_method *m,
 				 struct sh_library *library,
 				 const char *name,

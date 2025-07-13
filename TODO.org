@@ -1,6 +1,3 @@
-* add sh_argument macro
-** use in core
-
 * reference count method type
 ** add _free method
 ** cell_copy/deinit

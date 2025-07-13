@@ -12,6 +12,8 @@ struct sh_argument {
   struct sh_type *type;
 };
 
+struct sh_argument sh_argument(const char *name, struct sh_type *type);
+
 struct sh_method {
   struct sh_library *library;
   char name[64];
