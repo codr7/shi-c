@@ -1,6 +1,7 @@
 #include <assert.h>
 #include <string.h>
 
+#include "shi/error.h"
 #include "shi/library.h"
 #include "shi/malloc.h"
 #include "shi/method.h"
@@ -25,6 +26,16 @@ struct sh_method *sh_method_init(struct sh_method *m,
   const size_t s = sizeof(struct sh_argument)*arity;
   m->arguments = sh_acquire(library->vm->malloc, s);
   memcpy(m->arguments, arguments, s);
+  m->reference_count = 1;
+  return m;
+}
+
+void sh_method_free(struct sh_method *m) {
+  sh_release(m->library->vm->malloc, m->arguments);
+}
+
+struct sh_method *sh_method_acquire(struct sh_method *m) {
+  m->reference_count++;
   return m;
 }
 
@@ -36,8 +47,14 @@ void sh_method_call(struct sh_method *m,
   m->call(m, pc, stack, sloc);
 }
 
-void sh_method_free(struct sh_method *m) {
-  sh_release(m->library->vm->malloc, m->arguments);
+void sh_method_release(struct sh_method *m) {
+  if (!m->reference_count) {
+    sh_throw("Method already released");
+  }
+  
+  if (!--m->reference_count) {
+    sh_release(m->library->vm->malloc, m->arguments);    
+  }
 }
 
 static void c_call(struct sh_method *m,

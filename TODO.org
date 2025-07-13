@@ -1,11 +1,7 @@
-* reference count method type
-** add _free method
-** cell_copy/deinit
-
-* add remaining core fns
-
 * implement method type emit
 ** emit call
+
+* add remaining core fns
 
 * add bool sh_isa(v, t)
 ** store parents in set

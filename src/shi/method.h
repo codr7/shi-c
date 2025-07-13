@@ -19,6 +19,7 @@ struct sh_method {
   char name[64];
   struct sh_argument *arguments;
   int arity;
+  int reference_count;
   
   void (*call)(struct sh_method *,
 	       size_t *pc,
@@ -32,12 +33,14 @@ struct sh_method *sh_method_init(struct sh_method *m,
 				 int arity,
 				 struct sh_argument arguments[]);
 
-void sh_method_free(struct sh_method *m);
+struct sh_method *sh_method_acquire(struct sh_method *m);
 
 void sh_method_call(struct sh_method *m,
 		    size_t *pc,
 		    struct sh_stack *stack,
 		    const struct sh_sloc *sloc);
+
+void sh_method_release(struct sh_method *m);
 
 struct sh_c_method;
 
