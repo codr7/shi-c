@@ -14,12 +14,18 @@ void sh_form_init(struct sh_form *f,
 		  struct sh_list *owner) {
   f->type = t;
   f->sloc = sloc;
-
+  f->reference_count = 1;
+  
   if (owner) {
     sh_list_push_back(owner, &f->owner);
   } else {
     sh_list_init(&f->owner);
   }
+}
+
+struct sh_form *sh_form_acquire(struct sh_form *f) {
+  f->reference_count++;
+  return f;
 }
 
 void sh_form_dump(struct sh_form *f, struct sh_stream *out) {
@@ -32,10 +38,18 @@ void sh_form_emit(struct sh_form *f, struct sh_vm *vm, struct sh_list *args) {
   f->type->emit(f, vm, args);
 }
 
-void sh_form_free(struct sh_form *f, struct sh_vm *vm) {
-  sh_list_delete(&f->owner);
-  assert(f->type->free);
-  f->type->free(f, vm);
+void sh_form_release(struct sh_form *f, struct sh_vm *vm) {
+  if (!f->reference_count) {
+    sh_throw("Form already released");
+  }
+  
+  if (!--f->reference_count) {
+    sh_list_delete(&f->owner);
+
+    if (f->type->free) {
+      f->type->free(f, vm);
+    }
+  }
 }
 
 void sh_forms_dump(struct sh_list *in, struct sh_stream *out) {
@@ -55,8 +69,8 @@ void sh_forms_emit(struct sh_list *in, struct sh_vm *vm) {
   }
 }
 
-void sh_forms_free(struct sh_list *in, struct sh_vm *vm) {
+void sh_forms_release(struct sh_list *in, struct sh_vm *vm) {
   sh_list_do(in, f) {
-    sh_form_free(sh_baseof(f, struct sh_form, owner), vm);
+    sh_form_release(sh_baseof(f, struct sh_form, owner), vm);
   }
 }

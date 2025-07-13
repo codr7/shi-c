@@ -30,10 +30,6 @@ struct sh_method *sh_method_init(struct sh_method *m,
   return m;
 }
 
-void sh_method_free(struct sh_method *m) {
-  sh_release(m->library->vm->malloc, m->arguments);
-}
-
 struct sh_method *sh_method_acquire(struct sh_method *m) {
   m->reference_count++;
   return m;

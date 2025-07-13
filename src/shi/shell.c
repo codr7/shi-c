@@ -44,7 +44,7 @@ void sh_shell(struct sh_vm *vm, FILE *in, FILE *out) {
       //sh_forms_dump(&forms, &out_stream.stream);
       const size_t pc = sh_emit_pc(vm);      
       sh_forms_emit(&forms, vm);
-      sh_forms_free(&forms, vm);
+      sh_forms_release(&forms, vm);
       sh_evaluate(vm, &stack, pc, -1);
       sh_stack_dump(&stack, &out_stream.stream);
       fprintf(out, "\n\n");
