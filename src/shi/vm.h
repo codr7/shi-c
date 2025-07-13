@@ -1,6 +1,8 @@
 #ifndef SHI_VM
 #define SHI_VM
 
+#include <stdio.h>
+
 #include "shi/cell.h"
 #include "shi/library.h"
 #include "shi/sloc.h"
@@ -33,5 +35,8 @@ void sh_evaluate(struct sh_vm *vm,
 
 uint8_t *sh_pc_pointer(struct sh_vm *vm, size_t pc);
 size_t sh_pointer_pc(struct sh_vm *vm, const uint8_t *p);
+
+void sh_shell(struct sh_vm *vm, FILE *in, FILE *out);
+
 
 #endif

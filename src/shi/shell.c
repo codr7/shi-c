@@ -2,7 +2,6 @@
 #include "shi/list.h"
 #include "shi/malloc.h"
 #include "shi/read.h"
-#include "shi/repl.h"
 #include "shi/sloc.h"
 #include "shi/stack.h"
 #include "shi/stream.h"
@@ -11,7 +10,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-void sh_repl(struct sh_vm *vm, FILE *in, FILE *out) {
+void sh_shell(struct sh_vm *vm, FILE *in, FILE *out) {
   struct sh_sloc sloc = sh_sloc("repl", 0, 0);
   struct sh_stack stack;
   sh_stack_init(&stack, vm->malloc);
