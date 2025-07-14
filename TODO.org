@@ -1,6 +1,3 @@
-* add =
-** add sh_eq(v, v)
-
 * add bool sh_isa(v, t)
 ** store parents in set
 ** implement call op type check

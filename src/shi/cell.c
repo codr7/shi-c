@@ -39,3 +39,7 @@ void sh_cell_emit(struct sh_cell *v,
   assert(v->type->emit);
   v->type->emit(v, vm, sloc, args);
 }
+
+bool sh_eq(const struct sh_cell *x, const struct sh_cell *y) {
+  return x->type == y->type && x->type->eq(x, y);
+}

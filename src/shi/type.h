@@ -20,6 +20,7 @@ struct sh_type {
   void (*deinit)(struct sh_cell *);
   void (*dump)(const struct sh_cell *, struct sh_stream *);
   void (*emit)(struct sh_cell *, struct sh_vm *, struct sh_sloc, struct sh_list *); 
+  bool (*eq)(const struct sh_cell *, const struct sh_cell *);
 };
 
 void sh_type_default_copy(struct sh_cell *dst, struct sh_cell *src,

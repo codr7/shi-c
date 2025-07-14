@@ -15,6 +15,17 @@ static void add_imp(struct sh_vm *vm,
   sh_cell_deinit(y);
 }
 
+static void eq_imp(struct sh_vm *vm,
+		   struct sh_stack *stack,
+		   const struct sh_sloc *sloc) {
+  struct sh_cell *y = sh_pop(stack);
+  struct sh_cell *x = sh_peek(stack);
+  const bool result = sh_eq(x, y);
+  sh_cell_deinit(x);
+  sh_cell_init(x, SH_BOOL())->as_bool = result;
+  sh_cell_deinit(y);
+}
+
 static void gt_imp(struct sh_vm *vm,
 		   struct sh_stack *stack,
 		   const struct sh_sloc *sloc) {
@@ -89,6 +100,12 @@ void sh_core_library_init(struct sh_library *lib, struct sh_vm *vm) {
 		   sh_argument("x", SH_INT()),
 		   sh_argument("y", SH_INT())
 		 }, mul_imp);
+
+  sh_bind_method(lib, "=", 2,
+		 (struct sh_argument[]) {
+		   sh_argument("x", SH_INT()),
+		   sh_argument("y", SH_INT())
+		 }, eq_imp);
 
   sh_bind_method(lib, "<", 2,
 		 (struct sh_argument[]) {

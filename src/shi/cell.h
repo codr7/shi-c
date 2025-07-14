@@ -33,4 +33,6 @@ void sh_cell_emit(struct sh_cell *v,
 		  struct sh_sloc sloc,
 		  struct sh_list *args);
 
+bool sh_eq(const struct sh_cell *x, const struct sh_cell *y);
+
 #endif

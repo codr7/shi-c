@@ -17,6 +17,11 @@ static void deinit(struct sh_cell *v) {
   sh_method_release(v->as_other);
 }
 
+static void dump(const struct sh_cell *v, struct sh_stream *out) {
+  struct sh_method *m = v->as_other;
+  sh_printf(out, "Method %s", m->name);
+}
+
 static void emit(struct sh_cell *v,
 		 struct sh_vm *vm,
 		 struct sh_sloc sloc,
@@ -38,9 +43,8 @@ static void emit(struct sh_cell *v,
   sh_emit(vm, &SH_CALL_METHOD, &op);
 }
 
-static void dump(const struct sh_cell *v, struct sh_stream *out) {
-  struct sh_method *m = v->as_other;
-  sh_printf(out, "Method %s", m->name);
+static bool eq(const struct sh_cell *x, const struct sh_cell *y) {
+  return x->as_other == y->as_other;
 }
 
 struct sh_type *SH_METHOD() {
@@ -50,7 +54,8 @@ struct sh_type *SH_METHOD() {
     .copy = copy,
     .deinit = deinit,
     .dump = dump,
-    .emit = emit
+    .emit = emit,
+    .eq = eq
   };
   
   return &t;
