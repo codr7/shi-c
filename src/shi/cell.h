@@ -33,6 +33,4 @@ void sh_cell_emit(struct sh_cell *v,
 		  struct sh_sloc sloc,
 		  struct sh_list *args);
 
-void sh_cell_write(const struct sh_cell *v, struct sh_stream *out);
-
 #endif

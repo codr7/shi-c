@@ -38,7 +38,7 @@ static void emit(struct sh_cell *v,
   sh_emit(vm, &SH_CALL_METHOD, &op);
 }
 
-static void write(const struct sh_cell *v, struct sh_stream *out) {
+static void dump(const struct sh_cell *v, struct sh_stream *out) {
   struct sh_method *m = v->as_other;
   sh_printf(out, "Method %s", m->name);
 }
@@ -49,8 +49,8 @@ struct sh_type *SH_METHOD() {
     SH_TYPE_DEFAULTS,
     .copy = copy,
     .deinit = deinit,
-    .emit = emit,
-    .write = write
+    .dump = dump,
+    .emit = emit
   };
   
   return &t;

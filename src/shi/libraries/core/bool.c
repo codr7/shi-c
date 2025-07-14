@@ -3,7 +3,7 @@
 #include "shi/stream.h"
 #include "shi/type.h"
 
-static void bool_write(const struct sh_cell *v, struct sh_stream *out) {
+static void bool_dump(const struct sh_cell *v, struct sh_stream *out) {
   sh_putc(out, v->as_bool ? 'T' : 'F');
 }
 
@@ -11,7 +11,7 @@ struct sh_type *SH_BOOL() {
   static __thread struct sh_type t = {
     .name = "Bool",
     SH_TYPE_DEFAULTS,
-    .write = bool_write
+    .dump = bool_dump
   };
   
   return &t;
