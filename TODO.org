@@ -1,6 +1,6 @@
-* add bool sh_isa(v, t)
-** store parents in set
-** implement call op type check
+* make type ref counted like method
+
+* add parents in type init
 
 * add form value method
 

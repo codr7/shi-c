@@ -35,4 +35,6 @@ void sh_cell_emit(struct sh_cell *v,
 
 bool sh_eq(const struct sh_cell *x, const struct sh_cell *y);
 
+bool sh_isa(const struct sh_cell *v, const struct sh_type *t);
+
 #endif

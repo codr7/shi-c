@@ -13,11 +13,10 @@ static bool eq(const struct sh_cell *x, const struct sh_cell *y) {
 
 struct sh_type *SH_BOOL() {
   static __thread struct sh_type t = {
-    .name = "Bool",
     SH_TYPE_DEFAULTS,
     .dump = dump,
     .eq = eq
   };
-  
-  return &t;
+
+  return sh_type_init(&t, "Bool");
 }

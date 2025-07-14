@@ -21,13 +21,14 @@ static enum sh_order compare_key(const void *x, const void *y) {
 static const void *get_key(const void *x) {
   return ((const struct sh_library_item *)x)->key;
 }
+
 struct sh_library *sh_library_init(struct sh_library *lib,
 				   struct sh_vm *vm,
 				   const char *name,
 				   struct sh_library *parent) {
   lib->vm = vm;
   sh_set_init(&lib->bindings,
-	      &sh_malloc_default,
+	      vm->malloc,
 	      sizeof(struct sh_library_item),
 	      compare_key);
 
