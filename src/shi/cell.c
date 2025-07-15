@@ -3,12 +3,14 @@
 #include <string.h>
 
 #include "shi/cell.h"
+#include "shi/evaluate.h"
 #include "shi/sloc.h"
 #include "shi/stream.h"
 #include "shi/type.h"
+#include "shi/vm.h"
 
 struct sh_cell *sh_cell_init(struct sh_cell *v, struct sh_type *t) {
-  v->type = t;
+  v->type = sh_type_acquire(t);
   return v;
 }
 
@@ -16,14 +18,22 @@ void sh_cell_deinit(struct sh_cell *v) {
   if (v->type->deinit) {
     v->type->deinit(v);
   }
+
+  sh_type_release(v->type);
 }
 
 struct sh_cell *sh_cell_copy(struct sh_cell *dst, struct sh_cell *src,
 			     struct sh_vm *vm) {
-  struct sh_type *t = src->type;
-  assert(t->copy);
-  dst->type = t;
-  t->copy(dst, src, vm);
+  struct sh_type *t = sh_type_acquire(src->type);
+
+  if (t->copy) {
+    assert(t->copy);
+    dst->type = t;
+    t->copy(dst, src, vm);
+  } else {
+    *dst = *src;
+  }
+  
   return dst;
 }
 
@@ -36,8 +46,13 @@ void sh_cell_emit(struct sh_cell *v,
 		  struct sh_vm *vm,
 		  struct sh_sloc sloc,
 		  struct sh_list *args) {
-  assert(v->type->emit);
-  v->type->emit(v, vm, sloc, args);
+  if (v->type->emit) {
+    v->type->emit(v, vm, sloc, args);
+  } else {
+    struct sh_push_value op;
+    sh_cell_copy(&op.value, v, vm);
+    sh_emit(vm, &SH_PUSH_VALUE, &op);
+  }
 }
 
 bool sh_eq(const struct sh_cell *x, const struct sh_cell *y) {

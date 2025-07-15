@@ -44,6 +44,8 @@ static void deinit_code(struct sh_vm *vm) {
 
 void sh_vm_deinit(struct sh_vm *vm) {  
   deinit_code(vm);
+  sh_library_deinit(&vm->core_library);
+  sh_library_deinit(&vm->user_library);
 }
 
 size_t sh_emit(struct sh_vm *vm,

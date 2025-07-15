@@ -39,8 +39,10 @@ struct sh_library *sh_library_init(struct sh_library *lib,
 }
 
 void sh_library_deinit(struct sh_library *lib) {
-  sh_vector_do(&lib->bindings.items, p) {
-    struct sh_library_item *it = *(struct sh_library_item **)p;
+  sh_release(lib->vm->malloc, lib->name);
+  
+  sh_vector_do(&lib->bindings.items, _it) {
+    struct sh_library_item *it = _it;
     sh_release(lib->vm->malloc, it->key);
     sh_cell_deinit(&it->value);
   }
@@ -53,7 +55,7 @@ struct sh_cell *sh_bind(struct sh_library *lib,
 			struct sh_type *type) {
   struct sh_library_item *it = sh_set_add(&lib->bindings, key, false);
   it->key = sh_strdup(key, lib->vm->malloc);
-  it->value.type = type;
+  it->value.type = type ? sh_type_acquire(type) : NULL;
   return &it->value;
 }
 

@@ -32,9 +32,12 @@ void sh_shell(struct sh_vm *vm, FILE *in, FILE *out) {
   while (!feof(in)) {
     fprintf(out, "% 2d ", sloc.line + line_count);
     char *line = sh_gets(&in_stream.stream, vm->malloc);
+    sh_defer(sh_release(vm->malloc, line));
     if (feof(in)) { break; }
 
-    if (line[0] == '\n') {
+    if (strcmp(":q\n", line) == 0 && !line_count) {
+      break;
+    } else if (line[0] == '\n') {
       struct sh_list forms;
       sh_list_init(&forms);
       const char *cs = sh_memory_stream_string(&code);

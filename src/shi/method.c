@@ -50,6 +50,7 @@ void sh_method_release(struct sh_method *m) {
   
   if (!--m->reference_count) {
     sh_release(m->library->vm->malloc, m->arguments);    
+    sh_release(m->library->vm->malloc, m);    
   }
 }
 

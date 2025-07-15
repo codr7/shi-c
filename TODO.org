@@ -1,6 +1,3 @@
-* add shell quit command
-** check valgrind
-
 * add form value method
 
 * add macros
@@ -8,6 +5,8 @@
 * add /operations
 ** separate files for call/push
 ** remove evaluate.h/c
+
+valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all build/shi
 
 #define sh_import(lib, source, ...) ({					\
       const char *keys[] = {__VA_ARGS__, NULL};				\
