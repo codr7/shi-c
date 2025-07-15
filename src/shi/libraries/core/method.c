@@ -1,3 +1,5 @@
+#include <stdlib.h>
+
 #include "shi/cell.h"
 #include "shi/evaluate.h"
 #include "shi/form.h"
@@ -48,14 +50,17 @@ static bool eq(const struct sh_cell *x, const struct sh_cell *y) {
 }
 
 struct sh_type *SH_METHOD() {
-  static __thread struct sh_type t = {
-    SH_TYPE_DEFAULTS,
-    .copy = copy,
-    .deinit = deinit,
-    .dump = dump,
-    .emit = emit,
-    .eq = eq
-  };
+  static __thread struct sh_type *t = NULL;
 
-  return sh_type_init(&t, "Method");
+  if (!t) {
+    t = malloc(sizeof(struct sh_type));
+    sh_type_init(t, "Metod", SH_ANY());
+    t->copy = copy;
+    t->deinit = deinit;
+    t->dump = dump;
+    t->emit = emit;
+    t->eq = eq;
+  }
+
+  return t;
 }

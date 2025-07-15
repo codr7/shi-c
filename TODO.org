@@ -1,6 +1,5 @@
-* make type ref counted like method
-
-* add parents in type init
+* add shell quit command
+** check valgrind
 
 * add form value method
 

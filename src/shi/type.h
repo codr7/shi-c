@@ -4,9 +4,13 @@
 #include <stdbool.h>
 #include "shi/set.h"
 
-#define SH_TYPE_DEFAULTS				\
-  .copy = sh_type_default_copy,				\
-    .emit = sh_type_default_emit
+#define _sh_type_init(t, name, ...) ({			\
+      struct sh_type *ps[] = {__VA_ARGS__};		\
+      __sh_type_init(t, name, ps);			\
+})
+
+#define sh_type_init(t, name, ...)		\
+  _sh_type_init(t, name, ##__VA_ARGS__, NULL)
 
 struct sh_cell;
 struct sh_list;
@@ -17,6 +21,7 @@ struct sh_vm;
 struct sh_type {
   char *name;
   struct sh_set parents;
+  int reference_count;
   
   void (*copy)(struct sh_cell *, struct sh_cell *, struct sh_vm *vm);
   void (*deinit)(struct sh_cell *);
@@ -25,15 +30,11 @@ struct sh_type {
   bool (*eq)(const struct sh_cell *, const struct sh_cell *);
 };
 
-struct sh_type *sh_type_init(struct sh_type *t, const char *name);
-void sh_type_deinit(struct sh_type *t);
+struct sh_type *__sh_type_init(struct sh_type *t,
+			      const char *name,
+			      struct sh_type *parents[]);
 
-void sh_type_default_copy(struct sh_cell *dst, struct sh_cell *src,
-			  struct sh_vm *vm);
-
-void sh_type_default_emit(struct sh_cell *v,
-			  struct sh_vm *vm,
-			  struct sh_sloc sloc,
-			  struct sh_list *args);
+struct sh_type *sh_type_acquire(struct sh_type *t);
+void sh_type_release(struct sh_type *t);
 
 #endif
