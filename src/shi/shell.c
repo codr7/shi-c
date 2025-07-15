@@ -53,7 +53,6 @@ void sh_shell(struct sh_vm *vm, FILE *in, FILE *out) {
       fprintf(out, "\n\n");
     } else {
       sh_puts(&code.stream, line);
-      sh_release(vm->malloc, line);
       line_count++;
     }
   }

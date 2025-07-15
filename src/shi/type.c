@@ -31,15 +31,13 @@ struct sh_type *__sh_type_init(struct sh_type *t,
   t->emit = NULL;
 
   while (*parents) {
-    struct sh_type *pt = *parents;
+    struct sh_type *pt = *parents++;
     *(struct sh_type **)sh_set_add(&t->parents, &pt, false) = pt;
 
     sh_vector_do(&pt->parents.items, ppt) {
       *(struct sh_type **)sh_set_add(&t->parents, ppt, false) =
 	*(struct sh_type **)ppt;
     }
-
-    parents++;
   }
   
   return t;
