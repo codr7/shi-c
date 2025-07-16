@@ -6,9 +6,9 @@
 #include "shi/stream.h"
 #include "shi/vm.h"
 
-static void identifier_emit(struct sh_form *_f,
-			    struct sh_vm *vm,
-			    struct sh_list *args) {
+static void emit_imp(struct sh_form *_f,
+		     struct sh_vm *vm,
+		     struct sh_list *args) {
   struct sh_identifier *f = sh_baseof(_f, struct sh_identifier, form);
   struct sh_cell *v = sh_find(vm->library, f->name);
   
@@ -20,21 +20,27 @@ static void identifier_emit(struct sh_form *_f,
   sh_cell_emit(v, vm, _f->sloc, args);
 }
 
-static void identifier_dump(const struct sh_form *_f, struct sh_stream *out) {
+static void dump_imp(const struct sh_form *_f, struct sh_stream *out) {
   struct sh_identifier *f = sh_baseof(_f, struct sh_identifier, form);
   sh_puts(out, f->name);
 }
 
-static void identifier_free(struct sh_form *_f, struct sh_vm *vm) {
+static void free_imp(struct sh_form *_f, struct sh_vm *vm) {
   struct sh_identifier *f = sh_baseof(_f, struct sh_identifier, form);
   sh_release(vm->malloc, f->name);
   sh_release(vm->malloc, f);
 }
 
+static struct sh_cell *value_imp(struct sh_form *_f, struct sh_vm *vm) {
+  struct sh_identifier *f = sh_baseof(_f, struct sh_identifier, form);  
+  return sh_find(vm->library, f->name);
+}
+
 const struct sh_form_type SH_IDENTIFIER = {
-  .dump = identifier_dump,
-  .emit = identifier_emit,
-  .free = identifier_free
+  .dump = dump_imp,
+  .emit = emit_imp,
+  .free = free_imp,
+  .value = value_imp
 };
 
 void sh_identifier_init(struct sh_identifier *f,

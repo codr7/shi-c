@@ -1,5 +1,3 @@
-* add form value method
-
 * add macros
 
 * add /operations

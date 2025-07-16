@@ -12,6 +12,7 @@ struct sh_form_type {
   void (*dump)(const struct sh_form *, struct sh_stream *);
   void (*emit)(struct sh_form *, struct sh_vm *, struct sh_list *);
   void (*free)(struct sh_form *, struct sh_vm *);
+  struct sh_cell *(*value)(struct sh_form *, struct sh_vm *);
 };
   
 struct sh_form {
