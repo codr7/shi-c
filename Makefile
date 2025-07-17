@@ -4,7 +4,7 @@ export CFLAGS=-g -O0 -flto -Wall -Wno-override-init-side-effects -fsanitize=boun
 
 export LDFLAGS=
 
-CHAPTERS=build/cell.o build/error.o build/form.o build/forms/identifier.o build/forms/literal.o build/library.o build/libraries/core.o build/libraries/core/any.o build/libraries/core/bool.o build/libraries/core/int.o build/libraries/core/meta.o build/libraries/core/method.o build/list.o build/malloc.o build/method.o build/operations/call_method.o build/operations/push_value.o build/read.o build/set.o build/shell.o build/sloc.o build/stack.o build/stream.o build/type.o build/utility.o build/vector.o build/vm.o
+CHAPTERS=build/cell.o build/error.o build/form.o build/forms/identifier.o build/forms/literal.o build/library.o build/libraries/core.o build/libraries/core/any.o build/libraries/core/bool.o build/libraries/core/int.o build/libraries/core/macro.o build/libraries/core/meta.o build/libraries/core/method.o build/list.o build/macro.o build/malloc.o build/method.o build/operations/call_method.o build/operations/push_value.o build/read.o build/set.o build/shell.o build/sloc.o build/stack.o build/stream.o build/type.o build/utility.o build/vector.o build/vm.o
 
 all: clean build/all
 
@@ -42,6 +42,9 @@ build/libraries/core/bool.o: src/shi/libraries/core/bool.c
 build/libraries/core/int.o: src/shi/libraries/core/int.c
 	$(CC) -c $(CFLAGS) src/shi/libraries/core/int.c -o build/libraries/core/int.o
 
+build/libraries/core/macro.o: src/shi/libraries/core/macro.c
+	$(CC) -c $(CFLAGS) src/shi/libraries/core/macro.c -o build/libraries/core/macro.o
+
 build/libraries/core/meta.o: src/shi/libraries/core/meta.c
 	$(CC) -c $(CFLAGS) src/shi/libraries/core/meta.c -o build/libraries/core/meta.o
 
@@ -50,6 +53,9 @@ build/libraries/core/method.o: src/shi/libraries/core/method.c
 
 build/list.o: src/shi/list.h src/shi/list.c
 	$(CC) -c $(CFLAGS) src/shi/list.c -o build/list.o
+
+build/macro.o: src/shi/macro.h src/shi/macro.c
+	$(CC) -c $(CFLAGS) src/shi/macro.c -o build/macro.o
 
 build/malloc.o: src/shi/malloc.h src/shi/malloc.c
 	$(CC) -c $(CFLAGS) src/shi/malloc.c -o build/malloc.o

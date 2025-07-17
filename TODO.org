@@ -1,5 +1,4 @@
 * add check macro
-** add macros (method)
 ** add check op
 
 valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all build/shi

@@ -59,6 +59,17 @@ struct sh_cell *sh_bind(struct sh_library *lib,
   return &it->value;
 }
 
+struct sh_c_macro *sh_bind_macro(struct sh_library *lib,
+				   const char *name,
+				   int arity,
+				   sh_macro_argument_t arguments[],
+				   sh_macro_body_t body) {
+  struct sh_c_macro *m = sh_acquire(lib->vm->malloc, sizeof(struct sh_c_macro));
+  sh_c_macro_init(m, lib, name, arity, arguments, body);
+  sh_bind(lib, name, SH_MACRO())->as_other = m;
+  return m;
+}
+
 struct sh_c_method *sh_bind_method(struct sh_library *lib,
 				   const char *name,
 				   int arity,

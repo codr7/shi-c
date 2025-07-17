@@ -52,6 +52,10 @@ void sh_form_release(struct sh_form *f, struct sh_vm *vm) {
   }
 }
 
+struct sh_cell *sh_form_value(struct sh_form *f, struct sh_vm *vm) {
+  return f->type->value(f, vm);
+}
+
 void sh_forms_dump(struct sh_list *in, struct sh_stream *out) {
   sh_list_do(in, f) {
     if (f != in->next) {
