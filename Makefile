@@ -4,7 +4,7 @@ export CFLAGS=-g -O0 -flto -Wall -Wno-override-init-side-effects -fsanitize=boun
 
 export LDFLAGS=
 
-CHAPTERS=build/cell.o build/error.o build/evaluate.o build/form.o build/forms/identifier.o build/forms/literal.o build/library.o build/libraries/core.o build/libraries/core/any.o build/libraries/core/bool.o build/libraries/core/int.o build/libraries/core/meta.o build/libraries/core/method.o build/list.o build/malloc.o build/method.o build/read.o build/set.o build/shell.o build/sloc.o build/stack.o build/stream.o build/type.o build/utility.o build/vector.o build/vm.o
+CHAPTERS=build/cell.o build/error.o build/form.o build/forms/identifier.o build/forms/literal.o build/library.o build/libraries/core.o build/libraries/core/any.o build/libraries/core/bool.o build/libraries/core/int.o build/libraries/core/meta.o build/libraries/core/method.o build/list.o build/malloc.o build/method.o build/operations/call_method.o build/operations/push_value.o build/read.o build/set.o build/shell.o build/sloc.o build/stack.o build/stream.o build/type.o build/utility.o build/vector.o build/vm.o
 
 all: clean build/all
 
@@ -17,9 +17,6 @@ build/cell.o: src/shi/cell.h src/shi/cell.c
 
 build/error.o: src/shi/error.h src/shi/error.c
 	$(CC) -c $(CFLAGS) src/shi/error.c -o build/error.o
-
-build/evaluate.o: src/shi/evaluate.h src/shi/evaluate.c
-	$(CC) -c $(CFLAGS) src/shi/evaluate.c -o build/evaluate.o
 
 build/form.o: src/shi/form.h src/shi/form.c
 	$(CC) -c $(CFLAGS) src/shi/form.c -o build/form.o
@@ -60,6 +57,12 @@ build/malloc.o: src/shi/malloc.h src/shi/malloc.c
 build/method.o: src/shi/method.h src/shi/method.c
 	$(CC) -c $(CFLAGS) src/shi/method.c -o build/method.o
 
+build/operations/call_method.o: src/shi/operations/call_method.h src/shi/operations/call_method.c
+	$(CC) -c $(CFLAGS) src/shi/operations/call_method.c -o build/operations/call_method.o
+
+build/operations/push_value.o: src/shi/operations/push_value.h src/shi/operations/push_value.c
+	$(CC) -c $(CFLAGS) src/shi/operations/push_value.c -o build/operations/push_value.o
+
 build/read.o: src/shi/read.h src/shi/read.c
 	$(CC) -c $(CFLAGS) src/shi/read.c -o build/read.o
 
@@ -95,3 +98,4 @@ clean:
 	mkdir build/forms
 	mkdir build/libraries
 	mkdir build/libraries/core
+	mkdir build/operations

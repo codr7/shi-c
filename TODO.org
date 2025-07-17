@@ -1,8 +1,6 @@
-* add macros
-
-* add /operations
-** separate files for call/push
-** remove evaluate.h/c
+* add check macro
+** add macros (method)
+** add check op
 
 valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all build/shi
 

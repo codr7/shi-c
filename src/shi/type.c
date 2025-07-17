@@ -3,7 +3,6 @@
 
 #include "shi/cell.h"
 #include "shi/error.h"
-#include "shi/evaluate.h"
 #include "shi/malloc.h"
 #include "shi/method.h"
 #include "shi/sloc.h"

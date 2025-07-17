@@ -3,7 +3,7 @@
 #include <string.h>
 
 #include "shi/cell.h"
-#include "shi/evaluate.h"
+#include "shi/operations/push_value.h"
 #include "shi/sloc.h"
 #include "shi/stream.h"
 #include "shi/type.h"

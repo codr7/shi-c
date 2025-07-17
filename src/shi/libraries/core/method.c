@@ -1,11 +1,11 @@
 #include <stdlib.h>
 
 #include "shi/cell.h"
-#include "shi/evaluate.h"
 #include "shi/form.h"
 #include "shi/libraries/core.h"
 #include "shi/list.h"
 #include "shi/method.h"
+#include "shi/operations/call_method.h"
 #include "shi/sloc.h"
 #include "shi/stream.h"
 #include "shi/type.h"

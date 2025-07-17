@@ -1,5 +1,4 @@
 #include "shi/error.h"
-#include "shi/evaluate.h"
 #include "shi/forms/identifier.h"
 #include "shi/library.h"
 #include "shi/malloc.h"
