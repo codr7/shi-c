@@ -5,7 +5,7 @@
 #include "shi/form.h"
 #include "shi/library.h"
 #include "shi/libraries/core.h"
-#include "shi/operations/check.h"
+#include "shi/operations/check_value.h"
 #include "shi/stack.h"
 #include "shi/stream.h"
 #include "shi/vm.h"
@@ -38,10 +38,10 @@ static void check_imp(struct sh_vm *vm,
 
   sh_form_emit(actual, vm, arguments);
   
-  struct sh_check op;
+  struct sh_check_value op;
   op.sloc = *sloc;
   sh_cell_copy(&op.expected, ev, vm);
-  sh_emit(vm, &SH_CHECK, &op); 
+  sh_emit(vm, &SH_CHECK_VALUE, &op); 
 }
 
 static void eq_imp(struct sh_vm *vm,

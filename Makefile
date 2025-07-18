@@ -4,7 +4,7 @@ export CFLAGS=-g -O0 -flto -Wall -Wno-override-init-side-effects -fsanitize=boun
 
 export LDFLAGS=
 
-CHAPTERS=build/cell.o build/error.o build/form.o build/forms/identifier.o build/forms/literal.o build/library.o build/libraries/core.o build/libraries/core/any.o build/libraries/core/bool.o build/libraries/core/int.o build/libraries/core/macro.o build/libraries/core/meta.o build/libraries/core/method.o build/list.o build/macro.o build/malloc.o build/method.o build/operations/call_method.o build/operations/check.o build/operations/push_value.o build/read.o build/set.o build/shell.o build/sloc.o build/stack.o build/stream.o build/type.o build/utility.o build/vector.o build/vm.o
+CHAPTERS=build/cell.o build/error.o build/form.o build/forms/identifier.o build/forms/literal.o build/library.o build/libraries/core.o build/libraries/core/any.o build/libraries/core/bool.o build/libraries/core/int.o build/libraries/core/macro.o build/libraries/core/meta.o build/libraries/core/method.o build/list.o build/macro.o build/malloc.o build/method.o build/operations/call_method.o build/operations/check_value.o build/operations/push_value.o build/read.o build/set.o build/shell.o build/sloc.o build/stack.o build/stream.o build/type.o build/utility.o build/vector.o build/vm.o
 
 all: clean build/all
 
@@ -66,8 +66,8 @@ build/method.o: src/shi/method.h src/shi/method.c
 build/operations/call_method.o: src/shi/operations/call_method.h src/shi/operations/call_method.c
 	$(CC) -c $(CFLAGS) src/shi/operations/call_method.c -o build/operations/call_method.o
 
-build/operations/check.o: src/shi/operations/check.h src/shi/operations/check.c
-	$(CC) -c $(CFLAGS) src/shi/operations/check.c -o build/operations/check.o
+build/operations/check_value.o: src/shi/operations/check_value.h src/shi/operations/check_value.c
+	$(CC) -c $(CFLAGS) src/shi/operations/check_value.c -o build/operations/check_value.o
 
 build/operations/push_value.o: src/shi/operations/push_value.h src/shi/operations/push_value.c
 	$(CC) -c $(CFLAGS) src/shi/operations/push_value.c -o build/operations/push_value.o
