@@ -4,6 +4,9 @@
 #include "shi/list.h"
 #include "shi/utility.h"
 
+#define sh_macro_arguments(...)			\
+  (sh_macro_argument_t[]) { __VA_ARGS__ }
+
 struct sh_sloc;
 struct sh_stack;
 struct sh_vm;
@@ -18,7 +21,7 @@ struct sh_macro {
   int reference_count;
   
   void (*emit)(struct sh_macro *,
-	       const struct sh_sloc *,
+	       struct sh_sloc *,
 	       struct sh_list *);
 };
 
@@ -31,7 +34,7 @@ struct sh_macro *sh_macro_init(struct sh_macro *m,
 struct sh_macro *sh_macro_acquire(struct sh_macro *m);
 
 void sh_macro_emit(struct sh_macro *m,
-		   const struct sh_sloc *sloc,
+		   struct sh_sloc *sloc,
 		   struct sh_list *arguments);
 
 void sh_macro_release(struct sh_macro *m);
@@ -39,7 +42,7 @@ void sh_macro_release(struct sh_macro *m);
 struct sh_c_macro;
 
 typedef void (*sh_macro_body_t)(struct sh_vm *,
-				const struct sh_sloc *,
+				struct sh_sloc *,
 				struct sh_list *);
 
 struct sh_c_macro {

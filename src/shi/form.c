@@ -10,7 +10,7 @@
 
 void sh_form_init(struct sh_form *f,
 		  const struct sh_form_type *t,
-		  const struct sh_sloc sloc,
+		  struct sh_sloc sloc,
 		  struct sh_list *owner) {
   f->type = t;
   f->sloc = sloc;

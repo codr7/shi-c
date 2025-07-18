@@ -38,7 +38,7 @@ struct sh_method *sh_method_acquire(struct sh_method *m) {
 void sh_method_call(struct sh_method *m,
 		    size_t *pc,
 		    struct sh_stack *stack,
-		    const struct sh_sloc *sloc) {
+		    struct sh_sloc *sloc) {
   assert(m->call);
   m->call(m, pc, stack, sloc);
 }
@@ -57,7 +57,7 @@ void sh_method_release(struct sh_method *m) {
 static void c_call(struct sh_method *m,
 		   size_t *pc,
 		   struct sh_stack *stack,
-		   const struct sh_sloc *sloc) {
+		   struct sh_sloc *sloc) {
   struct sh_c_method *cm = sh_baseof(m, struct sh_c_method, method);
   cm->body(m->library->vm, stack, sloc);
 }

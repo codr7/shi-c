@@ -29,7 +29,7 @@ struct sh_macro *sh_macro_acquire(struct sh_macro *m) {
 }
 
 void sh_macro_emit(struct sh_macro *m,
-		   const struct sh_sloc *sloc,
+		   struct sh_sloc *sloc,
 		   struct sh_list *arguments) {
   assert(m->emit);
   m->emit(m, sloc, arguments);
@@ -47,7 +47,7 @@ void sh_macro_release(struct sh_macro *m) {
 }
 
 static void c_emit(struct sh_macro *m,
-		   const struct sh_sloc *sloc,
+		   struct sh_sloc *sloc,
 		   struct sh_list *arguments) {
   struct sh_c_macro *cm = sh_baseof(m, struct sh_c_macro, macro);
   cm->body(m->library->vm, sloc, arguments);

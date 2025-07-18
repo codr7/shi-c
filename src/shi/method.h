@@ -24,7 +24,7 @@ struct sh_method {
   void (*call)(struct sh_method *,
 	       size_t *pc,
 	       struct sh_stack *,
-	       const struct sh_sloc *);
+	       struct sh_sloc *);
 };
 
 struct sh_method *sh_method_init(struct sh_method *m,
@@ -38,7 +38,7 @@ struct sh_method *sh_method_acquire(struct sh_method *m);
 void sh_method_call(struct sh_method *m,
 		    size_t *pc,
 		    struct sh_stack *stack,
-		    const struct sh_sloc *sloc);
+		    struct sh_sloc *sloc);
 
 void sh_method_release(struct sh_method *m);
 
@@ -46,7 +46,7 @@ struct sh_c_method;
 
 typedef void (*sh_method_body_t)(struct sh_vm *,
 				 struct sh_stack *,
-				 const struct sh_sloc *);
+				 struct sh_sloc *);
 
 struct sh_c_method {
   struct sh_method method;

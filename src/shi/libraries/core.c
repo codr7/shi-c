@@ -1,23 +1,52 @@
 #include <stdio.h>
 
 #include "shi/cell.h"
+#include "shi/error.h"
+#include "shi/form.h"
 #include "shi/library.h"
 #include "shi/libraries/core.h"
+#include "shi/operations/check.h"
 #include "shi/stack.h"
 #include "shi/stream.h"
+#include "shi/vm.h"
 
 static void add_imp(struct sh_vm *vm,
 		    struct sh_stack *stack,
-		    const struct sh_sloc *sloc) {
+		    struct sh_sloc *sloc) {
   struct sh_cell *y = sh_pop(stack);
   struct sh_cell *x = sh_peek(stack);
   x->as_int += y->as_int;
   sh_cell_deinit(y);
 }
 
+static void check_imp(struct sh_vm *vm,
+		      struct sh_sloc *sloc,
+		      struct sh_list *arguments) {
+  struct sh_form *expected = sh_baseof(sh_list_pop_front(arguments),
+				struct sh_form,
+				owner);
+
+  struct sh_cell *ev = sh_form_value(expected, vm);
+
+  if (!ev) {
+    sh_throw("Error in %s: Missing expected value", sh_sloc_string(sloc));
+  }
+  
+  struct sh_form *actual = sh_baseof(sh_list_pop_front(arguments),
+			      struct sh_form,
+			      owner);
+
+  sh_form_emit(actual, vm, arguments);
+  
+  struct sh_check op;
+  op.sloc = *sloc;
+  sh_cell_copy(&op.expected, ev, vm);
+  sh_emit(vm, &SH_CHECK, &op); 
+}
+
 static void eq_imp(struct sh_vm *vm,
 		   struct sh_stack *stack,
-		   const struct sh_sloc *sloc) {
+		   struct sh_sloc *sloc) {
   struct sh_cell *y = sh_pop(stack);
   struct sh_cell *x = sh_peek(stack);
   const bool result = sh_eq(x, y);
@@ -28,7 +57,7 @@ static void eq_imp(struct sh_vm *vm,
 
 static void gt_imp(struct sh_vm *vm,
 		   struct sh_stack *stack,
-		   const struct sh_sloc *sloc) {
+		   struct sh_sloc *sloc) {
   struct sh_cell *y = sh_pop(stack);
   struct sh_cell *x = sh_peek(stack);
   x->type = SH_BOOL();
@@ -38,7 +67,7 @@ static void gt_imp(struct sh_vm *vm,
 
 static void lt_imp(struct sh_vm *vm,
 		   struct sh_stack *stack,
-		   const struct sh_sloc *sloc) {
+		   struct sh_sloc *sloc) {
   struct sh_cell *y = sh_pop(stack);
   struct sh_cell *x = sh_peek(stack);
   x->type = SH_BOOL();
@@ -48,7 +77,7 @@ static void lt_imp(struct sh_vm *vm,
 
 static void mul_imp(struct sh_vm *vm,
 		    struct sh_stack *stack,
-		    const struct sh_sloc *sloc) {
+		    struct sh_sloc *sloc) {
   struct sh_cell *y = sh_pop(stack);
   struct sh_cell *x = sh_peek(stack);
   x->as_int *= y->as_int;
@@ -57,7 +86,7 @@ static void mul_imp(struct sh_vm *vm,
 
 static void say_imp(struct sh_vm *vm,
 		    struct sh_stack *stack,
-		    const struct sh_sloc *sloc) {
+		    struct sh_sloc *sloc) {
   struct sh_cell *v = sh_pop(stack);
   sh_cell_dump(v, sh_stdout());
   sh_cell_deinit(v);
@@ -65,7 +94,7 @@ static void say_imp(struct sh_vm *vm,
 
 static void sub_imp(struct sh_vm *vm,
 		    struct sh_stack *stack,
-		    const struct sh_sloc *sloc) {
+		    struct sh_sloc *sloc) {
   struct sh_cell *y = sh_pop(stack);
   struct sh_cell *x = sh_peek(stack);
   x->as_int -= y->as_int;
@@ -120,6 +149,10 @@ void sh_core_library_init(struct sh_library *lib, struct sh_vm *vm) {
 		   sh_argument("y", SH_INT())
 		 }, gt_imp);
 
+  sh_bind_macro(lib, "check", 2,
+		sh_macro_arguments("expected", "actual"),
+		check_imp);
+  
   sh_bind_method(lib, "say", 1,
 		 (struct sh_argument[]) {
 		   sh_argument("what", SH_ANY()),

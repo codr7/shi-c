@@ -40,7 +40,7 @@ const struct sh_form_type SH_LITERAL = {
 
 void sh_literal_init(struct sh_literal *f,
 		     struct sh_vm *vm,
-		     const struct sh_sloc sloc,
+		     struct sh_sloc sloc,
 		     struct sh_list *owner) {
   sh_form_init(&f->form, &SH_LITERAL, sloc, owner);
 }

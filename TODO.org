@@ -1,5 +1,9 @@
-* add check macro
-** add check op
+* add macro arity check
+
+* add if macro
+** add branch op
+
+* add sh_load(path)
 
 valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all build/shi
 
