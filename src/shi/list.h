@@ -19,6 +19,7 @@ struct sh_list {
 
 void sh_list_init(struct sh_list *l);
 bool sh_list_nil(const struct sh_list *l);
+size_t sh_list_length(struct sh_list *l);
 struct sh_list *sh_list_delete(struct sh_list *l);
 
 void sh_list_push_front(struct sh_list *l, struct sh_list *it);

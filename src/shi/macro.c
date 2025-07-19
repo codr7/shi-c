@@ -32,6 +32,11 @@ void sh_macro_emit(struct sh_macro *m,
 		   struct sh_sloc *sloc,
 		   struct sh_list *arguments) {
   assert(m->emit);
+
+  if (sh_list_length(arguments) < m->arity) {
+    sh_throw("Error in %s: Not enough arguments", sh_sloc_string(sloc));
+  }
+  
   m->emit(m, sloc, arguments);
 }
 

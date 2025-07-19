@@ -9,6 +9,12 @@ bool sh_list_nil(const struct sh_list *l) {
   return l->prev == l && l->next == l;
 }
 
+size_t sh_list_length(struct sh_list *l) {
+  size_t n = 0;
+  for (struct sh_list *i = l->next; i != l; i = i->next, n++);
+  return n;
+}
+
 struct sh_list *sh_list_delete(struct sh_list *l) {
   l->prev->next = l->next;
   l->next->prev = l->prev;
