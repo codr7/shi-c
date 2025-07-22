@@ -18,6 +18,8 @@ struct sh_label {
 };
 
 struct sh_vm {
+  struct sh_call *call_cache;
+  struct sh_call *call_stack;
   struct sh_vector code;
   struct sh_library core_library;
   struct sh_list labels;

@@ -4,13 +4,16 @@ export CFLAGS=-g -O0 -flto -Wall -Wno-override-init-side-effects -fsanitize=boun
 
 export LDFLAGS=
 
-CHAPTERS=build/cell.o build/error.o build/form.o build/forms/identifier.o build/forms/literal.o build/library.o build/libraries/core.o build/libraries/core/any.o build/libraries/core/bool.o build/libraries/core/int.o build/libraries/core/macro.o build/libraries/core/meta.o build/libraries/core/method.o build/list.o build/macro.o build/malloc.o build/method.o build/operations/branch.o build/operations/call_method.o build/operations/check_value.o build/operations/goto.o build/operations/push_value.o build/read.o build/set.o build/shell.o build/sloc.o build/stack.o build/stream.o build/type.o build/utility.o build/vector.o build/vm.o
+CHAPTERS=build/call.o build/cell.o build/error.o build/form.o build/forms/identifier.o build/forms/literal.o build/library.o build/libraries/core.o build/libraries/core/any.o build/libraries/core/bool.o build/libraries/core/int.o build/libraries/core/macro.o build/libraries/core/meta.o build/libraries/core/method.o build/list.o build/macro.o build/malloc.o build/method.o build/operations/branch.o build/operations/call_method.o build/operations/check_value.o build/operations/goto.o build/operations/push_value.o build/read.o build/set.o build/shell.o build/sloc.o build/stack.o build/stream.o build/type.o build/utility.o build/vector.o build/vm.o
 
 all: clean build/all
 
 build/all: src/main.c $(CHAPTERS)
 	$(CC) $(CFLAGS) src/main.c $(CHAPTERS) -o build/shi
 	valgrind build/shi
+
+build/call.o: src/shi/call.h src/shi/call.c
+	$(CC) -c $(CFLAGS) src/shi/call.c -o build/call.o
 
 build/cell.o: src/shi/cell.h src/shi/cell.c
 	$(CC) -c $(CFLAGS) src/shi/cell.c -o build/cell.o

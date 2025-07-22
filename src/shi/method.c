@@ -1,6 +1,7 @@
 #include <assert.h>
 #include <string.h>
 
+#include "shi/call.h"
 #include "shi/error.h"
 #include "shi/library.h"
 #include "shi/malloc.h"
@@ -72,5 +73,29 @@ struct sh_c_method *sh_c_method_init(struct sh_c_method *m,
   sh_method_init(&m->method, library, name, arity, arguments);
   m->method.call = c_call;
   m->body = body;
+  return m;  
+}
+
+static void shi_call(struct sh_method *_m,
+		   size_t *pc,
+		   struct sh_stack *stack,
+		   struct sh_sloc *sloc) {
+  struct sh_shi_method *m = sh_baseof(_m, struct sh_shi_method, method);
+  sh_call(m, sloc, *pc);
+  *pc = m->start_pc;
+}
+
+struct sh_shi_method *sh_shi_method_init(struct sh_shi_method *m,
+					 struct sh_library *library,
+					 const char *name,
+					 int arity,
+					 struct sh_argument arguments[],
+					 size_t r_arguments,
+					 size_t start_pc) {
+  
+  sh_method_init(&m->method, library, name, arity, arguments);
+  m->method.call = shi_call;
+  m->r_arguments = r_arguments;
+  m->start_pc = start_pc;
   return m;  
 }
