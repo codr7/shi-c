@@ -23,6 +23,7 @@ struct sh_type {
   struct sh_set parents;
   int reference_count;
   
+  bool (*as_bool)(struct sh_cell *);
   void (*copy)(struct sh_cell *, struct sh_cell *, struct sh_vm *vm);
   void (*deinit)(struct sh_cell *);
   void (*dump)(const struct sh_cell *, struct sh_stream *);

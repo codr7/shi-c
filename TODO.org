@@ -1,5 +1,4 @@
-* add if macro
-** add branch op
+* add method macro
 
 * add sh_load(path)
 

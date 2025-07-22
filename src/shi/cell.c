@@ -22,6 +22,10 @@ void sh_cell_deinit(struct sh_cell *v) {
   sh_type_release(v->type);
 }
 
+bool sh_as_bool(struct sh_cell *v) {
+  return v->type->as_bool ? v->type->as_bool(v) : true;
+}
+
 struct sh_cell *sh_cell_copy(struct sh_cell *dst, struct sh_cell *src,
 			     struct sh_vm *vm) {
   struct sh_type *t = sh_type_acquire(src->type);

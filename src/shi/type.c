@@ -25,6 +25,7 @@ struct sh_type *__sh_type_init(struct sh_type *t,
 	      sizeof(struct sh_type *),
 	      compare_key);
 
+  t->as_bool = NULL;
   t->copy = NULL;
   t->deinit = NULL;
   t->emit = NULL;

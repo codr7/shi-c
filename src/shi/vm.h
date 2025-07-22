@@ -5,15 +5,22 @@
 
 #include "shi/cell.h"
 #include "shi/library.h"
+#include "shi/list.h"
 #include "shi/sloc.h"
 #include "shi/vector.h"
 
 struct sh_operation;
 struct sh_stack;
 
+struct sh_label {
+  struct sh_list owner;
+  size_t pc;
+};
+
 struct sh_vm {
   struct sh_vector code;
   struct sh_library core_library;
+  struct sh_list labels;
   struct sh_library *library;
   struct sh_malloc *malloc;
   struct sh_vector operations;
@@ -32,6 +39,8 @@ size_t sh_emit_pc(struct sh_vm *vm);
 void sh_evaluate(struct sh_vm *vm,
 		 struct sh_stack *stack,
 		 size_t start, size_t end);
+
+struct sh_label *sh_label(struct sh_vm *vm);
 
 uint8_t *sh_pc_pointer(struct sh_vm *vm, size_t pc);
 size_t sh_pointer_pc(struct sh_vm *vm, const uint8_t *p);

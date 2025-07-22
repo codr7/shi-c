@@ -2,6 +2,7 @@
 #include <string.h>
 
 #include "shi/libraries/core.h"
+#include "shi/malloc.h"
 #include "shi/operation.h"
 #include "shi/stack.h"
 #include "shi/stream.h"
@@ -15,6 +16,7 @@ void sh_vm_init(struct sh_vm *vm, struct sh_malloc *malloc) {
   sh_core_library_init(&vm->core_library, vm);
   vm->library = &vm->user_library;
   sh_import(vm->library, &vm->core_library);
+  sh_list_init(&vm->labels);
 }
 
 static size_t op_items(const struct sh_operation *op,
@@ -46,6 +48,10 @@ void sh_vm_deinit(struct sh_vm *vm) {
   deinit_code(vm);
   sh_library_deinit(&vm->core_library);
   sh_library_deinit(&vm->user_library);
+  
+  sh_list_do(&vm->labels, l) {
+    sh_release(vm->malloc, sh_baseof(l, struct sh_label, owner));
+  }
 }
 
 size_t sh_emit(struct sh_vm *vm,
@@ -79,6 +85,13 @@ void sh_evaluate(struct sh_vm *vm,
        p != end;
        p = (*(sh_evaluate_t *)p)(vm, stack, p + vm->code.item_size)) {
   }
+}
+
+struct sh_label *sh_label(struct sh_vm *vm) {
+  struct sh_label *l = sh_acquire(vm->malloc, sizeof(struct sh_label));
+  l->pc = -1;
+  sh_list_push_back(&vm->labels, &l->owner);
+  return l;
 }
 
 size_t sh_pointer_pc(struct sh_vm *vm, const uint8_t *p) {

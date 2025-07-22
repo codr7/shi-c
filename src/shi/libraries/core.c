@@ -1,11 +1,15 @@
 #include <stdio.h>
+#include <string.h>
 
 #include "shi/cell.h"
 #include "shi/error.h"
 #include "shi/form.h"
+#include "shi/forms/identifier.h"
 #include "shi/library.h"
 #include "shi/libraries/core.h"
+#include "shi/operations/branch.h"
 #include "shi/operations/check_value.h"
+#include "shi/operations/goto.h"
 #include "shi/stack.h"
 #include "shi/stream.h"
 #include "shi/vm.h"
@@ -63,6 +67,54 @@ static void gt_imp(struct sh_vm *vm,
   x->type = SH_BOOL();
   x->as_bool = x->as_int > y->as_int;
   sh_cell_deinit(y);
+}
+
+static void if_imp(struct sh_vm *vm,
+		   struct sh_sloc *sloc,
+		   struct sh_list *arguments) {
+  struct sh_form *c = sh_baseof(sh_list_pop_front(arguments),
+				struct sh_form,
+				owner);
+  sh_defer(sh_form_release(c, vm));
+  sh_form_emit(c, vm, arguments);
+  
+  struct sh_label *end = sh_label(vm);
+  sh_emit(vm, &SH_BRANCH, &(struct sh_branch){.end = end}); 
+
+  struct sh_form *l = sh_baseof(sh_list_pop_front(arguments),
+				struct sh_form,
+				owner);
+  sh_defer(sh_form_release(l, vm));
+  sh_form_emit(l, vm, arguments);
+
+  if (arguments->next != arguments) {
+    struct sh_form *next = sh_baseof(sh_list_peek_front(arguments),
+				     struct sh_form,
+				     owner);
+    
+    if (next->type == &SH_IDENTIFIER) {
+      struct sh_identifier *id = sh_baseof(next, struct sh_identifier, form);
+      
+      if (strcmp("else", id->name) == 0) {
+	sh_list_delete(&next->owner);
+	sh_defer(sh_form_release(next, vm));
+
+	struct sh_label *rend = sh_label(vm);
+	sh_emit(vm, &SH_GOTO, &(struct sh_goto){.target = rend}); 
+	end->pc = sh_emit_pc(vm);
+	
+	struct sh_form *r = sh_baseof(sh_list_pop_front(arguments),
+				      struct sh_form,
+				      owner);
+	sh_defer(sh_form_release(r, vm));
+	sh_form_emit(r, vm, arguments);
+	rend->pc = sh_emit_pc(vm);
+	return;
+      }
+    }
+  }
+
+  end->pc = sh_emit_pc(vm);
 }
 
 static void lt_imp(struct sh_vm *vm,
@@ -152,7 +204,11 @@ void sh_core_library_init(struct sh_library *lib, struct sh_vm *vm) {
   sh_bind_macro(lib, "check", 2,
 		sh_macro_arguments("expected", "actual"),
 		check_imp);
-  
+
+  sh_bind_macro(lib, "if", 2,
+		sh_macro_arguments("cond", "left"),
+		if_imp);
+
   sh_bind_method(lib, "say", 1,
 		 (struct sh_argument[]) {
 		   sh_argument("what", SH_ANY()),

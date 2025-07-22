@@ -43,12 +43,8 @@ void sh_form_release(struct sh_form *f, struct sh_vm *vm) {
     sh_throw("Form already released");
   }
   
-  if (!--f->reference_count) {
-    sh_list_delete(&f->owner);
-
-    if (f->type->free) {
-      f->type->free(f, vm);
-    }
+  if (!--f->reference_count && f->type->free) {
+    f->type->free(f, vm);
   }
 }
 
