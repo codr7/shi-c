@@ -64,8 +64,11 @@ size_t sh_emit(struct sh_vm *vm,
   uint8_t *const p = sh_vector_insert(&vm->code,
 				      vm->code.length,
 				      op_items(op, vm->code.end, vm));
+
+  if (op->size) {
+    memcpy(sh_align(p, op->align), data, op->size);
+  }
   
-  memcpy(sh_align(p, op->align), data, op->size);
   return pc;
 }
 

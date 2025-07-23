@@ -10,6 +10,7 @@
 #include "shi/operations/branch.h"
 #include "shi/operations/check_value.h"
 #include "shi/operations/goto.h"
+#include "shi/operations/return.h"
 #include "shi/stack.h"
 #include "shi/stream.h"
 #include "shi/vm.h"
@@ -29,7 +30,8 @@ static void check_imp(struct sh_vm *vm,
   struct sh_form *expected = sh_baseof(sh_list_pop_front(arguments),
 				struct sh_form,
 				owner);
-
+  
+  sh_defer(sh_form_release(expected, vm));
   struct sh_cell *ev = sh_form_value(expected, vm);
 
   if (!ev) {
@@ -39,7 +41,7 @@ static void check_imp(struct sh_vm *vm,
   struct sh_form *actual = sh_baseof(sh_list_pop_front(arguments),
 			      struct sh_form,
 			      owner);
-
+  sh_defer(sh_form_release(actual, vm));
   sh_form_emit(actual, vm, arguments);
   
   struct sh_check_value op;
@@ -127,6 +129,37 @@ static void lt_imp(struct sh_vm *vm,
   sh_cell_deinit(y);
 }
 
+static void method_imp(struct sh_vm *vm,
+		       struct sh_sloc *sloc,
+		       struct sh_list *arguments) {
+  struct sh_form *fname = sh_baseof(sh_list_pop_front(arguments),
+				    struct sh_form,
+				    owner);
+  sh_defer(sh_form_release(fname, vm));
+  
+  if (fname->type != &SH_IDENTIFIER) {
+    sh_throw("Error in %s: Expected method name", sh_sloc_string(sloc));
+  }
+
+  const char *name = sh_baseof(fname, struct sh_identifier, form)->name;
+
+  struct sh_form *fargs = sh_baseof(sh_list_pop_front(arguments),
+				    struct sh_form,
+				    owner);
+  sh_defer(sh_form_release(fargs, vm));
+  
+  struct sh_form *body = sh_baseof(sh_list_pop_front(arguments),
+				   struct sh_form,
+				   owner);
+  sh_defer(sh_form_release(body, vm));
+
+  struct sh_label *skip = sh_label(vm);
+  sh_emit(vm, &SH_GOTO, &(struct sh_goto){.target = skip}); 
+  sh_form_emit(body, vm, arguments);
+  sh_emit(vm, &SH_RETURN, NULL);
+  skip->pc = sh_emit_pc(vm);
+}
+
 static void mul_imp(struct sh_vm *vm,
 		    struct sh_stack *stack,
 		    struct sh_sloc *sloc) {
@@ -208,6 +241,10 @@ void sh_core_library_init(struct sh_library *lib, struct sh_vm *vm) {
   sh_bind_macro(lib, "if", 2,
 		sh_macro_arguments("cond", "left"),
 		if_imp);
+
+  sh_bind_macro(lib, "method", 3,
+		sh_macro_arguments("name", "args", "body"),
+		method_imp);
 
   sh_bind_method(lib, "say", 1,
 		 (struct sh_argument[]) {

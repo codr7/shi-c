@@ -22,6 +22,6 @@ void sh_call(struct sh_shi_method *target,
 	     struct sh_sloc *sloc,
 	     size_t return_pc);
 
-struct sh_call *sh_return(struct sh_vm *vm);
+size_t sh_return(struct sh_vm *vm);
 
 #endif
