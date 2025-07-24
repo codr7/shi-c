@@ -1,6 +1,7 @@
 #include <math.h>
 #include <string.h>
 
+#include "shi/call.h"
 #include "shi/libraries/core.h"
 #include "shi/malloc.h"
 #include "shi/operation.h"
@@ -17,6 +18,7 @@ void sh_vm_init(struct sh_vm *vm, struct sh_malloc *malloc) {
   vm->library = &vm->user_library;
   sh_import(vm->library, &vm->core_library);
   sh_list_init(&vm->labels);
+  sh_vector_init(&vm->registers, malloc, sizeof(struct sh_cell));
 }
 
 static size_t op_items(const struct sh_operation *op,
@@ -44,6 +46,22 @@ static void deinit_code(struct sh_vm *vm) {
   sh_vector_deinit(&vm->code);
 }
 
+static void deinit_calls(struct sh_vm *vm, struct sh_call *head) {
+  for (struct sh_call *c = head; c;) {
+    struct sh_call *pc = c->parent;
+    sh_release(vm->malloc, c);
+    c = pc;
+  }
+}
+
+static void deinit_registers(struct sh_vm *vm) {
+  sh_vector_do(&vm->registers, v) {
+    sh_cell_deinit(v);
+  }
+  
+  sh_vector_deinit(&vm->registers);
+}
+
 void sh_vm_deinit(struct sh_vm *vm) {  
   deinit_code(vm);
   sh_library_deinit(&vm->core_library);
@@ -52,6 +70,20 @@ void sh_vm_deinit(struct sh_vm *vm) {
   sh_list_do(&vm->labels, l) {
     sh_release(vm->malloc, sh_baseof(l, struct sh_label, owner));
   }
+
+  deinit_calls(vm, vm->call_stack);
+  deinit_calls(vm, vm->call_cache);
+  deinit_registers(vm);
+}
+
+size_t sh_allocate_registers(struct sh_vm *vm, const size_t n) {
+  const size_t result = vm->registers.length;
+  
+  for (size_t i = 0; i < n; i++) {
+    sh_cell_init(sh_vector_push(&vm->registers), SH_INT())->as_int = 0;
+  }
+
+  return result;
 }
 
 size_t sh_emit(struct sh_vm *vm,

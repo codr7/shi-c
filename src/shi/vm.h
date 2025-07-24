@@ -26,11 +26,14 @@ struct sh_vm {
   struct sh_library *library;
   struct sh_malloc *malloc;
   struct sh_vector operations;
+  struct sh_vector registers;
   struct sh_library user_library;
 };
 
 void sh_vm_init(struct sh_vm *vm, struct sh_malloc *malloc);
 void sh_vm_deinit(struct sh_vm *vm);
+
+size_t sh_allocate_registers(struct sh_vm *vm, size_t n);
 
 size_t sh_emit(struct sh_vm *vm,
 	       const struct sh_operation *op,

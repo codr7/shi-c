@@ -10,6 +10,7 @@ struct sh_call {
   size_t return_pc;
   struct sh_sloc *sloc;
   struct sh_shi_method *target;
+  struct sh_cell *arguments;
 };
 
 struct sh_call *sh_call_init(struct sh_call *c,

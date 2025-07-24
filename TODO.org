@@ -1,7 +1,5 @@
 * finish method macro
-** backup/restore r_arguments in sh_call/return
-** add sh_allocate_registers()
-** create method
+** create method in core
 
 * add sh_load(path)
 
