@@ -60,7 +60,7 @@ char *sh_gets(struct sh_stream *s, struct sh_malloc *malloc) {
 
  
   *(char *)sh_vector_push(&out) = 0;
-  return (char *)out.items;
+  return (char *)out.start;
 }
 
 size_t sh_putc(struct sh_stream *s, const char data) {

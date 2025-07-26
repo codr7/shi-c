@@ -17,26 +17,24 @@ struct sh_vector *sh_vector_init(struct sh_vector *v,
   v->item_size = item_size;
   v->capacity = 0;
   v->length = 0;
-  v->items = v->start = v->end = NULL;
+  v->start = v->end = NULL;
   return v;
 }
 
 void sh_vector_deinit(struct sh_vector *v) {
-  if (v->items) { sh_release(v->malloc, v->items); }
+  if (v->start) { sh_release(v->malloc, v->start); }
 }
 
 void sh_vector_grow(struct sh_vector *v, const size_t capacity) {
   v->capacity = capacity; 
   size_t size = v->item_size * (v->capacity+1);
-  uint8_t *new_items = sh_acquire(v->malloc, size);
-  uint8_t *new_start = sh_align(new_items, v->item_size);
+  uint8_t *new_start = sh_acquire(v->malloc, size);
 
-  if (v->items) {
+  if (v->start) {
     memmove(new_start, v->start, v->length * v->item_size);
-    sh_release(v->malloc, v->items); 
+    sh_release(v->malloc, v->start); 
   }
   
-  v->items = new_items;
   v->start = new_start;
   v->end = v->start + v->item_size*v->length;
 }
@@ -47,11 +45,11 @@ void sh_vector_clear(struct sh_vector *v) {
 }
 
 void *sh_vector_get(struct sh_vector *v, const size_t i) {
-  return v->items ? v->start + v->item_size*i : NULL;
+  return v->start ? v->start + v->item_size*i : NULL;
 }
 
 const void *sh_vector_get_const(const struct sh_vector *v, const size_t i) {
-  return v->items ? v->start + v->item_size*i : NULL;
+  return v->start ? v->start + v->item_size*i : NULL;
 }
 
 void *sh_vector_push(struct sh_vector *v) {

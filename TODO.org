@@ -1,3 +1,5 @@
+* copy gets to hacktical
+
 * finish method macro
 ** create method in core
 ** parse arguments
