@@ -1,5 +1,6 @@
 * finish method macro
 ** create method in core
+** parse arguments
 
 * add sh_load(path)
 

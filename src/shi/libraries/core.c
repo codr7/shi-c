@@ -7,6 +7,7 @@
 #include "shi/forms/identifier.h"
 #include "shi/library.h"
 #include "shi/libraries/core.h"
+#include "shi/malloc.h"
 #include "shi/operations/branch.h"
 #include "shi/operations/check_value.h"
 #include "shi/operations/goto.h"
@@ -155,7 +156,13 @@ static void method_imp(struct sh_vm *vm,
 
   struct sh_label *skip = sh_label(vm);
   sh_emit(vm, &SH_GOTO, &(struct sh_goto){.target = skip}); 
-  sh_form_emit(body, vm, arguments);
+  struct sh_shi_method *m = sh_acquire(vm->malloc, sizeof(struct sh_shi_method));
+
+  sh_library_do(vm) {
+    sh_bind(vm->library, name, SH_METHOD())->as_other = &m->method;
+    sh_form_emit(body, vm, arguments);
+  }
+  
   sh_emit(vm, &SH_RETURN, NULL);
   skip->pc = sh_emit_pc(vm);
 }

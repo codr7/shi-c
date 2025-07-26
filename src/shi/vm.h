@@ -9,6 +9,17 @@
 #include "shi/sloc.h"
 #include "shi/vector.h"
 
+#define _sh_library_do(vm, _vm, _prev, _lib)				\
+  struct sh_vm *_vm = vm;						\
+  struct sh_library _lib;						\
+  sh_library_init(&_lib, _vm, _vm->library->name, _vm->library);	\
+  for (struct sh_library *_prev = _vm->library;				\
+       _prev && (vm->library = &_lib);					\
+       _vm->library = _prev, _prev = NULL, sh_library_deinit(&_lib))
+
+#define sh_library_do(vm)						\
+  _sh_library_do(vm, sh_unique(v), sh_unique(p), sh_unique(l))
+
 struct sh_operation;
 struct sh_stack;
 
@@ -51,6 +62,5 @@ uint8_t *sh_pc_pointer(struct sh_vm *vm, size_t pc);
 size_t sh_pointer_pc(struct sh_vm *vm, const uint8_t *p);
 
 void sh_shell(struct sh_vm *vm, FILE *in, FILE *out);
-
 
 #endif

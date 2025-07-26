@@ -15,7 +15,6 @@ struct sh_call *sh_call_init(struct sh_call *c,
   c->target = target;
   c->sloc = sloc;
   c->return_pc = return_pc;
-  c->arguments = NULL;
   return c;
 }
 
@@ -33,12 +32,10 @@ void sh_call(struct sh_shi_method *target,
   }
 
   sh_call_init(c, vm->call_stack, target, sloc, return_pc);
-  size_t as = sizeof(struct sh_cell) * target->method.arity;
-  c->arguments = sh_acquire(vm->malloc, as);
 
   memcpy(c->arguments,
 	 vm->registers.start + target->r_arguments * sizeof(struct sh_cell),
-	 as);
+	 sizeof(struct sh_cell) * target->method.arity);
   
   vm->call_stack = c;
 }
