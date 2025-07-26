@@ -157,7 +157,17 @@ static void method_imp(struct sh_vm *vm,
   struct sh_label *skip = sh_label(vm);
   sh_emit(vm, &SH_GOTO, &(struct sh_goto){.target = skip}); 
   struct sh_shi_method *m = sh_acquire(vm->malloc, sizeof(struct sh_shi_method));
+  const int arity = 0;
+  const size_t r_arguments = arity ? sh_allocate_registers(vm, arity) : -1;
 
+  sh_shi_method_init(m,
+		     vm->library,
+		     name,
+		     arity,
+		     (struct sh_argument[]){},
+		     r_arguments,
+		     sh_emit_pc(vm)); 
+  
   sh_library_do(vm) {
     sh_bind(vm->library, name, SH_METHOD())->as_other = &m->method;
     sh_form_emit(body, vm, arguments);

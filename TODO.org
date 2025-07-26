@@ -1,7 +1,9 @@
-* copy gets to hacktical
+* make libraries reference counted
+** change sh_library_do to use vm->malloc & release
+** acquire in method_init
+*** release in deinit
 
 * finish method macro
-** create method in core
 ** parse arguments
 
 * add sh_load(path)

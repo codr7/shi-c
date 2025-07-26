@@ -67,7 +67,7 @@ struct sh_c_method *sh_c_method_init(struct sh_c_method *m,
 				     struct sh_library *library,
 				     const char *name,
 				     int arity,
-				     struct sh_argument arguments[],
+				     struct sh_argument *arguments,
 				     sh_method_body_t body) {
   
   sh_method_init(&m->method, library, name, arity, arguments);
@@ -89,10 +89,9 @@ struct sh_shi_method *sh_shi_method_init(struct sh_shi_method *m,
 					 struct sh_library *library,
 					 const char *name,
 					 int arity,
-					 struct sh_argument arguments[],
+					 struct sh_argument *arguments,
 					 size_t r_arguments,
 					 size_t start_pc) {
-  
   sh_method_init(&m->method, library, name, arity, arguments);
   m->method.call = shi_call;
   m->r_arguments = r_arguments;
