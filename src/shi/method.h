@@ -15,7 +15,7 @@ struct sh_argument {
 struct sh_argument sh_argument(const char *name, struct sh_type *type);
 
 struct sh_method {
-  struct sh_library *library;
+  struct sh_vm *vm;
   char name[64];
   struct sh_argument *arguments;
   int arity;
@@ -28,7 +28,7 @@ struct sh_method {
 };
 
 struct sh_method *sh_method_init(struct sh_method *m,
-				 struct sh_library *library,
+				 struct sh_vm *vm,
 				 const char *name,
 				 int arity,
 				 struct sh_argument arguments[]);
@@ -54,7 +54,7 @@ struct sh_c_method {
 };
 
 struct sh_c_method *sh_c_method_init(struct sh_c_method *m,
-				     struct sh_library *library,
+				     struct sh_vm *vm,
 				     const char *name,
 				     int arity,
 				     struct sh_argument *arguments,
@@ -67,7 +67,7 @@ struct sh_shi_method {
 };
 
 struct sh_shi_method *sh_shi_method_init(struct sh_shi_method *m,
-					 struct sh_library *library,
+					 struct sh_vm *vm,
 					 const char *name,
 					 int arity,
 					 struct sh_argument *arguments,

@@ -161,7 +161,7 @@ static void method_imp(struct sh_vm *vm,
   const size_t r_arguments = arity ? sh_allocate_registers(vm, arity) : -1;
 
   sh_shi_method_init(m,
-		     vm->library,
+		     vm,
 		     name,
 		     arity,
 		     (struct sh_argument[]){},

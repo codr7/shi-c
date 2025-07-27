@@ -21,8 +21,8 @@ struct sh_call *sh_call_init(struct sh_call *c,
 void sh_call(struct sh_shi_method *target,
 	     struct sh_sloc *sloc,
 	     size_t return_pc) {
-  struct sh_vm *vm = target->method.library->vm;
   struct sh_call *c = NULL;
+  struct sh_vm *vm = target->method.vm;
   
   if (vm->call_cache) {
     c = vm->call_cache;

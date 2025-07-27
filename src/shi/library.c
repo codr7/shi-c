@@ -76,7 +76,7 @@ struct sh_c_method *sh_bind_method(struct sh_library *lib,
 				   struct sh_argument arguments[],
 				   sh_method_body_t body) {
   struct sh_c_method *m = sh_acquire(lib->vm->malloc, sizeof(struct sh_c_method));
-  sh_c_method_init(m, lib, name, arity, arguments, body);
+  sh_c_method_init(m, lib->vm, name, arity, arguments, body);
   sh_bind(lib, name, SH_METHOD())->as_other = m;
   return m;
 }
