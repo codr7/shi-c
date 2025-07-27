@@ -12,6 +12,7 @@
 #include "shi/operations/check_value.h"
 #include "shi/operations/goto.h"
 #include "shi/operations/return.h"
+#include "shi/operations/set_registers.h"
 #include "shi/stack.h"
 #include "shi/stream.h"
 #include "shi/vm.h"
@@ -168,8 +169,19 @@ static void method_imp(struct sh_vm *vm,
 		     r_arguments,
 		     sh_emit_pc(vm)); 
   
+  sh_bind(vm->library, name, SH_METHOD())->as_other = &m->method;
+
   sh_library_do(vm) {
-    sh_bind(vm->library, name, SH_METHOD())->as_other = &m->method;
+    for (int i = 0; i < m->method.arity; i++) {
+      struct sh_argument *a = m->method.arguments + m->method.arity - i - i;
+      sh_bind(vm->library, a->name, SH_BINDING())->as_register = r_arguments + i;
+    }
+    
+    sh_emit(vm, &SH_SET_REGISTERS, &(struct sh_set_registers){
+	.r_target = r_arguments,
+	.count = m->method.arity
+      });
+    
     sh_form_emit(body, vm, arguments);
   }
   

@@ -4,7 +4,7 @@
 #include "shi/form.h"
 #include "shi/libraries/core.h"
 #include "shi/list.h"
-#include "shi/operations/get_register.h"
+#include "shi/operations/get_registers.h"
 #include "shi/sloc.h"
 #include "shi/stream.h"
 #include "shi/type.h"
@@ -22,8 +22,8 @@ static void emit(struct sh_cell *v,
 		 struct sh_vm *vm,
 		 struct sh_sloc sloc,
 		 struct sh_list *arguments) {
-  sh_emit(vm, &SH_GET_REGISTER,
-	  &(struct sh_get_register){
+  sh_emit(vm, &SH_GET_REGISTERS,
+	  &(struct sh_get_registers){
 	    .r_source = v->as_register,
 	    .count = 1
 	  });
