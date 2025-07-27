@@ -4,7 +4,7 @@ export CFLAGS=-g -O0 -flto -Wall -Wno-override-init-side-effects -fsanitize=boun
 
 export LDFLAGS=
 
-CHAPTERS=build/call.o build/cell.o build/error.o build/form.o build/forms/identifier.o build/forms/literal.o build/library.o build/libraries/core.o build/libraries/core/any.o build/libraries/core/bool.o build/libraries/core/int.o build/libraries/core/macro.o build/libraries/core/meta.o build/libraries/core/method.o build/list.o build/macro.o build/malloc.o build/method.o build/operations/branch.o build/operations/call_method.o build/operations/check_value.o build/operations/goto.o build/operations/push_value.o build/operations/return.o build/read.o build/set.o build/shell.o build/sloc.o build/stack.o build/stream.o build/type.o build/utility.o build/vector.o build/vm.o
+CHAPTERS=build/call.o build/cell.o build/error.o build/form.o build/forms/identifier.o build/forms/literal.o build/library.o build/libraries/core.o build/libraries/core/any.o build/libraries/core/binding.o build/libraries/core/bool.o build/libraries/core/int.o build/libraries/core/macro.o build/libraries/core/meta.o build/libraries/core/method.o build/list.o build/macro.o build/malloc.o build/method.o build/operations/branch.o build/operations/call_method.o build/operations/check_value.o build/operations/get_register.o build/operations/goto.o build/operations/push_value.o build/operations/return.o build/operations/set_register.o build/read.o build/set.o build/shell.o build/sloc.o build/stack.o build/stream.o build/type.o build/utility.o build/vector.o build/vm.o
 
 all: clean build/all
 
@@ -38,6 +38,9 @@ build/libraries/core.o: src/shi/libraries/core.h src/shi/libraries/core.c
 
 build/libraries/core/any.o: src/shi/libraries/core/any.c
 	$(CC) -c $(CFLAGS) src/shi/libraries/core/any.c -o build/libraries/core/any.o
+
+build/libraries/core/binding.o: src/shi/libraries/core/binding.c
+	$(CC) -c $(CFLAGS) src/shi/libraries/core/binding.c -o build/libraries/core/binding.o
 
 build/libraries/core/bool.o: src/shi/libraries/core/bool.c
 	$(CC) -c $(CFLAGS) src/shi/libraries/core/bool.c -o build/libraries/core/bool.o
@@ -75,6 +78,9 @@ build/operations/call_method.o: src/shi/operations/call_method.h src/shi/operati
 build/operations/check_value.o: src/shi/operations/check_value.h src/shi/operations/check_value.c
 	$(CC) -c $(CFLAGS) src/shi/operations/check_value.c -o build/operations/check_value.o
 
+build/operations/get_register.o: src/shi/operations/get_register.h src/shi/operations/get_register.c
+	$(CC) -c $(CFLAGS) src/shi/operations/get_register.c -o build/operations/get_register.o
+
 build/operations/goto.o: src/shi/operations/goto.h src/shi/operations/goto.c
 	$(CC) -c $(CFLAGS) src/shi/operations/goto.c -o build/operations/goto.o
 
@@ -83,6 +89,9 @@ build/operations/push_value.o: src/shi/operations/push_value.h src/shi/operation
 
 build/operations/return.o: src/shi/operations/return.h src/shi/operations/return.c
 	$(CC) -c $(CFLAGS) src/shi/operations/return.c -o build/operations/return.o
+
+build/operations/set_register.o: src/shi/operations/set_register.h src/shi/operations/set_register.c
+	$(CC) -c $(CFLAGS) src/shi/operations/set_register.c -o build/operations/set_register.o
 
 build/read.o: src/shi/read.h src/shi/read.c
 	$(CC) -c $(CFLAGS) src/shi/read.c -o build/read.o

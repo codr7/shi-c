@@ -136,3 +136,7 @@ size_t sh_pointer_pc(struct sh_vm *vm, const uint8_t *p) {
 uint8_t *sh_pc_pointer(struct sh_vm *vm, const size_t pc) {
   return sh_vector_get(&vm->code, pc); 
 }
+
+struct sh_cell *sh_register(struct sh_vm *vm, const size_t r_target) {
+  return sh_vector_get(&vm->registers, r_target);
+}

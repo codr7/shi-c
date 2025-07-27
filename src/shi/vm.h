@@ -60,7 +60,7 @@ struct sh_label *sh_label(struct sh_vm *vm);
 
 uint8_t *sh_pc_pointer(struct sh_vm *vm, size_t pc);
 size_t sh_pointer_pc(struct sh_vm *vm, const uint8_t *p);
-
+struct sh_cell *sh_register(struct sh_vm *vm, size_t r_target);
 void sh_shell(struct sh_vm *vm, FILE *in, FILE *out);
 
 #endif

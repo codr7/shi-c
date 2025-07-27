@@ -2,6 +2,7 @@
 #define SHI_CELL
 
 #include <stdbool.h>
+#include <stddef.h>
 #include <stdint.h>
 
 struct sh_list;
@@ -17,6 +18,7 @@ struct sh_cell {
     bool as_bool;
     int64_t as_int;
     void *as_other;
+    size_t as_register;
   };
 };
 
