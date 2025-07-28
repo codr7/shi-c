@@ -63,6 +63,19 @@ void sh_forms_dump(struct sh_list *in, struct sh_stream *out) {
 }
 
 void sh_forms_emit(struct sh_list *in, struct sh_vm *vm) {
+  struct sh_vector backup;
+  sh_vector_init(&backup, vm->malloc, sizeof(struct sh_list *));
+
+  void restore() {
+    sh_vector_do(&backup, i) {
+      sh_list_push_back(in, *(struct sh_list **)i);
+    }
+
+    sh_vector_deinit(&backup);
+  }
+
+  sh_defer(restore());
+
   while (in->next != in) {
     struct sh_form *f = sh_baseof(sh_list_pop_front(in), struct sh_form, owner);
     sh_form_emit(f, vm, in);

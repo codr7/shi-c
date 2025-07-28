@@ -2,6 +2,9 @@
 ** finish argument paring
 ** test
 
+* debug repl valgrind errors
+:q
+
 * add sh_load(path)
 
 valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all build/shi

@@ -10,22 +10,7 @@ static void emit_imp(struct sh_form *_f,
 		     struct sh_vm *vm,
 		     struct sh_list *args) {
   struct sh_scope *f = sh_baseof(_f, struct sh_scope, form);
-  struct sh_list as;
-  sh_list_init(&as);
-
-  struct sh_vector backup;
-  sh_vector_init(&backup, vm->malloc, sizeof(struct sh_list *));
-  sh_defer(sh_vector_deinit(&backup));
-  
-  sh_list_do(&f->items, i) {
-    *(struct sh_list **)sh_vector_push(&backup) = i;
-  }
-
   sh_forms_emit(&f->items, vm);
-
-  sh_vector_do(&backup, i) {
-    sh_list_push_back(&f->items, *(struct sh_list **)i);
-  }
 }
 
 static void dump_imp(const struct sh_form *_f, struct sh_stream *out) {
