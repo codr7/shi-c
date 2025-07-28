@@ -1,5 +1,6 @@
 * finish method macro
-** parse arguments
+** finish argument paring
+** test
 
 * add sh_load(path)
 

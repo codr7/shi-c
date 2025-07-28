@@ -4,7 +4,7 @@ export CFLAGS=-g -O0 -flto -Wall -Wno-override-init-side-effects -fsanitize=boun
 
 export LDFLAGS=
 
-CHAPTERS=build/call.o build/cell.o build/error.o build/form.o build/forms/identifier.o build/forms/literal.o build/library.o build/libraries/core.o build/libraries/core/any.o build/libraries/core/binding.o build/libraries/core/bool.o build/libraries/core/int.o build/libraries/core/macro.o build/libraries/core/meta.o build/libraries/core/method.o build/list.o build/macro.o build/malloc.o build/method.o build/operations/branch.o build/operations/call_method.o build/operations/check_value.o build/operations/get_registers.o build/operations/goto.o build/operations/push_value.o build/operations/return.o build/operations/set_registers.o build/read.o build/set.o build/shell.o build/sloc.o build/stack.o build/stream.o build/type.o build/utility.o build/vector.o build/vm.o
+CHAPTERS=build/call.o build/cell.o build/error.o build/form.o build/forms/identifier.o build/forms/literal.o build/forms/scope.o build/library.o build/libraries/core.o build/libraries/core/any.o build/libraries/core/binding.o build/libraries/core/bool.o build/libraries/core/int.o build/libraries/core/macro.o build/libraries/core/meta.o build/libraries/core/method.o build/list.o build/macro.o build/malloc.o build/method.o build/operations/branch.o build/operations/call_method.o build/operations/check_value.o build/operations/get_registers.o build/operations/goto.o build/operations/push_value.o build/operations/return.o build/operations/set_registers.o build/read.o build/set.o build/shell.o build/sloc.o build/stack.o build/stream.o build/type.o build/utility.o build/vector.o build/vm.o
 
 all: clean build/all
 
@@ -29,6 +29,9 @@ build/forms/identifier.o: src/shi/forms/identifier.h src/shi/forms/identifier.c
 
 build/forms/literal.o: src/shi/forms/literal.h src/shi/forms/literal.c
 	$(CC) -c $(CFLAGS) src/shi/forms/literal.c -o build/forms/literal.o
+
+build/forms/scope.o: src/shi/forms/scope.h src/shi/forms/scope.c
+	$(CC) -c $(CFLAGS) src/shi/forms/scope.c -o build/forms/scope.o
 
 build/library.o: src/shi/library.h src/shi/library.c
 	$(CC) -c $(CFLAGS) src/shi/library.c -o build/library.o

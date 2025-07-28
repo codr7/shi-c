@@ -5,6 +5,7 @@
 #include "shi/error.h"
 #include "shi/form.h"
 #include "shi/forms/identifier.h"
+#include "shi/forms/scope.h"
 #include "shi/library.h"
 #include "shi/libraries/core.h"
 #include "shi/malloc.h"
@@ -134,21 +135,25 @@ static void lt_imp(struct sh_vm *vm,
 static void method_imp(struct sh_vm *vm,
 		       struct sh_sloc *sloc,
 		       struct sh_list *arguments) {
-  struct sh_form *fname = sh_baseof(sh_list_pop_front(arguments),
+  struct sh_form *f_name = sh_baseof(sh_list_pop_front(arguments),
 				    struct sh_form,
 				    owner);
-  sh_defer(sh_form_release(fname, vm));
+  sh_defer(sh_form_release(f_name, vm));
   
-  if (fname->type != &SH_IDENTIFIER) {
+  if (f_name->type != &SH_IDENTIFIER) {
     sh_throw("Error in %s: Expected method name", sh_sloc_string(sloc));
   }
 
-  const char *name = sh_baseof(fname, struct sh_identifier, form)->name;
+  const char *name = sh_baseof(f_name, struct sh_identifier, form)->name;
 
-  struct sh_form *fargs = sh_baseof(sh_list_pop_front(arguments),
+  struct sh_form *f_as = sh_baseof(sh_list_pop_front(arguments),
 				    struct sh_form,
 				    owner);
-  sh_defer(sh_form_release(fargs, vm));
+  sh_defer(sh_form_release(f_as, vm));
+
+  if (f_as->type != &SH_SCOPE) {
+    sh_throw("Error in %s: Expected argument list", sh_sloc_string(sloc));    
+  }
   
   struct sh_form *body = sh_baseof(sh_list_pop_front(arguments),
 				   struct sh_form,
@@ -158,15 +163,19 @@ static void method_imp(struct sh_vm *vm,
   struct sh_label *skip = sh_label(vm);
   sh_emit(vm, &SH_GOTO, &(struct sh_goto){.target = skip}); 
   struct sh_shi_method *m = sh_acquire(vm->malloc, sizeof(struct sh_shi_method));
-  const int arity = 0;
-  const size_t r_arguments = arity ? sh_allocate_registers(vm, arity) : -1;
 
+  struct sh_vector as;
+  sh_vector_init(&as, vm->malloc, sizeof(struct sh_argument));
+  sh_defer(sh_vector_deinit(&as));
+  
+  const size_t r_as = as.length ? sh_allocate_registers(vm, as.length) : -1;
+  
   sh_shi_method_init(m,
 		     vm,
 		     name,
-		     arity,
-		     (struct sh_argument[]){},
-		     r_arguments,
+		     as.length,
+		     (void *)as.start,
+		     r_as,
 		     sh_emit_pc(vm)); 
   
   sh_bind(vm->library, name, SH_METHOD())->as_other = &m->method;
@@ -174,11 +183,11 @@ static void method_imp(struct sh_vm *vm,
   sh_library_do(vm) {
     for (int i = 0; i < m->method.arity; i++) {
       struct sh_argument *a = m->method.arguments + m->method.arity - i - i;
-      sh_bind(vm->library, a->name, SH_BINDING())->as_register = r_arguments + i;
+      sh_bind(vm->library, a->name, SH_BINDING())->as_register = r_as + i;
     }
     
     sh_emit(vm, &SH_SET_REGISTERS, &(struct sh_set_registers){
-	.r_target = r_arguments,
+	.r_target = r_as,
 	.count = m->method.arity
       });
     
