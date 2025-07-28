@@ -1,7 +1,3 @@
-* finish method macro
-** finish argument paring
-** test
-
 * debug repl valgrind errors
 :q
 

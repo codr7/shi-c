@@ -146,12 +146,12 @@ static void method_imp(struct sh_vm *vm,
 
   const char *name = sh_baseof(f_name, struct sh_identifier, form)->name;
 
-  struct sh_form *f_as = sh_baseof(sh_list_pop_front(arguments),
+  struct sh_form *asf = sh_baseof(sh_list_pop_front(arguments),
 				    struct sh_form,
 				    owner);
-  sh_defer(sh_form_release(f_as, vm));
+  sh_defer(sh_form_release(asf, vm));
 
-  if (f_as->type != &SH_SCOPE) {
+  if (asf->type != &SH_SCOPE) {
     sh_throw("Error in %s: Expected argument list", sh_sloc_string(sloc));    
   }
   
@@ -167,6 +167,29 @@ static void method_imp(struct sh_vm *vm,
   struct sh_vector as;
   sh_vector_init(&as, vm->malloc, sizeof(struct sh_argument));
   sh_defer(sh_vector_deinit(&as));
+  struct sh_list *afs = &sh_baseof(asf, struct sh_scope, form)->items;
+
+  for (struct sh_list *af = afs->next; af != afs; af = af->next) {
+    struct sh_form *nf = sh_baseof(af, struct sh_form, owner);
+    struct sh_type *t = SH_ANY();
+    
+    if (nf->type != &SH_IDENTIFIER) {
+      sh_throw("Error in %s: Expected argument", sh_sloc_string(&nf->sloc));    
+    }
+
+    if (af->next != afs) {
+      struct sh_form *tf = sh_baseof(af, struct sh_form, owner);
+      struct sh_cell *tv = sh_form_value(tf, vm);
+
+      if (tv != NULL && tv->type == SH_META()) {
+	t = tv->as_other;
+	af = af->next;
+      }
+    }
+
+    const char *name = sh_baseof(nf, struct sh_identifier, form)->name;
+    *(struct sh_argument *)sh_vector_push(&as) = sh_argument(name, t);
+  }
   
   const size_t r_as = as.length ? sh_allocate_registers(vm, as.length) : -1;
   
