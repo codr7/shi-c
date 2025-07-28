@@ -19,6 +19,8 @@ void sh_vm_init(struct sh_vm *vm, struct sh_malloc *malloc) {
   sh_import(vm->library, &vm->core_library);
   sh_list_init(&vm->labels);
   sh_vector_init(&vm->registers, malloc, sizeof(struct sh_cell));
+  vm->call_stack = NULL;
+  vm->call_cache = NULL;
 }
 
 static size_t op_items(const struct sh_operation *op,
