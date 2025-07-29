@@ -8,6 +8,8 @@
 #include "shi/stream.h"
 #include "shi/vm.h"
 
+#include "shi/forms/literal.h"
+
 void sh_form_init(struct sh_form *f,
 		  const struct sh_form_type *t,
 		  struct sh_sloc sloc,
@@ -76,9 +78,10 @@ void sh_forms_emit(struct sh_list *in, struct sh_vm *vm) {
 
   sh_defer(restore());
 
-  while (in->next != in) {
+  while (in->prev != in) {
     struct sh_form *f = sh_baseof(sh_list_pop_front(in), struct sh_form, owner);
     sh_form_emit(f, vm, in);
+    *(struct sh_list **)sh_vector_push(&backup) = &f->owner;
   }
 }
 

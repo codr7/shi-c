@@ -12,9 +12,10 @@ int main(int argc, const char **argv) {
   } else {
     size_t start_pc = sh_emit_pc(&vm);
     struct sh_stack stack;
+    sh_defer(sh_stack_deinit(&stack));
     sh_stack_init(&stack, vm.malloc);
-
-    for (const char **p = argv; *p; p++) {
+    
+    for (const char **p = argv+1; *p; p++) {
       sh_load(&vm, *p);
     }
 

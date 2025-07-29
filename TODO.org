@@ -1,9 +1,6 @@
-* test load
-
 * use sh_library_do in scope emit
-
+* add scope reader
 * run tests in valgrind
-
 * add benchmark macro
 ** add benchmark op
 

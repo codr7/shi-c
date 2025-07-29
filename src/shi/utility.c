@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "shi/error.h"
 #include "shi/malloc.h"
 #include "shi/utility.h"
 
@@ -13,7 +14,12 @@ size_t sh_alignof(size_t size) {
 }
 
 char *sh_slurp(const char *path, struct sh_malloc *malloc) {
-  FILE *f = fopen("textfile.txt", "r");
+  FILE *f = fopen(path, "r");
+
+  if (!f) {
+    sh_throw("File not found: %s", path);
+  }
+  
   sh_defer(fclose(f));
   fseek(f, 0, SEEK_END);
   long fs = ftell(f);

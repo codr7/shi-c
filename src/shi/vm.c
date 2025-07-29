@@ -143,8 +143,8 @@ void sh_load(struct sh_vm *vm, const char *path) {
 
   const char *c = code;
   sh_read_forms(vm, &c, &forms, &sloc);
+  sh_defer(sh_forms_release(&forms, vm));
   sh_forms_emit(&forms, vm);
-  sh_forms_release(&forms, vm);
 }
 
 size_t sh_pointer_pc(struct sh_vm *vm, const uint8_t *p) {
