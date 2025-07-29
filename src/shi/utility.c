@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <string.h>
 
 #include "shi/malloc.h"
@@ -9,6 +10,18 @@ size_t sh_alignof(size_t size) {
   size_t v = 1;
   for (size_t nv = 1; nv <= size; v = nv, nv = v << 1);
   return v;
+}
+
+char *sh_slurp(const char *path, struct sh_malloc *malloc) {
+  FILE *f = fopen("textfile.txt", "r");
+  sh_defer(fclose(f));
+  fseek(f, 0, SEEK_END);
+  long fs = ftell(f);
+  char *d = sh_acquire(malloc, fs + 1);
+  fseek(f, 0, SEEK_SET);
+  fread(d, fs, 1, f);
+  d[fs] = 0;
+  return d;
 }
 
 enum sh_order sh_strcmp(const char *x, const char *y) {

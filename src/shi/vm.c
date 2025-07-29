@@ -2,9 +2,11 @@
 #include <string.h>
 
 #include "shi/call.h"
+#include "shi/form.h"
 #include "shi/libraries/core.h"
 #include "shi/malloc.h"
 #include "shi/operation.h"
+#include "shi/read.h"
 #include "shi/stack.h"
 #include "shi/stream.h"
 #include "shi/vm.h"
@@ -129,6 +131,20 @@ struct sh_label *sh_label(struct sh_vm *vm) {
   l->pc = -1;
   sh_list_push_back(&vm->labels, &l->owner);
   return l;
+}
+
+void sh_load(struct sh_vm *vm, const char *path) {
+  struct sh_sloc sloc = sh_sloc("main", 0, 0);
+  char *code = sh_slurp(path, vm->malloc);
+  sh_defer(sh_release(vm->malloc, code));
+
+  struct sh_list forms;
+  sh_list_init(&forms);
+
+  const char *c = code;
+  sh_read_forms(vm, &c, &forms, &sloc);
+  sh_forms_emit(&forms, vm);
+  sh_forms_release(&forms, vm);
 }
 
 size_t sh_pointer_pc(struct sh_vm *vm, const uint8_t *p) {

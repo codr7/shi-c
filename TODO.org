@@ -1,4 +1,11 @@
-* add sh_load(path)
+* test load
+
+* use sh_library_do in scope emit
+
+* run tests in valgrind
+
+* add benchmark macro
+** add benchmark op
 
 valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all build/shi
 

@@ -76,8 +76,8 @@ size_t sh_alignof(size_t size);
 #define sh_unique(x)				\
   sh_id(x, __COUNTER__)
 
+char *sh_slurp(const char *path, struct sh_malloc *malloc);
 enum sh_order sh_strcmp(const char *x, const char *y);
-
 char *sh_strdup(const char *in, struct sh_malloc *malloc);
 
 #endif
