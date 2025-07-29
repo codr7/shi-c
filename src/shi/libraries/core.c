@@ -167,8 +167,9 @@ static void method_imp(struct sh_vm *vm,
   struct sh_vector as;
   sh_vector_init(&as, vm->malloc, sizeof(struct sh_argument));
   sh_defer(sh_vector_deinit(&as));
+  sh_vector_grow(&as, 1);
   struct sh_list *afs = &sh_baseof(asf, struct sh_scope, form)->items;
-
+  
   for (struct sh_list *af = afs->next; af != afs; af = af->next) {
     struct sh_form *nf = sh_baseof(af, struct sh_form, owner);
     struct sh_type *t = SH_ANY();
@@ -200,7 +201,7 @@ static void method_imp(struct sh_vm *vm,
 		     (void *)as.start,
 		     r_as,
 		     sh_emit_pc(vm)); 
-  
+
   sh_bind(vm->library, name, SH_METHOD())->as_other = &m->method;
 
   sh_library_do(vm) {

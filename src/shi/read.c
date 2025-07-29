@@ -5,6 +5,7 @@
 #include "shi/form.h"
 #include "shi/forms/identifier.h"
 #include "shi/forms/literal.h"
+#include "shi/forms/scope.h"
 #include "shi/read.h"
 #include "shi/libraries/core.h"
 #include "shi/list.h"
@@ -23,7 +24,7 @@ bool sh_read_form(struct sh_vm *vm,
 
   switch (c) {
   case '(':
-    sh_throw("Not implemented!");
+    return sh_read_scope(vm, in, out, sloc);
     break;
   default:
     if (isdigit(c)) {
@@ -105,6 +106,38 @@ bool sh_read_int(struct sh_vm *vm,
   struct sh_literal *f = sh_acquire(vm->malloc, sizeof(struct sh_literal));
   sh_literal_init(f, vm, floc, out);
   sh_cell_init(&f->value, SH_INT())->as_int = v;
+  return true;
+}
+
+bool sh_read_scope(struct sh_vm *vm,
+		   const char **in,
+		   struct sh_list *out,
+		   struct sh_sloc *sloc) {
+  struct sh_sloc floc = *sloc;
+  char c = **in;
+
+  if (c != '(') {
+    sh_throw("Error in %s: Expected start of scope", *sloc);
+  }
+
+  (*in)++;
+  sh_sloc_step(sloc, c);
+  struct sh_scope *f = sh_acquire(vm->malloc, sizeof(struct sh_scope));
+  sh_scope_init(f, vm, floc, out);
+  
+  for (;;) {
+    sh_read_whitespace(in, sloc);
+    c = **in;
+
+    if (c == ')') {
+      (*in)++;
+      sh_sloc_step(sloc, c);
+      break;
+    }
+
+    sh_read_form(vm, in, &f->items, sloc);
+  }
+
   return true;
 }
 

@@ -1,6 +1,7 @@
-* use sh_library_do in scope emit
-* add scope reader
-* run tests in valgrind
+* fix valgrind errors
+
+valgrind --leak-check=full build/shi ../shi/tests.shi
+
 * add benchmark macro
 ** add benchmark op
 

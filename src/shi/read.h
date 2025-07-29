@@ -25,6 +25,11 @@ bool sh_read_int(struct sh_vm *vm,
 		 struct sh_list *out,
 		 struct sh_sloc *sloc);
 
+bool sh_read_scope(struct sh_vm *vm,
+		   const char **in,
+		   struct sh_list *out,
+		   struct sh_sloc *sloc);
+
 void sh_read_whitespace(const char **in, struct sh_sloc *sloc);
 
 #endif

@@ -54,6 +54,11 @@ struct sh_cell *sh_bind(struct sh_library *lib,
 			const char *key,
 			struct sh_type *type) {
   struct sh_library_item *it = sh_set_add(&lib->bindings, key, false);
+
+  if (!it) {
+    sh_throw("Duplicate identifier: %s", key);
+  }
+  
   it->key = sh_strdup(key, lib->vm->malloc);
   it->value.type = type ? sh_type_acquire(type) : NULL;
   return &it->value;

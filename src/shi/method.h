@@ -31,7 +31,7 @@ struct sh_method *sh_method_init(struct sh_method *m,
 				 struct sh_vm *vm,
 				 const char *name,
 				 int arity,
-				 struct sh_argument arguments[]);
+				 struct sh_argument *arguments);
 
 struct sh_method *sh_method_acquire(struct sh_method *m);
 

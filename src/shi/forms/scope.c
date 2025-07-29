@@ -10,7 +10,10 @@ static void emit_imp(struct sh_form *_f,
 		     struct sh_vm *vm,
 		     struct sh_list *args) {
   struct sh_scope *f = sh_baseof(_f, struct sh_scope, form);
-  sh_forms_emit(&f->items, vm);
+
+  sh_library_do(vm) {
+    sh_forms_emit(&f->items, vm);
+  }
 }
 
 static void dump_imp(const struct sh_form *_f, struct sh_stream *out) {
@@ -45,4 +48,5 @@ void sh_scope_init(struct sh_scope *f,
 		     struct sh_sloc sloc,
 		     struct sh_list *owner) {
   sh_form_init(&f->form, &SH_SCOPE, sloc, owner);
+  sh_list_init(&f->items);
 }

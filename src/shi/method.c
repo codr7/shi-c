@@ -19,7 +19,7 @@ struct sh_method *sh_method_init(struct sh_method *m,
 				 struct sh_vm *vm,
 				 const char *name,
 				 int arity,
-				 struct sh_argument arguments[]) {
+				 struct sh_argument *arguments) {
   m->vm = vm;
   strcpy(m->name, name);
   m->call = NULL;
