@@ -1,13 +1,11 @@
-* fix valgrind errors
+* fix valgrind memory leaks
 
-valgrind --leak-check=full build/shi ../shi/tests.shi
+* update all ops like call_method
+** add constructor
+** move defs
+** remove header
 
 * add benchmark macro
 ** add benchmark op
 
-valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all build/shi
-
-#define sh_import(lib, source, ...) ({					\
-      const char *keys[] = {__VA_ARGS__, NULL};				\
-      _sh_import(lib, source, keys);					\
-    })
+valgrind --leak-check=full build/shi ../shi/tests.shi

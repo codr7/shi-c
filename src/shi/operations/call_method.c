@@ -2,12 +2,23 @@
 
 #include "shi/error.h"
 #include "shi/libraries/core.h"
-#include "shi/operations/call_method.h"
+#include "shi/operation.h"
 #include "shi/stack.h"
 #include "shi/type.h"
 #include "shi/vm.h"
 
-static uint8_t *call_method_evaluate(struct sh_vm *vm,
+struct sh_call_method {
+  struct sh_method *target;
+  struct sh_sloc sloc;
+};
+
+static void deinit(uint8_t *data) {
+  struct sh_call_method *op =
+    (void *)sh_align(data, alignof(struct sh_call_method));
+  sh_method_release(op->target);
+}
+
+static uint8_t *evaluate(struct sh_vm *vm,
 				     struct sh_stack *stack,
 				     uint8_t *data) {
   struct sh_call_method *op =
@@ -38,6 +49,16 @@ const struct sh_operation SH_CALL_METHOD = (struct sh_operation){
   .name = "CALL_METHOD",
   .align = alignof(struct sh_call_method),
   .size = sizeof(struct sh_call_method),
-  .evaluate = call_method_evaluate,
-  .deinit = NULL
+  .deinit = deinit,
+  .evaluate = evaluate
 };
+
+void sh_emit_call_method(struct sh_vm *vm,
+			 struct sh_method *target,
+			 struct sh_sloc *sloc) {
+  sh_emit(vm, &SH_CALL_METHOD, &(struct sh_call_method) {
+    .target = sh_method_acquire(target),
+    .sloc = *sloc
+    });
+}
+					  

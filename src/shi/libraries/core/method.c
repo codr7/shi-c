@@ -1,11 +1,12 @@
 #include <stdlib.h>
 
 #include "shi/cell.h"
+#include "shi/error.h"
 #include "shi/form.h"
 #include "shi/libraries/core.h"
 #include "shi/list.h"
 #include "shi/method.h"
-#include "shi/operations/call_method.h"
+#include "shi/operation.h"
 #include "shi/sloc.h"
 #include "shi/stream.h"
 #include "shi/type.h"
@@ -31,6 +32,13 @@ static void emit(struct sh_cell *v,
   struct sh_method *m = v->as_other;
   
   for (int i = 0; i < m->arity; i++) {
+    if (arguments->next == arguments) {
+      sh_throw("Error in %s: Not enough arguments for '%s' (%d)",
+	       sh_sloc_string(&sloc),
+	       m->name,
+	       m->arity);
+    }
+    
     struct sh_form *f = sh_baseof(sh_list_pop_front(arguments),
 				  struct sh_form,
 				  owner);
@@ -39,10 +47,7 @@ static void emit(struct sh_cell *v,
     sh_form_release(f, vm);
   }
 
-  struct sh_call_method op;
-  op.sloc = sloc;
-  op.target = m;
-  sh_emit(vm, &SH_CALL_METHOD, &op);
+  sh_emit_call_method(vm, m, &sloc);
 }
 
 static bool eq(const struct sh_cell *x, const struct sh_cell *y) {

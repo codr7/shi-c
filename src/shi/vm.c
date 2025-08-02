@@ -134,7 +134,7 @@ struct sh_label *sh_label(struct sh_vm *vm) {
 }
 
 void sh_load(struct sh_vm *vm, const char *path) {
-  struct sh_sloc sloc = sh_sloc("main", 0, 0);
+  struct sh_sloc sloc = sh_sloc(path, 0, 0);
   char *code = sh_slurp(path, vm->malloc);
   sh_defer(sh_release(vm->malloc, code));
 

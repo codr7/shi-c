@@ -75,7 +75,7 @@ build/method.o: src/shi/method.h src/shi/method.c
 build/operations/branch.o: src/shi/operations/branch.h src/shi/operations/branch.c
 	$(CC) -c $(CFLAGS) src/shi/operations/branch.c -o build/operations/branch.o
 
-build/operations/call_method.o: src/shi/operations/call_method.h src/shi/operations/call_method.c
+build/operations/call_method.o: src/shi/operations/call_method.c
 	$(CC) -c $(CFLAGS) src/shi/operations/call_method.c -o build/operations/call_method.o
 
 build/operations/check_value.o: src/shi/operations/check_value.h src/shi/operations/check_value.c

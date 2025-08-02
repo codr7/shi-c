@@ -51,6 +51,7 @@ void sh_form_release(struct sh_form *f, struct sh_vm *vm) {
 }
 
 struct sh_cell *sh_form_value(struct sh_form *f, struct sh_vm *vm) {
+  assert(f->type->value);
   return f->type->value(f, vm);
 }
 

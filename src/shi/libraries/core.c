@@ -179,7 +179,7 @@ static void method_imp(struct sh_vm *vm,
     }
 
     if (af->next != afs) {
-      struct sh_form *tf = sh_baseof(af, struct sh_form, owner);
+      struct sh_form *tf = sh_baseof(af->next, struct sh_form, owner);
       struct sh_cell *tv = sh_form_value(tf, vm);
 
       if (tv != NULL && tv->type == SH_META()) {
@@ -206,7 +206,7 @@ static void method_imp(struct sh_vm *vm,
 
   sh_library_do(vm) {
     for (int i = 0; i < m->method.arity; i++) {
-      struct sh_argument *a = m->method.arguments + m->method.arity - i - i;
+      struct sh_argument *a = m->method.arguments + m->method.arity - i - 1;
       sh_bind(vm->library, a->name, SH_BINDING())->as_register = r_as + i;
     }
     
