@@ -1,5 +1,3 @@
-* fix valgrind type memory leaks
-
 * update all ops like call_method
 ** add constructor
 ** move defs
@@ -7,5 +5,7 @@
 
 * add benchmark macro
 ** add benchmark op
+
+* fix valgrind type memory leaks
 
 valgrind --leak-check=full --show-leak-kinds=all build/shi ../shi/tests.shi 

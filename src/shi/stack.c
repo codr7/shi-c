@@ -8,6 +8,10 @@ struct sh_stack *sh_stack_init(struct sh_stack *s, struct sh_malloc *malloc) {
 }
 
 void sh_stack_deinit(struct sh_stack *s) {
+  sh_vector_do(&s->items, v) {
+    sh_cell_deinit(v);
+  }
+  
   sh_vector_deinit(&s->items);
 }
 
