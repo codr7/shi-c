@@ -1,6 +1,7 @@
 #include "shi/error.h"
 #include "shi/operations/check_value.h"
 #include "shi/stack.h"
+#include "shi/stream.h"
 #include "shi/vm.h"
 
 static void deinit(uint8_t *data) {
@@ -13,9 +14,19 @@ static uint8_t *evaluate(struct sh_vm *vm,
 			 uint8_t *data) {
   struct sh_check_value *op = (void *)sh_align(data, alignof(struct sh_check_value));
   struct sh_cell *actual = sh_pop(stack);
-  
+
   if (!sh_eq(&op->expected, actual)) {
-    sh_throw("Check_Value failed in %s", sh_sloc_string(&op->sloc));
+    struct sh_memory_stream s;
+    sh_memory_stream_init(&s, vm->malloc);
+    sh_defer(sh_stream_deinit(&s.stream));
+    sh_puts(&s.stream, "expected ");
+    sh_cell_dump(&op->expected, &s.stream);
+    sh_puts(&s.stream, ", actual ");
+    sh_cell_dump(actual, &s.stream);
+    
+    sh_throw("Check failed in %s: %s",
+	     sh_sloc_string(&op->sloc),
+	     sh_memory_stream_string(&s));
   }
   
   return (uint8_t *)op + sizeof(struct sh_check_value);

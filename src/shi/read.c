@@ -130,8 +130,8 @@ bool sh_read_scope(struct sh_vm *vm,
     c = **in;
 
     if (c == ')') {
-      (*in)++;
       sh_sloc_step(sloc, c);
+      (*in)++;
       break;
     }
 

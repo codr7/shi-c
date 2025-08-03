@@ -8,4 +8,4 @@
 * add benchmark macro
 ** add benchmark op
 
-valgrind --leak-check=full build/shi ../shi/tests.shi
+valgrind --leak-check=full --show-leak-kinds=all build/shi ../shi/tests.shi 

@@ -1,3 +1,4 @@
+#include <inttypes.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -31,8 +32,8 @@ static void check_imp(struct sh_vm *vm,
 		      struct sh_sloc *sloc,
 		      struct sh_list *arguments) {
   struct sh_form *expected = sh_baseof(sh_list_pop_front(arguments),
-				struct sh_form,
-				owner);
+				       struct sh_form,
+				       owner);
   
   sh_defer(sh_form_release(expected, vm));
   struct sh_cell *ev = sh_form_value(expected, vm);
@@ -42,11 +43,11 @@ static void check_imp(struct sh_vm *vm,
   }
   
   struct sh_form *actual = sh_baseof(sh_list_pop_front(arguments),
-			      struct sh_form,
-			      owner);
+				     struct sh_form,
+				     owner);
+  
   sh_defer(sh_form_release(actual, vm));
   sh_form_emit(actual, vm, arguments);
-  
   struct sh_check_value op;
   op.sloc = *sloc;
   sh_cell_copy(&op.expected, ev, vm);
@@ -136,8 +137,8 @@ static void method_imp(struct sh_vm *vm,
 		       struct sh_sloc *sloc,
 		       struct sh_list *arguments) {
   struct sh_form *f_name = sh_baseof(sh_list_pop_front(arguments),
-				    struct sh_form,
-				    owner);
+				     struct sh_form,
+				     owner);
   sh_defer(sh_form_release(f_name, vm));
   
   if (f_name->type != &SH_IDENTIFIER) {
@@ -147,8 +148,8 @@ static void method_imp(struct sh_vm *vm,
   const char *name = sh_baseof(f_name, struct sh_identifier, form)->name;
 
   struct sh_form *asf = sh_baseof(sh_list_pop_front(arguments),
-				    struct sh_form,
-				    owner);
+				  struct sh_form,
+				  owner);
   sh_defer(sh_form_release(asf, vm));
 
   if (asf->type != &SH_SCOPE) {
@@ -202,7 +203,7 @@ static void method_imp(struct sh_vm *vm,
 		     r_as,
 		     sh_emit_pc(vm)); 
 
-  sh_bind(vm->library, name, SH_METHOD())->as_other = &m->method;
+  sh_bind(vm->library, name, SH_METHOD())->as_other = sh_method_acquire(&m->method);
 
   sh_library_do(vm) {
     for (int i = 0; i < m->method.arity; i++) {

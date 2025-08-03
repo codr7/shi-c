@@ -30,6 +30,8 @@ static void free_imp(struct sh_form *_f, struct sh_vm *vm) {
   sh_list_do(&f->items, i) {
     sh_form_release(sh_baseof(i, struct sh_form, owner), vm);
   }
+
+  sh_release(vm->malloc, f);
 }
 
 static struct sh_cell *value_imp(struct sh_form *_f, struct sh_vm *vm) {

@@ -18,7 +18,7 @@ struct sh_type *__sh_type_init(struct sh_type *t,
 			       const char *name,
 			       struct sh_type *parents[]) {
   t->name = strdup(name);
-  t->reference_count = 1;
+  t->reference_count = 0;
   
   sh_set_init(&t->parents,
 	      &sh_malloc_default,

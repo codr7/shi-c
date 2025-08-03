@@ -19,7 +19,7 @@ struct sh_macro *sh_macro_init(struct sh_macro *m,
   const size_t s = sizeof(sh_macro_argument_t)*arity;
   m->arguments = sh_acquire(library->vm->malloc, s);
   memcpy(m->arguments, arguments, s);
-  m->reference_count = 1;
+  m->reference_count = 0;
   return m;
 }
 

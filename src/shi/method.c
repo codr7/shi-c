@@ -27,7 +27,7 @@ struct sh_method *sh_method_init(struct sh_method *m,
   const size_t s = sizeof(struct sh_argument)*arity;
   m->arguments = sh_acquire(vm->malloc, s);
   memcpy(m->arguments, arguments, s);
-  m->reference_count = 1;
+  m->reference_count = 0;
   return m;
 }
 
