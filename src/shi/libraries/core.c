@@ -70,8 +70,9 @@ static void gt_imp(struct sh_vm *vm,
 		   struct sh_sloc *sloc) {
   struct sh_cell *y = sh_pop(stack);
   struct sh_cell *x = sh_peek(stack);
-  x->type = SH_BOOL();
-  x->as_bool = x->as_int > y->as_int;
+  const bool result = x->as_int > y->as_int;
+  sh_cell_deinit(x);
+  sh_cell_init(x, SH_BOOL())->as_bool = result;
   sh_cell_deinit(y);
 }
 
@@ -128,8 +129,9 @@ static void lt_imp(struct sh_vm *vm,
 		   struct sh_sloc *sloc) {
   struct sh_cell *y = sh_pop(stack);
   struct sh_cell *x = sh_peek(stack);
-  x->type = SH_BOOL();
-  x->as_bool = x->as_int < y->as_int;
+  const bool result = x->as_int < y->as_int;
+  sh_cell_deinit(x);
+  sh_cell_init(x, SH_BOOL())->as_bool = result;
   sh_cell_deinit(y);
 }
 

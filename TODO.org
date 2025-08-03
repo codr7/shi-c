@@ -1,4 +1,4 @@
-* fix valgrind memory leaks
+* fix valgrind type memory leaks
 
 * update all ops like call_method
 ** add constructor

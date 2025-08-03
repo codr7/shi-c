@@ -19,7 +19,9 @@ void sh_cell_deinit(struct sh_cell *v) {
     v->type->deinit(v);
   }
 
-  sh_type_release(v->type);
+  if (v->type) {
+    sh_type_release(v->type);
+  }
 }
 
 bool sh_as_bool(struct sh_cell *v) {
