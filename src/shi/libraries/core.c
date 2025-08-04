@@ -74,10 +74,7 @@ static void check_imp(struct sh_vm *vm,
   
   sh_defer(sh_form_release(actual, vm));
   sh_form_emit(actual, vm, arguments);
-  struct sh_check_value op;
-  op.sloc = *sloc;
-  sh_cell_copy(&op.expected, ev, vm);
-  sh_emit(vm, &SH_CHECK_VALUE, &op); 
+  sh_emit_check_value(vm, ev, *sloc);
 }
 
 static void eq_imp(struct sh_vm *vm,
@@ -112,7 +109,7 @@ static void if_imp(struct sh_vm *vm,
   sh_form_emit(c, vm, arguments);
   
   struct sh_label *end = sh_label(vm);
-  sh_emit(vm, &SH_BRANCH, &(struct sh_branch){.end = end}); 
+  sh_emit_branch(vm, end); 
 
   struct sh_form *l = sh_baseof(sh_list_pop_front(arguments),
 				struct sh_form,

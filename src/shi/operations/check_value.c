@@ -4,6 +4,11 @@
 #include "shi/stream.h"
 #include "shi/vm.h"
 
+struct sh_check_value {
+  struct sh_cell expected;
+  struct sh_sloc sloc;
+};
+
 static void deinit(uint8_t *data) {
   struct sh_check_value *op = (void *)data;
   sh_cell_deinit(&op->expected);
@@ -32,10 +37,28 @@ static uint8_t *evaluate(struct sh_vm *vm,
   return (uint8_t *)op + sizeof(struct sh_check_value);
 }
 
-const struct sh_operation SH_CHECK_VALUE = (struct sh_operation){
-  .name = "CHECK_VALUE",
-  .align = alignof(struct sh_check_value),
-  .size = sizeof(struct sh_check_value),
-  .evaluate = evaluate,
-  .deinit = deinit
-};
+
+void sh_emit_check_value(struct sh_vm *vm,
+			 struct sh_cell *expected,
+			 struct sh_sloc sloc) {
+  static struct sh_operation op;
+  static bool init = true;
+
+  if (init) {
+    sh_operation_init(&op,
+		      "CHECK_VALUE",
+		      sizeof(struct sh_check_value),
+		      alignof(struct sh_check_value));
+    
+    op.evaluate = evaluate;
+    op.deinit = deinit;
+    init = false;
+  }
+
+  struct sh_check_value d = {
+    .sloc = sloc
+  };
+
+  sh_cell_copy(&d.expected, expected, vm);
+  sh_emit(vm, &op, &d);
+}

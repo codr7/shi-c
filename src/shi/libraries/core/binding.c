@@ -22,11 +22,7 @@ static void emit(struct sh_cell *v,
 		 struct sh_vm *vm,
 		 struct sh_sloc sloc,
 		 struct sh_list *arguments) {
-  sh_emit(vm, &SH_GET_REGISTERS,
-	  &(struct sh_get_registers){
-	    .r_source = v->as_register,
-	    .count = 1
-	  });
+  sh_emit_get_registers(vm, v->as_register, 1);
 }
 
 static bool eq(const struct sh_cell *x, const struct sh_cell *y) {

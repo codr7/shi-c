@@ -1,5 +1,5 @@
 * update ops
-** like benchmark/call_method
+** call_method
 ** add sh_operation_init(id)
 *** set deinit to NULL
 ** add constructor

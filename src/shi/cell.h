@@ -27,7 +27,8 @@ void sh_cell_deinit(struct sh_cell *v);
 
 bool sh_as_bool(struct sh_cell *v);
 
-struct sh_cell *sh_cell_copy(struct sh_cell *dst, struct sh_cell *src,
+struct sh_cell *sh_cell_copy(struct sh_cell *dst,
+			     struct sh_cell *src,
 			     struct sh_vm *vm);
 
 void sh_cell_dump(const struct sh_cell *v, struct sh_stream *out);

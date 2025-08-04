@@ -54,8 +54,9 @@ void sh_emit_call_method(struct sh_vm *vm,
   if (init) {
     sh_operation_init(&op,
 		      "CALL_METHOD",
-		      alignof(struct sh_call_method),
-		      sizeof(struct sh_call_method));
+		      sizeof(struct sh_call_method),
+		      alignof(struct sh_call_method));
+    
     op.deinit = deinit;
     op.evaluate = evaluate;
     init = false;

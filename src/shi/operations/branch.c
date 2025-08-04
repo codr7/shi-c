@@ -5,9 +5,13 @@
 #include "shi/stream.h"
 #include "shi/vm.h"
 
-static uint8_t *branch_evaluate(struct sh_vm *vm,
-				struct sh_stack *stack,
-				uint8_t *data) {
+struct sh_branch {
+  struct sh_label *end;
+};
+
+static uint8_t *evaluate(struct sh_vm *vm,
+			 struct sh_stack *stack,
+			 uint8_t *data) {
   struct sh_branch *op =
     (void *)sh_align(data, alignof(struct sh_branch));
 
@@ -20,10 +24,20 @@ static uint8_t *branch_evaluate(struct sh_vm *vm,
     : sh_pc_pointer(vm, op->end->pc);
 }
 
-const struct sh_operation SH_BRANCH = (struct sh_operation){
-  .name = "BRANCH",
-  .align = alignof(struct sh_branch),
-  .size = sizeof(struct sh_branch),
-  .evaluate = branch_evaluate,
-  .deinit = NULL
-};
+
+void sh_emit_branch(struct sh_vm *vm, struct sh_label *end) {
+  static struct sh_operation op;
+  static bool init = true;
+
+  if (init) {
+    sh_operation_init(&op,
+		      "BRANCH",
+		      sizeof(struct sh_branch),
+		      alignof(struct sh_branch));
+    
+    op.evaluate = evaluate;
+    init = false;
+  }
+  
+  sh_emit(vm, &op, &(struct sh_branch) { .end = end });
+}
