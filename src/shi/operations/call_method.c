@@ -45,18 +45,23 @@ static uint8_t *evaluate(struct sh_vm *vm,
   return sh_pc_pointer(vm, pc);
 }
 
-const struct sh_operation SH_CALL_METHOD = (struct sh_operation){
-  .name = "CALL_METHOD",
-  .align = alignof(struct sh_call_method),
-  .size = sizeof(struct sh_call_method),
-  .deinit = deinit,
-  .evaluate = evaluate
-};
-
 void sh_emit_call_method(struct sh_vm *vm,
 			 struct sh_method *target,
 			 struct sh_sloc *sloc) {
-  sh_emit(vm, &SH_CALL_METHOD, &(struct sh_call_method) {
+  static struct sh_operation op;
+  static bool init = true;
+
+  if (init) {
+    sh_operation_init(&op,
+		      "CALL_METHOD",
+		      alignof(struct sh_call_method),
+		      sizeof(struct sh_call_method));
+    op.deinit = deinit;
+    op.evaluate = evaluate;
+    init = false;
+  }
+  
+  sh_emit(vm, &op, &(struct sh_call_method) {
     .target = sh_method_acquire(target),
     .sloc = *sloc
     });
