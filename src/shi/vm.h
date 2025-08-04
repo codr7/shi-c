@@ -43,7 +43,6 @@ struct sh_vm {
 
 void sh_vm_init(struct sh_vm *vm, struct sh_malloc *malloc);
 void sh_vm_deinit(struct sh_vm *vm);
-
 size_t sh_allocate_registers(struct sh_vm *vm, size_t n);
 
 size_t sh_emit(struct sh_vm *vm,
@@ -57,9 +56,7 @@ void sh_evaluate(struct sh_vm *vm,
 		 size_t start, size_t end);
 
 struct sh_label *sh_label(struct sh_vm *vm);
-
 void sh_load(struct sh_vm *vm, const char *path);
-
 uint8_t *sh_pc_pointer(struct sh_vm *vm, size_t pc);
 size_t sh_pointer_pc(struct sh_vm *vm, const uint8_t *p);
 struct sh_cell *sh_register(struct sh_vm *vm, size_t r_target);

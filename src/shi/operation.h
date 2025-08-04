@@ -4,6 +4,7 @@
 #include <stddef.h>
 #include <stdint.h>
 
+struct sh_label;
 struct sh_method;
 struct sh_sloc;
 struct sh_stack;
@@ -20,6 +21,10 @@ struct sh_operation {
   void (*deinit)(uint8_t *);
   sh_evaluate_t evaluate;
 };
+
+void sh_emit_benchmark(struct sh_vm *vm,
+		       int rounds,
+		       struct sh_label *end);
 
 void sh_emit_call_method(struct sh_vm *vm,
 			 struct sh_method *target,

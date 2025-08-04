@@ -1,11 +1,23 @@
-* update all ops like call_method
+* provfile benchmarks
+** valgrind
+
+* update ops
+** like benchmark/call_method
+** add sh_operation_init(id)
+*** set deinit to NULL
 ** add constructor
 ** move defs
 ** remove header
 
-* add benchmark macro
-** add benchmark op
-
 * fix valgrind type memory leaks
 
 valgrind --leak-check=full --show-leak-kinds=all build/shi ../shi/tests.shi 
+
+1377392311
+1004283293
+1587438179
+
+381705843
+5107031826
+313549760
+

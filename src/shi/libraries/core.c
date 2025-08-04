@@ -28,6 +28,32 @@ static void add_imp(struct sh_vm *vm,
   sh_cell_deinit(y);
 }
 
+static void benchmark_imp(struct sh_vm *vm,
+			  struct sh_sloc *sloc,
+			  struct sh_list *arguments) {
+  struct sh_form *rf = sh_baseof(sh_list_pop_front(arguments),
+				 struct sh_form,
+				 owner);
+
+  sh_defer(sh_form_release(rf, vm));
+  struct sh_cell *rv = sh_form_value(rf, vm);
+
+  if (!rv || rv->type != SH_INT()) {
+    sh_throw("Error in %s: Expected number of rounds", sh_sloc_string(sloc));
+  }
+
+  struct sh_label *end = sh_label(vm);
+  sh_emit_benchmark(vm, rv->as_int, end);
+  
+  struct sh_form *bf = sh_baseof(sh_list_pop_front(arguments),
+				 struct sh_form,
+				 owner);
+
+  sh_defer(sh_form_release(bf, vm));
+  sh_form_emit(bf, vm, arguments);
+  end->pc = sh_emit_pc(vm);
+}
+
 static void check_imp(struct sh_vm *vm,
 		      struct sh_sloc *sloc,
 		      struct sh_list *arguments) {
@@ -239,6 +265,7 @@ static void say_imp(struct sh_vm *vm,
 		    struct sh_sloc *sloc) {
   struct sh_cell *v = sh_pop(stack);
   sh_cell_dump(v, sh_stdout());
+  sh_putc(sh_stdout(), '\n');
   sh_cell_deinit(v);
 }
 
@@ -300,6 +327,10 @@ void sh_core_library_init(struct sh_library *lib, struct sh_vm *vm) {
 		   sh_argument("x", SH_INT()),
 		   sh_argument("y", SH_INT())
 		 }, gt_imp);
+
+  sh_bind_macro(lib, "benchmark", 2,
+		sh_macro_arguments("rounds", "body"),
+		benchmark_imp);
 
   sh_bind_macro(lib, "check", 2,
 		sh_macro_arguments("expected", "actual"),
