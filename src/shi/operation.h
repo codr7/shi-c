@@ -46,4 +46,6 @@ void sh_emit_get_registers(struct sh_vm *vm,
 			   const size_t r_source,
 			   const int count);
 
+void sh_emit_goto(struct sh_vm *vm, struct sh_label *target);
+
 #endif

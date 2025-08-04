@@ -1,10 +1,7 @@
 * update ops
-** call_method
-** add sh_operation_init(id)
-*** set deinit to NULL
-** add constructor
-** move defs
-** remove header
+** push_value
+** remove header files
+*** update make file
 
 * fix valgrind type memory leaks
 

@@ -130,7 +130,7 @@ static void if_imp(struct sh_vm *vm,
 	sh_defer(sh_form_release(next, vm));
 
 	struct sh_label *rend = sh_label(vm);
-	sh_emit(vm, &SH_GOTO, &(struct sh_goto){.target = rend}); 
+	sh_emit_goto(vm, rend); 
 	end->pc = sh_emit_pc(vm);
 	
 	struct sh_form *r = sh_baseof(sh_list_pop_front(arguments),
@@ -187,7 +187,7 @@ static void method_imp(struct sh_vm *vm,
   sh_defer(sh_form_release(body, vm));
 
   struct sh_label *skip = sh_label(vm);
-  sh_emit(vm, &SH_GOTO, &(struct sh_goto){.target = skip}); 
+  sh_emit_goto(vm, skip); 
   struct sh_shi_method *m = sh_acquire(vm->malloc, sizeof(struct sh_shi_method));
 
   struct sh_vector as;
