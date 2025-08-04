@@ -13,7 +13,7 @@ struct sh_vm;
 typedef uint8_t *(*sh_evaluate_t)(struct sh_vm *, struct sh_stack *, uint8_t *);
 
 struct sh_operation {
-  const char *name;
+  char name[64];
 
   size_t align;
   size_t size;
@@ -22,6 +22,11 @@ struct sh_operation {
   sh_evaluate_t evaluate;
 };
 
+struct sh_operation *sh_operation_init(struct sh_operation *op,
+				       const char *name,
+				       size_t size,
+				       size_t align);
+  
 void sh_emit_benchmark(struct sh_vm *vm,
 		       int rounds,
 		       struct sh_label *end);

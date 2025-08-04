@@ -34,18 +34,24 @@ static uint8_t *evaluate(struct sh_vm *vm,
   return sh_pc_pointer(vm, op->end->pc);
 }
 
-const struct sh_operation SH_BENCHMARK = (struct sh_operation){
-  .name = "BENCHMARK",
-  .align = alignof(struct sh_benchmark),
-  .size = sizeof(struct sh_benchmark),
-  .deinit = NULL,
-  .evaluate = evaluate
-};
 
 void sh_emit_benchmark(struct sh_vm *vm,
 		       int rounds,
 		       struct sh_label *end) {
-  sh_emit(vm, &SH_BENCHMARK, &(struct sh_benchmark) {
+  static struct sh_operation op;
+  static bool init = true;
+
+  if (init) {
+    sh_operation_init(&op,
+		      "BENCHMARK",
+		      sizeof(struct sh_benchmark),
+		      alignof(struct sh_benchmark));
+
+    op.evaluate = evaluate;
+    init = false;
+  }
+  
+  sh_emit(vm, &op, &(struct sh_benchmark) {
       .rounds = rounds,
       .end = end
     });
