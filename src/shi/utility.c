@@ -24,8 +24,15 @@ char *sh_slurp(const char *path, struct sh_malloc *malloc) {
   fseek(f, 0, SEEK_END);
   long fs = ftell(f);
   char *d = sh_acquire(malloc, fs + 1);
-  fseek(f, 0, SEEK_SET);
-  fread(d, fs, 1, f);
+
+  if (fseek(f, 0, SEEK_SET) == -1) {
+    sh_throw("Failed seeking file");
+  }
+
+  if (fread(d, fs, 1, f) != 1) {
+    sh_throw("Failed reading file");
+  }
+  
   d[fs] = 0;
   return d;
 }
