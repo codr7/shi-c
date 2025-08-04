@@ -26,6 +26,7 @@ static uint8_t *evaluate(struct sh_vm *vm,
   
   for (int i = 0; i < op->rounds; i++) {
     sh_evaluate(vm, &s, body_pc, op->end->pc);
+    sh_stack_clear(&s);
   }
 
   sh_cell_init(sh_push(stack), SH_INT())->as_int = sh_time_ns(&t);

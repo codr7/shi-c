@@ -27,6 +27,10 @@ struct sh_cell *sh_pop(struct sh_stack *s) {
   return sh_vector_pop(&s->items);
 }
 
+void sh_stack_clear(struct sh_stack *s) {
+  sh_vector_clear(&s->items);
+}
+
 void sh_stack_dump(struct sh_stack *s, struct sh_stream *out) {
   sh_putc(out, '[');
 
