@@ -1,9 +1,4 @@
-* update ops
-** remove header files
-*** update make file
-
 * fix valgrind type memory leaks
-
 * profile fib1
 
 valgrind --leak-check=full --show-leak-kinds=all build/shi ../shi/tests.shi 

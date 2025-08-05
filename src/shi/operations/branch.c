@@ -1,6 +1,6 @@
 #include <stdint.h>
 
-#include "shi/operations/branch.h"
+#include "shi/operation.h"
 #include "shi/stack.h"
 #include "shi/stream.h"
 #include "shi/vm.h"

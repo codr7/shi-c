@@ -1,4 +1,4 @@
-#include "shi/operations/push_value.h"
+#include "shi/operation.h"
 #include "shi/stack.h"
 #include "shi/vm.h"
 

@@ -2,7 +2,7 @@
 #include "shi/forms/literal.h"
 #include "shi/library.h"
 #include "shi/malloc.h"
-#include "shi/operations/push_value.h"
+#include "shi/operation.h"
 #include "shi/stream.h"
 #include "shi/vm.h"
 

@@ -1,5 +1,5 @@
 #include "shi/error.h"
-#include "shi/operations/check_value.h"
+#include "shi/operation.h"
 #include "shi/stack.h"
 #include "shi/stream.h"
 #include "shi/vm.h"

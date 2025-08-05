@@ -1,7 +1,7 @@
 #include <stdint.h>
 
 #include "shi/call.h"
-#include "shi/operations/return.h"
+#include "shi/operation.h"
 #include "shi/stack.h"
 #include "shi/vm.h"
 

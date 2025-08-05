@@ -81,28 +81,28 @@ build/operation.o: src/shi/operation.h src/shi/operation.c
 build/operations/benchmark.o: src/shi/operations/benchmark.c
 	$(CC) -c $(CFLAGS) src/shi/operations/benchmark.c -o build/operations/benchmark.o
 
-build/operations/branch.o: src/shi/operations/branch.h src/shi/operations/branch.c
+build/operations/branch.o: src/shi/operations/branch.c
 	$(CC) -c $(CFLAGS) src/shi/operations/branch.c -o build/operations/branch.o
 
 build/operations/call_method.o: src/shi/operations/call_method.c
 	$(CC) -c $(CFLAGS) src/shi/operations/call_method.c -o build/operations/call_method.o
 
-build/operations/check_value.o: src/shi/operations/check_value.h src/shi/operations/check_value.c
+build/operations/check_value.o: src/shi/operations/check_value.c
 	$(CC) -c $(CFLAGS) src/shi/operations/check_value.c -o build/operations/check_value.o
 
-build/operations/get_registers.o: src/shi/operations/get_registers.h src/shi/operations/get_registers.c
+build/operations/get_registers.o: src/shi/operations/get_registers.c
 	$(CC) -c $(CFLAGS) src/shi/operations/get_registers.c -o build/operations/get_registers.o
 
-build/operations/goto.o: src/shi/operations/goto.h src/shi/operations/goto.c
+build/operations/goto.o: src/shi/operations/goto.c
 	$(CC) -c $(CFLAGS) src/shi/operations/goto.c -o build/operations/goto.o
 
-build/operations/push_value.o: src/shi/operations/push_value.h src/shi/operations/push_value.c
+build/operations/push_value.o: src/shi/operations/push_value.c
 	$(CC) -c $(CFLAGS) src/shi/operations/push_value.c -o build/operations/push_value.o
 
-build/operations/return.o: src/shi/operations/return.h src/shi/operations/return.c
+build/operations/return.o: src/shi/operations/return.c
 	$(CC) -c $(CFLAGS) src/shi/operations/return.c -o build/operations/return.o
 
-build/operations/set_registers.o: src/shi/operations/set_registers.h src/shi/operations/set_registers.c
+build/operations/set_registers.o: src/shi/operations/set_registers.c
 	$(CC) -c $(CFLAGS) src/shi/operations/set_registers.c -o build/operations/set_registers.o
 
 build/read.o: src/shi/read.h src/shi/read.c

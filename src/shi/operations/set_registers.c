@@ -1,6 +1,6 @@
 #include <stdint.h>
 
-#include "shi/operations/set_registers.h"
+#include "shi/operation.h"
 #include "shi/stack.h"
 #include "shi/vm.h"
 

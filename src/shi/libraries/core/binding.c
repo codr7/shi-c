@@ -4,7 +4,7 @@
 #include "shi/form.h"
 #include "shi/libraries/core.h"
 #include "shi/list.h"
-#include "shi/operations/get_registers.h"
+#include "shi/operation.h"
 #include "shi/sloc.h"
 #include "shi/stream.h"
 #include "shi/type.h"
