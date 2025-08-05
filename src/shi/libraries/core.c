@@ -10,11 +10,7 @@
 #include "shi/library.h"
 #include "shi/libraries/core.h"
 #include "shi/malloc.h"
-#include "shi/operations/branch.h"
-#include "shi/operations/check_value.h"
-#include "shi/operations/goto.h"
-#include "shi/operations/return.h"
-#include "shi/operations/set_registers.h"
+#include "shi/operation.h"
 #include "shi/stack.h"
 #include "shi/stream.h"
 #include "shi/vm.h"
@@ -236,11 +232,7 @@ static void method_imp(struct sh_vm *vm,
       sh_bind(vm->library, a->name, SH_BINDING())->as_register = r_as + i;
     }
     
-    sh_emit(vm, &SH_SET_REGISTERS, &(struct sh_set_registers){
-	.r_target = r_as,
-	.count = m->method.arity
-      });
-    
+    sh_emit_set_registers(vm, r_as, m->method.arity);
     sh_form_emit(body, vm, arguments);
   }
   

@@ -4,6 +4,11 @@
 #include "shi/stack.h"
 #include "shi/vm.h"
 
+struct sh_set_registers {
+  size_t r_target;
+  int count;
+};
+
 static uint8_t *evaluate(struct sh_vm *vm,
 			 struct sh_stack *stack,
 			 uint8_t *data) {
@@ -19,10 +24,24 @@ static uint8_t *evaluate(struct sh_vm *vm,
   return (uint8_t *)op + sizeof(struct sh_set_registers);
 }
 
-const struct sh_operation SH_SET_REGISTERS = (struct sh_operation){
-  .name = "SET_REGISTERS",
-  .align = alignof(struct sh_set_registers),
-  .size = sizeof(struct sh_set_registers),
-  .evaluate = evaluate,
-  .deinit = NULL
-};
+void sh_emit_set_registers(struct sh_vm *vm,
+			   const size_t r_target,
+			   const int count) {
+  static struct sh_operation op;
+  static bool init = true;
+
+  if (init) {
+    sh_operation_init(&op,
+		      "SET_REGISTERS",
+		      sizeof(struct sh_set_registers),
+		      alignof(struct sh_set_registers));
+    
+    op.evaluate = evaluate;
+    init = false;
+  }
+
+  sh_emit(vm, &op, &(struct sh_set_registers) {
+      .r_target = r_target,
+      .count = count
+    });
+}

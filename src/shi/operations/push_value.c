@@ -30,6 +30,7 @@ void sh_emit_push_value(struct sh_vm *vm, struct sh_cell *value) {
 		      alignof(struct sh_push_value));
     op.evaluate = evaluate;
     op.deinit = deinit;
+    init = false;
   }
 
   struct sh_push_value d;

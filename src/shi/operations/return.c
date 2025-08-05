@@ -19,6 +19,7 @@ void sh_emit_return(struct sh_vm *vm) {
   if (init) {
     sh_operation_init(&op, "RETURN", 0, 0);
     op.evaluate = evaluate;
+    init = false;
   }
 
   sh_emit(vm, &op, NULL);
