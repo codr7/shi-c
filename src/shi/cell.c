@@ -3,7 +3,7 @@
 #include <string.h>
 
 #include "shi/cell.h"
-#include "shi/operations/push_value.h"
+#include "shi/operation.h"
 #include "shi/sloc.h"
 #include "shi/stream.h"
 #include "shi/type.h"
@@ -56,9 +56,7 @@ void sh_cell_emit(struct sh_cell *v,
   if (v->type->emit) {
     v->type->emit(v, vm, sloc, args);
   } else {
-    struct sh_push_value op;
-    sh_cell_copy(&op.value, v, vm);
-    sh_emit(vm, &SH_PUSH_VALUE, &op);
+    sh_emit_push_value(vm, v);
   }
 }
 

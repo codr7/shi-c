@@ -10,9 +10,7 @@ static void emit_imp(struct sh_form *_f,
 		     struct sh_vm *vm,
 		     struct sh_list *args) {
   struct sh_literal *f = sh_baseof(_f, struct sh_literal, form);
-  struct sh_push_value op;
-  sh_cell_copy(&op.value, &f->value, vm);
-  sh_emit(vm, &SH_PUSH_VALUE, &op);
+  sh_emit_push_value(vm, &f->value);
 }
 
 static void dump_imp(const struct sh_form *_f, struct sh_stream *out) {
