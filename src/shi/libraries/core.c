@@ -244,7 +244,7 @@ static void method_imp(struct sh_vm *vm,
     sh_form_emit(body, vm, arguments);
   }
   
-  sh_emit(vm, &SH_RETURN, NULL);
+  sh_emit_return(vm);
   skip->pc = sh_emit_pc(vm);
 }
 

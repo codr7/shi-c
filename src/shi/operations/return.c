@@ -11,10 +11,15 @@ static uint8_t *evaluate(struct sh_vm *vm,
   return sh_pc_pointer(vm, sh_return(vm));
 }
 
-const struct sh_operation SH_RETURN = (struct sh_operation){
-  .name = "RETURN",
-  .align = 0,
-  .size = 0,
-  .evaluate = evaluate,
-  .deinit = NULL
-};
+
+void sh_emit_return(struct sh_vm *vm) {
+  static struct sh_operation op;
+  static bool init = true;
+
+  if (init) {
+    sh_operation_init(&op, "RETURN", 0, 0);
+    op.evaluate = evaluate;
+  }
+
+  sh_emit(vm, &op, NULL);
+}
