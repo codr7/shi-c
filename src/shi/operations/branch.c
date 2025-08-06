@@ -13,7 +13,7 @@ static uint8_t *evaluate(struct sh_vm *vm,
 			 struct sh_stack *stack,
 			 uint8_t *data) {
   struct sh_branch *op =
-    (void *)sh_align(data, alignof(struct sh_branch));
+    (void *)sh_align(data, __alignof(struct sh_branch));
 
   struct sh_cell *v = sh_pop(stack);
   bool c = sh_as_bool(v);
@@ -33,7 +33,7 @@ void sh_emit_branch(struct sh_vm *vm, struct sh_label *end) {
     sh_operation_init(&op,
 		      "BRANCH",
 		      sizeof(struct sh_branch),
-		      alignof(struct sh_branch));
+		      __alignof(struct sh_branch));
     
     op.evaluate = evaluate;
     init = false;

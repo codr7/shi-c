@@ -17,7 +17,7 @@ static uint8_t *evaluate(struct sh_vm *vm,
 			 struct sh_stack *stack,
 			 uint8_t *data) {
   struct sh_benchmark *op =
-    (void *)sh_align(data, alignof(struct sh_benchmark));
+    (void *)sh_align(data, __alignof(struct sh_benchmark));
 
   struct sh_stack s;
   sh_stack_init(&s, vm->malloc);
@@ -45,7 +45,7 @@ void sh_emit_benchmark(struct sh_vm *vm,
     sh_operation_init(&op,
 		      "BENCHMARK",
 		      sizeof(struct sh_benchmark),
-		      alignof(struct sh_benchmark));
+		      __alignof(struct sh_benchmark));
 
     op.evaluate = evaluate;
     init = false;

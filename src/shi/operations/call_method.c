@@ -14,7 +14,7 @@ struct sh_call_method {
 
 static void deinit(uint8_t *data) {
   struct sh_call_method *op =
-    (void *)sh_align(data, alignof(struct sh_call_method));
+    (void *)sh_align(data, __alignof(struct sh_call_method));
   sh_method_release(op->target);
 }
 
@@ -22,7 +22,7 @@ static uint8_t *evaluate(struct sh_vm *vm,
 				     struct sh_stack *stack,
 				     uint8_t *data) {
   struct sh_call_method *op =
-    (void *)sh_align(data, alignof(struct sh_call_method));
+    (void *)sh_align(data, __alignof(struct sh_call_method));
 
   struct sh_method *m = op->target;
 
@@ -55,7 +55,7 @@ void sh_emit_call_method(struct sh_vm *vm,
     sh_operation_init(&op,
 		      "CALL_METHOD",
 		      sizeof(struct sh_call_method),
-		      alignof(struct sh_call_method));
+		      __alignof(struct sh_call_method));
     
     op.deinit = deinit;
     op.evaluate = evaluate;

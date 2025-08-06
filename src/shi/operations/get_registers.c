@@ -13,7 +13,7 @@ static uint8_t *evaluate(struct sh_vm *vm,
 			 struct sh_stack *stack,
 			 uint8_t *data) {
   struct sh_get_registers *op =
-    (void *)sh_align(data, alignof(struct sh_get_registers));
+    (void *)sh_align(data, __alignof(struct sh_get_registers));
   
   for (int i = 0; i < op->count; i++) {
     sh_cell_copy(sh_push(stack), sh_register(vm, op->r_source + i), vm);
@@ -32,7 +32,7 @@ void sh_emit_get_registers(struct sh_vm *vm,
     sh_operation_init(&op,
 		      "GET_REGISTERS",
 		      sizeof(struct sh_get_registers),
-		      alignof(struct sh_get_registers));
+		      __alignof(struct sh_get_registers));
     
     op.evaluate = evaluate;
     init = false;

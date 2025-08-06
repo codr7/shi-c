@@ -1,4 +1,4 @@
-export CC=ccache gcc-15
+export CC=ccache gcc
 
 export CFLAGS=-g -O2 -flto -Wall -Wno-override-init-side-effects -fsanitize=bounds,undefined -Isrc -lm
 

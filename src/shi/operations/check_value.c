@@ -17,7 +17,7 @@ static void deinit(uint8_t *data) {
 static uint8_t *evaluate(struct sh_vm *vm,
 			 struct sh_stack *stack,
 			 uint8_t *data) {
-  struct sh_check_value *op = (void *)sh_align(data, alignof(struct sh_check_value));
+  struct sh_check_value *op = (void *)sh_align(data, __alignof(struct sh_check_value));
   struct sh_cell *actual = sh_pop(stack);
 
   if (!sh_eq(&op->expected, actual)) {
@@ -48,7 +48,7 @@ void sh_emit_check_value(struct sh_vm *vm,
     sh_operation_init(&op,
 		      "CHECK_VALUE",
 		      sizeof(struct sh_check_value),
-		      alignof(struct sh_check_value));
+		      __alignof(struct sh_check_value));
     
     op.evaluate = evaluate;
     op.deinit = deinit;

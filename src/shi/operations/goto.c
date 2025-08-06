@@ -11,7 +11,7 @@ struct sh_goto {
 static uint8_t *evaluate(struct sh_vm *vm,
 			 struct sh_stack *stack,
 			 uint8_t *data) {
-  struct sh_goto *op = (void *)sh_align(data, alignof(struct sh_goto));
+  struct sh_goto *op = (void *)sh_align(data, __alignof(struct sh_goto));
   return sh_pc_pointer(vm, op->target->pc);
 }
 
@@ -23,7 +23,7 @@ void sh_emit_goto(struct sh_vm *vm, struct sh_label *target) {
     sh_operation_init(&op,
 		      "GOTO",
 		      sizeof(struct sh_goto),
-		      alignof(struct sh_goto));
+		      __alignof(struct sh_goto));
     op.evaluate = evaluate;
   }
 

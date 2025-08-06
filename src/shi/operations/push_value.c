@@ -14,7 +14,7 @@ static void deinit(uint8_t *data) {
 static uint8_t *evaluate(struct sh_vm *vm,
 			 struct sh_stack *stack,
 			 uint8_t *data) {
-  struct sh_push_value *op = (void *)sh_align(data, alignof(struct sh_push_value));
+  struct sh_push_value *op = (void *)sh_align(data, __alignof(struct sh_push_value));
   sh_cell_copy(sh_push(stack), &op->value, vm);
   return (uint8_t *)op + sizeof(struct sh_push_value);
 }
@@ -27,7 +27,7 @@ void sh_emit_push_value(struct sh_vm *vm, struct sh_cell *value) {
     sh_operation_init(&op,
 		      "PUSH_VALUE",
 		      sizeof(struct sh_push_value),
-		      alignof(struct sh_push_value));
+		      __alignof(struct sh_push_value));
     op.evaluate = evaluate;
     op.deinit = deinit;
     init = false;
