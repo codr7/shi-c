@@ -26,7 +26,7 @@ void sh_call(struct sh_shi_method *target,
   
   if (vm->call_cache) {
     c = vm->call_cache;
-    vm->call_cache = vm->call_cache->parent;
+    vm->call_cache = c->parent;
   } else {
     c = sh_acquire(vm->malloc, sizeof(struct sh_call));
   }

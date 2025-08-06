@@ -6,16 +6,6 @@
 #include "malloc.h"
 #include "utility.h"
 
-void *sh_acquire(struct sh_malloc *m, size_t size) {
-  assert(m->acquire);
-  return m->acquire(m, size);
-}
-
-void sh_release(struct sh_malloc *m, void *pointer) {
-  assert(m->release);
-  m->release(m, pointer);  
-}
-
 static void *default_acquire(struct sh_malloc *m, size_t size) {
   return malloc(size);
 }

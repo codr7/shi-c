@@ -1,5 +1,7 @@
-* fix valgrind type memory leaks
 * profile fib1
+** call stack?
+
+* fix valgrind type memory leaks
 
 valgrind --leak-check=full --show-leak-kinds=all build/shi ../shi/tests.shi 
 valgrind --tool=callgrind build/shi ../shi/benchmarks/run.shi
@@ -8,7 +10,6 @@ valgrind --tool=callgrind build/shi ../shi/benchmarks/run.shi
 1004283293
 1587438179
 
-122662233
-1873639432
-92833060
-
+121506477
+1731184125
+97734804
