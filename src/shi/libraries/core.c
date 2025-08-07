@@ -301,8 +301,8 @@ void sh_core_library_init(struct sh_library *lib, struct sh_vm *vm) {
 
   sh_bind_method(lib, "=", 2,
 		 (struct sh_argument[]) {
-		   sh_argument("x", SH_INT()),
-		   sh_argument("y", SH_INT())
+		   sh_argument("x", SH_ANY()),
+		   sh_argument("y", SH_ANY())
 		 }, eq_imp);
 
   sh_bind_method(lib, "<", 2,

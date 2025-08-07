@@ -30,8 +30,9 @@ static uint8_t *evaluate(struct sh_vm *vm,
     sh_throw("Error in %s: Not enough arguments", sh_sloc_string(&op->sloc));
   }
 
-  for (int i = 0; i < m->arity; i++) {
-    struct sh_cell *v = sh_vector_get(&stack->items, stack->items.length - i - 1);
+  struct sh_cell *v = sh_vector_get(&stack->items, stack->items.length - 1);
+ 
+  for (int i = 0; i < m->arity; i++, v--) {
     const struct sh_type *at = m->arguments[i].type;
 
     if (at != SH_ANY() && !sh_isa(v, at)) {
