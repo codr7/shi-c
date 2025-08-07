@@ -33,9 +33,9 @@ void sh_call(struct sh_shi_method *target,
 
   sh_call_init(c, vm->call_stack, target, sloc, return_pc);
 
-  memcpy(c->arguments,
-	 vm->registers.start + target->r_arguments * sizeof(struct sh_cell),
-	 sizeof(struct sh_cell) * target->method.arity);
+  memmove(c->arguments,
+	  vm->registers.start + target->r_arguments * sizeof(struct sh_cell),
+	  sizeof(struct sh_cell) * target->method.arity);
   
   vm->call_stack = c;
 }
@@ -43,9 +43,9 @@ void sh_call(struct sh_shi_method *target,
 size_t sh_return(struct sh_vm *vm) {
   struct sh_call *c = vm->call_stack;
 
-  memcpy(vm->registers.start + c->target->r_arguments * sizeof(struct sh_cell),
-	 c->arguments,
-	 sizeof(struct sh_cell) * c->target->method.arity);
+  memmove(vm->registers.start + c->target->r_arguments * sizeof(struct sh_cell),
+	  c->arguments,
+	  sizeof(struct sh_cell) * c->target->method.arity);
   
   vm->call_stack = c->parent;
   c->parent = vm->call_cache;
