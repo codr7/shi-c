@@ -14,9 +14,11 @@ static uint8_t *evaluate(struct sh_vm *vm,
 			 uint8_t *data) {
   struct sh_get_registers *op =
     (void *)sh_align(data, __alignof(struct sh_get_registers));
+
+  struct sh_cell *p = sh_vector_append(&stack->items, op->count);
   
-  for (int i = 0; i < op->count; i++) {
-    sh_cell_copy(sh_push(stack), sh_register(vm, op->r_source + i), vm);
+  for (int i = 0; i < op->count; i++, p++) {
+    sh_cell_copy(p, sh_register(vm, op->r_source + i), vm);
   }
   
   return (uint8_t *)op + sizeof(struct sh_get_registers);

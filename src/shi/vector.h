@@ -29,10 +29,12 @@ struct sh_vector *sh_vector_init(struct sh_vector *v,
 				 size_t item_size);
 
 void sh_vector_deinit(struct sh_vector *v);
-void sh_vector_grow(struct sh_vector *v, size_t capacity);
+
+void *sh_vector_append(struct sh_vector *v, size_t n);
 void sh_vector_clear(struct sh_vector *v);
 void *sh_vector_get(struct sh_vector *v, size_t i);
 const void *sh_vector_get_const(const struct sh_vector *v, size_t i);
+void sh_vector_grow(struct sh_vector *v, size_t capacity);
 void *sh_vector_push(struct sh_vector *v);
 void *sh_vector_peek(struct sh_vector *v);
 void *sh_vector_pop(struct sh_vector *v);
