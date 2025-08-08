@@ -21,7 +21,6 @@ static void add_imp(struct sh_vm *vm,
   struct sh_cell *y = sh_pop(stack);
   struct sh_cell *x = sh_peek(stack);
   x->as_int += y->as_int;
-  sh_cell_deinit(y);
 }
 
 static void benchmark_imp(struct sh_vm *vm,
@@ -90,9 +89,7 @@ static void gt_imp(struct sh_vm *vm,
   struct sh_cell *y = sh_pop(stack);
   struct sh_cell *x = sh_peek(stack);
   const bool result = x->as_int > y->as_int;
-  sh_cell_deinit(x);
   sh_cell_init(x, SH_BOOL())->as_bool = result;
-  sh_cell_deinit(y);
 }
 
 static void if_imp(struct sh_vm *vm,
@@ -149,9 +146,7 @@ static void lt_imp(struct sh_vm *vm,
   struct sh_cell *y = sh_pop(stack);
   struct sh_cell *x = sh_peek(stack);
   const bool result = x->as_int < y->as_int;
-  sh_cell_deinit(x);
   sh_cell_init(x, SH_BOOL())->as_bool = result;
-  sh_cell_deinit(y);
 }
 
 static void method_imp(struct sh_vm *vm,
@@ -246,7 +241,6 @@ static void mul_imp(struct sh_vm *vm,
   struct sh_cell *y = sh_pop(stack);
   struct sh_cell *x = sh_peek(stack);
   x->as_int *= y->as_int;
-  sh_cell_deinit(y);
 }
 
 static void say_imp(struct sh_vm *vm,
@@ -264,7 +258,6 @@ static void sub_imp(struct sh_vm *vm,
   struct sh_cell *y = sh_pop(stack);
   struct sh_cell *x = sh_peek(stack);
   x->as_int -= y->as_int;
-  sh_cell_deinit(y);
 }
 
 void sh_core_library_init(struct sh_library *lib, struct sh_vm *vm) {
