@@ -1,7 +1,10 @@
-* add instructions for running to readme
-
 * profile fib1
 ** call stack?
+
+* switch type.parents to fixed array
+** add type.index
+*** atomic
+** add MAX_TYPE_COUNT
 
 * fix valgrind type memory leaks
 
