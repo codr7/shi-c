@@ -2,9 +2,11 @@
 #include "shi/stack.h"
 #include "shi/vm.h"
 
+const int SH_MEMORY_SIZE = 100000;
+
 int main(int argc, const char **argv) {
   struct sh_bump_alloc m;
-  sh_bump_alloc_init(&m, &sh_malloc_default, 100000);
+  sh_bump_alloc_init(&m, &sh_malloc_default, SH_MEMORY_SIZE);
   sh_defer(sh_bump_alloc_deinit(&m));
 	   
   struct sh_vm vm;
