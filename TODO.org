@@ -1,3 +1,5 @@
+* add instructions for running to readme
+
 * profile fib1
 ** call stack?
 
