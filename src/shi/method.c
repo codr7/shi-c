@@ -41,11 +41,11 @@ struct sh_method *sh_method_acquire(struct sh_method *m) {
 }
 
 void sh_method_call(struct sh_method *m,
-		    size_t *pc,
+		    uint8_t **next_op,
 		    struct sh_stack *stack,
 		    struct sh_sloc *sloc) {
   assert(m->call);
-  m->call(m, pc, stack, sloc);
+  m->call(m, next_op, stack, sloc);
 }
 
 void sh_method_release(struct sh_method *m) {
@@ -60,7 +60,7 @@ void sh_method_release(struct sh_method *m) {
 }
 
 static void c_call(struct sh_method *_m,
-		   size_t *pc,
+		   uint8_t **next_op,
 		   struct sh_stack *stack,
 		   struct sh_sloc *sloc) {
   struct sh_c_method *m = sh_baseof(_m, struct sh_c_method, method);
@@ -81,12 +81,12 @@ struct sh_c_method *sh_c_method_init(struct sh_c_method *m,
 }
 
 static void shi_call(struct sh_method *_m,
-		     size_t *pc,
+		     uint8_t **next_op,
 		     struct sh_stack *stack,
 		     struct sh_sloc *sloc) {
   struct sh_shi_method *m = sh_baseof(_m, struct sh_shi_method, method);
-  sh_call(m, sloc, *pc);
-  *pc = m->start_pc;
+  sh_call(m, sloc, *next_op);
+  *next_op = sh_pc_pointer(_m->vm, m->start_pc);
 }
 
 struct sh_shi_method *sh_shi_method_init(struct sh_shi_method *m,

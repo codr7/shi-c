@@ -8,7 +8,7 @@
 static uint8_t *evaluate(struct sh_vm *vm,
 			 struct sh_stack *stack,
 			 uint8_t *data) {
-  return sh_pc_pointer(vm, sh_return(vm));
+  return sh_return(vm);
 }
 
 

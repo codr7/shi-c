@@ -22,7 +22,7 @@ struct sh_method {
   int reference_count;
   
   void (*call)(struct sh_method *,
-	       size_t *pc,
+	       uint8_t **,
 	       struct sh_stack *,
 	       struct sh_sloc *);
 };
@@ -36,7 +36,7 @@ struct sh_method *sh_method_init(struct sh_method *m,
 struct sh_method *sh_method_acquire(struct sh_method *m);
 
 void sh_method_call(struct sh_method *m,
-		    size_t *pc,
+		    uint8_t **next_op,
 		    struct sh_stack *stack,
 		    struct sh_sloc *sloc);
 
