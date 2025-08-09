@@ -9,11 +9,3 @@
 
 valgrind --leak-check=full --show-leak-kinds=all build/shi ../shi/tests.shi 
 valgrind --tool=callgrind build/shi ../shi/benchmarks/run.shi
-
-1377392311
-1004283293
-1587438179
-
-124817663
-1743082141
-98005929
