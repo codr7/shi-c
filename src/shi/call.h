@@ -10,7 +10,6 @@ struct sh_vm;
 #define SH_MAX_ARITY 8
 
 struct sh_call {
-  struct sh_call *parent;
   size_t return_pc;
   struct sh_sloc *sloc;
   struct sh_shi_method *target;
@@ -18,7 +17,6 @@ struct sh_call {
 };
 
 struct sh_call *sh_call_init(struct sh_call *c,
-			     struct sh_call *parent,
 			     struct sh_shi_method *target,
 			     struct sh_sloc *sloc,
 			     size_t return_pc);

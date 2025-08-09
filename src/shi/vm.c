@@ -21,7 +21,7 @@ void sh_vm_init(struct sh_vm *vm, struct sh_malloc *malloc) {
   sh_import(vm->library, &vm->core_library);
   sh_list_init(&vm->labels);
   sh_vector_init(&vm->registers, malloc, sizeof(struct sh_cell));
-  vm->call_stack = vm->call_cache = NULL;
+  sh_vector_init(&vm->call_stack, malloc, sizeof(struct sh_call));
 }
 
 static size_t op_items(const struct sh_operation *op,
@@ -49,14 +49,6 @@ static void deinit_code(struct sh_vm *vm) {
   sh_vector_deinit(&vm->code);
 }
 
-static void deinit_calls(struct sh_vm *vm, struct sh_call *head) {
-  for (struct sh_call *c = head; c;) {
-    struct sh_call *pc = c->parent;
-    sh_release(vm->malloc, c);
-    c = pc;
-  }
-}
-
 static void deinit_registers(struct sh_vm *vm) {
   sh_vector_do(&vm->registers, v) {
     sh_cell_deinit(v);
@@ -74,8 +66,7 @@ void sh_vm_deinit(struct sh_vm *vm) {
     sh_release(vm->malloc, sh_baseof(l, struct sh_label, owner));
   }
 
-  deinit_calls(vm, vm->call_stack);
-  deinit_calls(vm, vm->call_cache);
+  sh_vector_deinit(&vm->call_stack);
   deinit_registers(vm);
 }
 
