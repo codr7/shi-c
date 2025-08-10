@@ -59,7 +59,7 @@ struct sh_type *SH_METHOD() {
 
   if (!t) {
     t = malloc(sizeof(struct sh_type));
-    sh_type_init(t, "Metod", SH_ANY());
+    sh_type_init(t, "Metod");
     t->copy = copy;
     t->deinit = deinit;
     t->dump = dump;

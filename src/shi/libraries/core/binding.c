@@ -34,7 +34,7 @@ struct sh_type *SH_BINDING() {
 
   if (!t) {
     t = malloc(sizeof(struct sh_type));
-    sh_type_init(t, "Binding", SH_ANY());
+    sh_type_init(t, "Binding");
     t->copy = copy;
     t->dump = dump;
     t->emit = emit;

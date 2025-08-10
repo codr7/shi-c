@@ -1,4 +1,8 @@
+* drop type hirerarchy
+
 * fix valgrind type memory leaks
+
+* add tail calls
 
 * fib1 performance
 

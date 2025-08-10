@@ -27,7 +27,7 @@ struct sh_type *SH_META() {
 
   if (!t) {
     t = malloc(sizeof(struct sh_type));
-    sh_type_init(t, "Meta", SH_ANY());
+    sh_type_init(t, "Meta");
     t->copy = copy;
     t->deinit = deinit;
     t->dump = dump;

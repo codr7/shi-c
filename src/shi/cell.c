@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include "shi/cell.h"
+#include "shi/libraries/core.h"
 #include "shi/operation.h"
 #include "shi/sloc.h"
 #include "shi/stream.h"
@@ -65,5 +66,5 @@ bool sh_eq(const struct sh_cell *x, const struct sh_cell *y) {
 }
 
 bool sh_isa(const struct sh_cell *v, const struct sh_type *t) {
-  return v->type == t || sh_set_find(&v->type->parents, t);
+  return t == SH_ANY() || v->type == t;
 }

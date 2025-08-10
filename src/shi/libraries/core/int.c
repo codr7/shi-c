@@ -23,7 +23,7 @@ struct sh_type *SH_INT() {
 
   if (!t) {
     t = malloc(sizeof(struct sh_type));
-    sh_type_init(t, "Int", SH_ANY());
+    sh_type_init(t, "Int");
     t->as_bool = as_bool;
     t->dump = dump;
     t->eq = eq;
