@@ -20,6 +20,7 @@ struct sh_method {
   struct sh_argument *arguments;
   int arity;
   int reference_count;
+  bool shi;
   
   void (*call)(struct sh_method *,
 	       uint8_t **,

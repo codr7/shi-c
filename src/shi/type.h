@@ -12,7 +12,6 @@ struct sh_vm;
 
 struct sh_type {
   char *name;
-  struct sh_set parents;
   int reference_count;
   
   bool (*as_bool)(struct sh_cell *);

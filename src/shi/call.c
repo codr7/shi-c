@@ -23,17 +23,17 @@ void sh_call(struct sh_shi_method *target,
   struct sh_call *c = sh_vector_push(&vm->call_stack);
   sh_call_init(c, target, sloc, return_op);
 
-  memmove(c->arguments,
-	  vm->registers.start + target->r_arguments * sizeof(struct sh_cell),
-	  sizeof(struct sh_cell) * target->method.arity);
+  memcpy(c->arguments,
+	 vm->registers.start + target->r_arguments * sizeof(struct sh_cell),
+	 sizeof(struct sh_cell) * target->method.arity);
 }
 
 uint8_t *sh_return(struct sh_vm *vm) {
   struct sh_call *c = sh_vector_pop(&vm->call_stack);
 
-  memmove(vm->registers.start + c->target->r_arguments * sizeof(struct sh_cell),
-	  c->arguments,
-	  sizeof(struct sh_cell) * c->target->method.arity);
+  memcpy(vm->registers.start + c->target->r_arguments * sizeof(struct sh_cell),
+	 c->arguments,
+	 sizeof(struct sh_cell) * c->target->method.arity);
   
   return c->return_op;
 }

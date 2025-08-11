@@ -53,7 +53,7 @@ void sh_vector_grow(struct sh_vector *v, const size_t capacity) {
   uint8_t *new_start = sh_acquire(v->malloc, size);
 
   if (v->start) {
-    memmove(new_start, v->start, v->length * v->item_size);
+    memcpy(new_start, v->start, v->length * v->item_size);
     sh_release(v->malloc, v->start); 
   }
   

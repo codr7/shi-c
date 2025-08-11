@@ -116,9 +116,9 @@ void sh_evaluate(struct sh_vm *vm,
   }
 }
 
-struct sh_label *sh_label(struct sh_vm *vm) {
+struct sh_label *sh_label(struct sh_vm *vm, const size_t pc) {
   struct sh_label *l = sh_acquire(vm->malloc, sizeof(struct sh_label));
-  l->pc = -1;
+  l->pc = pc;
   sh_list_push_back(&vm->labels, &l->owner);
   return l;
 }

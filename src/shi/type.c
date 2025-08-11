@@ -32,7 +32,6 @@ void sh_type_release(struct sh_type *t) {
   
   if (!--t->reference_count) {
     free(t->name);
-    sh_set_deinit(&t->parents);
     free(t);    
   }
 }

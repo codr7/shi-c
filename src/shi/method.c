@@ -32,6 +32,7 @@ struct sh_method *sh_method_init(struct sh_method *m,
   }
   
   m->reference_count = 0;
+  m->shi = false;
   return m;
 }
 
@@ -97,6 +98,7 @@ struct sh_shi_method *sh_shi_method_init(struct sh_shi_method *m,
 					 size_t r_arguments,
 					 size_t start_pc) {
   sh_method_init(&m->method, vm, name, arity, arguments);
+  m->method.shi = true;
   m->method.call = shi_call;
   m->r_arguments = r_arguments;
   m->start_pc = start_pc;

@@ -37,7 +37,7 @@ static void benchmark_imp(struct sh_vm *vm,
     sh_throw("Error in %s: Expected number of rounds", sh_sloc_string(sloc));
   }
 
-  struct sh_label *end = sh_label(vm);
+  struct sh_label *end = sh_label(vm, -1);
   sh_emit_benchmark(vm, rv->as_int, end);
   
   struct sh_form *bf = sh_baseof(sh_list_pop_front(arguments),
@@ -101,7 +101,7 @@ static void if_imp(struct sh_vm *vm,
   sh_defer(sh_form_release(c, vm));
   sh_form_emit(c, vm, arguments);
   
-  struct sh_label *end = sh_label(vm);
+  struct sh_label *end = sh_label(vm, -1);
   sh_emit_branch(vm, end); 
 
   struct sh_form *l = sh_baseof(sh_list_pop_front(arguments),
@@ -122,7 +122,7 @@ static void if_imp(struct sh_vm *vm,
 	sh_list_delete(&next->owner);
 	sh_defer(sh_form_release(next, vm));
 
-	struct sh_label *rend = sh_label(vm);
+	struct sh_label *rend = sh_label(vm, -1);
 	sh_emit_goto(vm, rend); 
 	end->pc = sh_emit_pc(vm);
 	
@@ -177,7 +177,7 @@ static void method_imp(struct sh_vm *vm,
 				   owner);
   sh_defer(sh_form_release(body, vm));
 
-  struct sh_label *skip = sh_label(vm);
+  struct sh_label *skip = sh_label(vm, -1);
   sh_emit_goto(vm, skip); 
   struct sh_shi_method *m = sh_acquire(vm->malloc, sizeof(struct sh_shi_method));
 
@@ -218,7 +218,7 @@ static void method_imp(struct sh_vm *vm,
 		     (void *)as.start,
 		     r_as,
 		     sh_emit_pc(vm)); 
-
+  
   sh_bind(vm->library, name, SH_METHOD())->as_other = sh_method_acquire(&m->method);
 
   sh_library_do(vm) {
@@ -241,6 +241,52 @@ static void mul_imp(struct sh_vm *vm,
   struct sh_cell *y = sh_pop(stack);
   struct sh_cell *x = sh_peek(stack);
   x->as_int *= y->as_int;
+}
+
+static void return_imp(struct sh_vm *vm,
+		       struct sh_sloc *sloc,
+		       struct sh_list *arguments) {
+  struct sh_form *fw = sh_baseof(sh_list_pop_front(arguments),
+				 struct sh_form,
+				 owner);
+  sh_defer(sh_form_release(fw, vm));
+
+  struct sh_cell *w = sh_form_value(fw, vm);
+
+  if (!w) {
+    sh_throw("Error in %s: Expected value to return", sh_sloc_string(sloc));
+  }
+
+  if (w->type == SH_METHOD()) {
+    struct sh_method *m = w->as_other;
+
+    if (m->shi) {
+      for (int i = 0; i < m->arity; i++) {
+	if (arguments->next == arguments) {
+	  sh_throw("Error in %s: Not enough arguments for '%s' (%d)",
+		   sh_sloc_string(sloc),
+		   m->name,
+		   m->arity);
+	}
+	
+	struct sh_form *f = sh_baseof(sh_list_pop_front(arguments),
+				      struct sh_form,
+				      owner);
+	
+	sh_form_emit(f, vm, arguments);
+	sh_form_release(f, vm);
+      }
+
+      sh_emit_goto(vm,
+		   sh_label(vm,
+			    sh_baseof(m, struct sh_shi_method, method)->start_pc));
+      
+      return;
+    }
+  }
+
+  sh_form_emit(fw, vm, arguments);
+  sh_emit_return(vm);
 }
 
 static void say_imp(struct sh_vm *vm,
@@ -325,6 +371,10 @@ void sh_core_library_init(struct sh_library *lib, struct sh_vm *vm) {
   sh_bind_macro(lib, "method", 3,
 		sh_macro_arguments("name", "args", "body"),
 		method_imp);
+
+  sh_bind_macro(lib, "return", 1,
+		sh_macro_arguments("what"),
+		return_imp);
 
   sh_bind_method(lib, "say", 1,
 		 (struct sh_argument[]) {

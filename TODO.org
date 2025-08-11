@@ -1,8 +1,10 @@
-* drop type hirerarchy
+* finish tail calls
+** debug fact test
+*** test.shi
+** benchmark
+** commit shi changes
 
 * fix valgrind type memory leaks
-
-* add tail calls
 
 * fib1 performance
 

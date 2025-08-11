@@ -16,7 +16,7 @@ static uint8_t *evaluate(struct sh_vm *vm,
     (void *)sh_align(data, __alignof(struct sh_set_registers));
 
   for (int i = 0; i < op->count; i++) {
-    struct sh_cell *v = sh_register(vm, op->r_target);
+    struct sh_cell *v = sh_register(vm, op->r_target + i);
     sh_cell_deinit(v);
     *v = *sh_pop(stack);
   }
