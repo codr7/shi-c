@@ -1,17 +1,4 @@
-* finish tail calls
-** debug fact test
-*** test.shi
-** benchmark
-** commit shi changes
-
 * fix valgrind type memory leaks
-
-* fib1 performance
-
-* switch type.parents to fixed array
-** add type.index
-*** atomic
-** add MAX_TYPE_COUNT
 
 valgrind --leak-check=full --show-leak-kinds=all build/shi ../shi/tests.shi 
 valgrind --tool=callgrind build/shi ../shi/benchmarks/run.shi
